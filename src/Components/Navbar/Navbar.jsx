@@ -18,10 +18,10 @@ const Navbar = () => {
     const navOpenHandler = () => {
         if(navRef.current.classList.contains('h-0')){
             navRef.current.classList.remove('h-0')
-            navRef.current.classList.add('h-[290px]')
+            navRef.current.classList.add('h-auto')
         }
         else {
-            navRef.current.classList.remove('h-[290px]');
+            navRef.current.classList.remove('h-auto');
             navRef.current.classList.add('h-0');
         }
     }
@@ -30,18 +30,23 @@ const Navbar = () => {
         setIsLoggedIn(false)
     }
   return (
-    <header className='lg:px-12 md:px-6 px-2 xsm:px-4 py-4 shadow-md sticky top-0 bg-white z-50'>
-        <section className='flex md:items-center items-start md:flex-row flex-col justify-between md:justify-between max-w-[1500px] m-auto'>
-            <section className='flex items-center justify-between w-[100%]  md:justify-start  md:w-auto lg:gap-8 gap-4 '>
-                <div className='flex items-center sm:gap-4 gap-2'>
+    <header className='lg:px-8 md:px-6 px-2 xsm:px-4 py-4 shadow-md sticky top-0 bg-white z-50'>
+        <section className='flex lg:items-center items-start lg:flex-row flex-col justify-between lg:justify-between max-w-[1500px] m-auto'>
+            <section className='flex items-center justify-between w-[100%]  lg:justify-start  lg:w-auto lg:gap-8 gap-4 '>
+                <div className='flex items-center gap-2  md:gap-4'>
                     <button onClick={navOpenHandler} className='rounded-full bg-sky-100 p-[2px]'>
-                        <RxHamburgerMenu size={25} className='md:hidden block' />
+                        <RxHamburgerMenu size={25} className='lg:hidden block' />
                     </button>
                     <Link to={'/'}>
-                        <img src="/logo.png" className='w-[160px] hidden lg:block' alt="" />
+                        <div className='w-[160px] hidden md:block'>
+                            <img src="/logo.png" className='w-full' alt="" />
+                        </div>
                     </Link>
                     <Link to={'/'}>
-                        <img src="/small_logo.png" className='xsm:w-[50px] w-[40px] lg:hidden' alt="" />
+                    <div className='xsm:w-[50px] w-[40px] md:hidden'>
+                        <img src="/small_logo.png" className='w-full' alt="" />
+                    </div>
+                       
                     </Link>
                 </div>
                 <div className='flex items-center bg-slate-100  rounded-md'>
@@ -49,8 +54,8 @@ const Navbar = () => {
                     <Button category={'primarybtn'}><BsSearch size={18} color='white'/></Button>
                 </div>
             </section>
-            <nav className={`md:block md:h-auto h-0 overflow-hidden ${styles.navdrop}`} ref={navRef}>
-                <div className='md:hidden flex items-center gap-2 pt-8 pb-4 border-b-[1px]'>
+            <nav className={`lg:block lg:h-auto h-0 overflow-hidden ${styles.navdrop}`} ref={navRef}>
+                <div className='lg:hidden flex items-center gap-2 pt-8 pb-4 border-b-[1px]'>
                     <div>
                         
                         <img src="/profile.png" className='w-[70px]' alt="" />
@@ -61,21 +66,32 @@ const Navbar = () => {
                         <p className='text-sm text-slate-500'>Buying and selling made easy for you.</p>
                     </div>
                 </div>
-                <ul className='flex md:items-center md:flex-row flex-col pt-2 pb-2 md:pt-0 md:pb-0  gap-4 md:gap-8 font-semibold'>
-                    <li className='py-2 md:py-0'><a href="" >List Your Business</a></li>
-                    <li className='py-2 md:py-0'><a href="" >Post Your Requirement</a></li>
+                <ul className='flex lg:items-center lg:flex-row flex-col pt-2 pb-2 lg:pt-0 lg:pb-0  gap-4 lg:gap-8 font-semibold'>
+                    <li className='py-2 lg:py-0'><a href="" >List Your Business</a></li>
+                    {/* <li className='py-2 md:py-0'><a href="" >Post Your Requirement</a></li> */}
+                   
                     
                     {isLoggedIn ? 
-                        <li className='py-2 md:py-0'><Link to="/postad" >Post an Advertise</Link></li>:
-                        <li className='py-2 md:py-0'><Link to="/login" >Post an Advertise</Link></li>
+                        <li className='py-2 lg:py-0'><Link to="/postad" >Post an Advertisement</Link></li>:
+                        <li className='py-2 lg:py-0'><Link to="/login" >Post an Advertisement</Link></li>
                     }
+                    {isLoggedIn && 
+                        <>
+                             <li className='py-2 lg:py-0 lg:hidden'><Link to="/profile" >Profile</Link></li>
+                            <li className='py-2 lg:py-0 lg:hidden'><Link to="/plans" >My Plans</Link></li>
+                            <li className='py-2 lg:py-0 lg:hidden'><button onClick={logoutHandler} >Logout</button></li>
+                        </>
+                    
+                    }
+
+                    
                     
 
                     {isLoggedIn ? 
                     <>
                       
-                         <Dropdown inline label={''} dismissOnClick={false} renderTrigger={() => <button><FaUser size={18} color='black'/></button>}>
-                            <Dropdown.Item>Profile</Dropdown.Item>
+                         <Dropdown inline label={''} dismissOnClick={false} renderTrigger={() => <button className='hidden lg:block'><FaUser size={18} color='black'/></button>}>
+                            <Dropdown.Item onClick={()=> navigate('/profile')}>Profile</Dropdown.Item>
                             <Dropdown.Item onClick={()=> navigate('/plans')}>My Plans</Dropdown.Item>
                             <Dropdown.Item onClick={logoutHandler}>Logout</Dropdown.Item>
                         </Dropdown>

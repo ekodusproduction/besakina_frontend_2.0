@@ -1,8 +1,11 @@
-import React from 'react'
+import React,{useState,useEffect} from 'react'
 import Button from '../Components/Button/Button'
 import { FaAngleRight } from "react-icons/fa6";
 
+
+
 const Plans = () => {
+  
   return (
     <>
         <div className='text-center pt-16'>

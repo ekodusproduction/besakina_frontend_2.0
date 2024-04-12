@@ -1,29 +1,24 @@
 import React,{useState,useEffect} from 'react'
-import Navbar from '../Components/Navbar/Navbar'
-import Footer from '../Components/Footer/Footer'
 import Categories from '../Components/Categories/Categories'
 import { Link } from 'react-router-dom'
 import { Splide, SplideSlide } from '@splidejs/react-splide';
 import '@splidejs/react-splide/css/skyblue';
 import Button from '../Components/Button/Button'
-import LatestAds from '../Components/LatestAds/LatestAds'
 import ProductCard from '../Components/Cards/ProductCard'
 import axiosInstance from '../api/axiosInstance'
 import { IoFilterOutline } from "react-icons/io5";
 
-
-const Properties = () => {
+const Vehicles = () => {
   const [priceRange, setPriceRange] = useState({min_price:'', max_price:''});
-  const token = localStorage.getItem('token');
-  const [propertiesList, setPropertiesList] = useState([])
+  const [vehiclesList, setVehiclesList] = useState([])
   const [notFound, setNotFound] = useState(false)
   const [showFilter, setShowFilter] = useState(false)
 
   useEffect(()=> {
-    axiosInstance.get('api/property/list')
+    axiosInstance.get('api/vehicles/list')
     .then(response => {
       console.log(response);
-      setPropertiesList(response.data.data.advertisements);
+      setVehiclesList(response.data.data.Vehicles);
     })
     .catch(error => {
       console.error(error);
@@ -32,10 +27,10 @@ const Properties = () => {
 
   const filterHandler = () => {
     console.log(priceRange)
-    axiosInstance.get(`api/property/filter?minPrice=${priceRange.min_price}&maxPrice=${priceRange.max_price}`)
+    axiosInstance.get(`api/vehicles/filter?minPrice=${priceRange.min_price}&maxPrice=${priceRange.max_price}`)
     .then(response=> {
       console.log(response);
-      setPropertiesList(response.data.data.advertisements)
+      setVehiclesList(response.data.data.advertisements)
     })
     .catch(err=> {
       console.log(err)
@@ -47,7 +42,6 @@ const Properties = () => {
 
   return (
     <>
-       
         <Categories/>
         <div className='md:px-12 sm:px-4 px-2 py-2 max-w-[1450px] m-auto '>
             <div className='flex gap-2 sm:mb-6'>
@@ -81,15 +75,12 @@ const Properties = () => {
                       <Button category={'primarybtn'} clickHandler={filterHandler}>Search</Button>
                   </div>
                   {notFound && <p className='text-[red] text-sm'>*Property Not Found! Please select a valid range</p>}
-
                     </>}
-                    
-                   
                   </div>
               </div>
               <div className='grid xl:grid-cols-4 lg:grid-cols-3 sm:grid-cols-2 grid-cols-1 gap-2 md:gap-4 '>
-                {propertiesList?.map(item => (
-                  <ProductCard data={item} key={item.id} link={'/propertiesdetails'}/>
+                {vehiclesList?.map(item => (
+                  <ProductCard data={item} key={item.id} link={'/vehicledetails'}/>
                 ))}
             
               </div>
@@ -101,4 +92,4 @@ const Properties = () => {
   )
 }
 
-export default Properties
+export default Vehicles

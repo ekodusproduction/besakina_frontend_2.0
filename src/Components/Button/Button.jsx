@@ -1,10 +1,10 @@
 import React from 'react'
 
 
-const Button = ({children,category, clickHandler, classItems,type}) => {
+const Button = ({children,category, clickHandler, classItems,type, disabled}) => {
     if(category==='primarybtn'){
         return (
-            <button type={type} className={`bg-[#F77B0B] border-[1px] border-[#F77B0B] px-2 py-2 rounded-sm text-[white] font-semibold xsm:text-md text-sm shadow-md ${classItems}`} onClick={clickHandler}>{children}</button>
+            <button disabled={disabled} type={type} className={`bg-[#F77B0B] border-[1px] border-[#F77B0B] px-2 py-2 rounded-sm text-[white] font-semibold xsm:text-md text-sm shadow-md ${classItems}`} onClick={clickHandler}>{children}</button>
         )
     }
     else if(category==='secondbtn'){

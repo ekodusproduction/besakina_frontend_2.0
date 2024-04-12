@@ -18,6 +18,7 @@ const Login = () => {
     mobile: null,
     otp: null
   })
+  const [otp, setOtp] = useState(null)
   const { isLoggedIn, setIsLoggedIn } = useLogin();
   const navigate = useNavigate()
 
@@ -35,6 +36,7 @@ const Login = () => {
       }
     }).then((response)=> {
       console.log(response)
+      setOtp(response.data.data.otp)
       setStep(prev=> prev+1)
     }).catch(err=> {
       console.log(err)
@@ -50,7 +52,7 @@ const Login = () => {
 
   const loginHandler =  () => {
     const otpNumber = Number(userData.otp)
-    axiosInstance.post('api/users/login', {...userData, otp: otpNumber} , {
+    axiosInstance.post('api/users/login', {...userData, otp: otp} , {
       headers: {
           'Content-Type': 'application/json',
       }
@@ -72,14 +74,14 @@ const Login = () => {
 
   return (
     <div className='flex justify-center items-center h-[100vh]'>
-      <div className='flex flex-col gap-8 p-4 bg-white rounded shadow'>
+      <div className='flex flex-col gap-8 p-4 bg-white rounded sm:shadow'>
         <div className='w-[350px]'>
           <img src="/logo.png" className='w-[120px] m-auto' alt="" />
         </div>
         {step==1 && 
           <div className='flex flex-col gap-4 justify-center items-center  '>
               <p className='font-semibold'>Enter your Phone Number</p>
-              <input type="number" required onChange={onNumberChangeHandler} className='w-[320px] h-[40px] border-[1px] rounded-md pl-2' placeholder='Enter mobile number'/>
+              <input type="number" required onChange={onNumberChangeHandler} className='w-[320px] h-[40px] border-[1px] border-gray-300 rounded-md pl-2' placeholder='Enter mobile number'/>
               <Button clickHandler={submitNumberHandler} category={'primarybtn'} classItems={'w-full'}>Continue</Button>
               <Link to='/'><p className='text-sm text-gray-500 mt-2'>Continue without login</p></Link>
           </div>
@@ -87,7 +89,7 @@ const Login = () => {
         {step==2 && 
           <div className='flex flex-col gap-4 justify-center items-center  '>
               <p className='font-semibold'>Enter OTP</p>
-              <input type="number" required onChange={onOtpChangeHandler} className='w-[320px] h-[40px] border-[1px] rounded-md pl-2' placeholder='Enter OTP here'/>
+              <input type="number" required value={otp} onChange={(e) => setOtp(e.target.value)} className='w-[320px] h-[40px] border-[1px] border-gray-300 rounded-md pl-2' placeholder='Enter OTP here'/>
               <Button clickHandler={loginHandler} category={'primarybtn'} classItems={'w-full'}>Continue</Button>
               <Link to='/'><p className='text-sm text-gray-500 mt-2'>Continue without login</p></Link>
           </div>

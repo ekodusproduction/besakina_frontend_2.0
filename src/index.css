@@ -9,9 +9,7 @@
     padding: 0;
     box-sizing: border-box;
   }
-  body{
-    background: #fafafa;
-  }
+ 
   ::-webkit-scrollbar {
     width: 5px;
   }
@@ -35,6 +33,7 @@
     letter-spacing: 2px;
     text-shadow: 2px 2px #00000034;
   }
+  
 
   @media screen and (max-width:576px){
     ::-webkit-scrollbar {

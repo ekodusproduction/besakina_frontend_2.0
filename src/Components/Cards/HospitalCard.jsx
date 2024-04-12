@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 import { baseURL } from '../../api/axiosInstance';
 
 
-const ProductCard = ({data,link}) => {
+const HospitalCard = ({data,link}) => {
    
     console.log(data)
   return (
@@ -16,7 +16,7 @@ const ProductCard = ({data,link}) => {
             </div>
             <div className='w-[100%] p-2 flex flex-col gap-2'>
                 <div>
-                    <h2 className='font-bold xl:text-lg'> {'expertise' in data ? data?.name:'₹'+ data?.price}</h2>
+                    <h2 className='font-bold xl:text-lg'> {data?.name}</h2>
                     <p className='text-xs xl:text-sm'>{data?.title.slice(0,40)}...</p>
                 </div>
                 <div>
@@ -40,4 +40,4 @@ const ProductCard = ({data,link}) => {
   )
 }
 
-export default ProductCard
+export default HospitalCard

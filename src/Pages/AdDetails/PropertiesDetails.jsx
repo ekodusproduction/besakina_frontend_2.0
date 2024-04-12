@@ -1,35 +1,47 @@
-import React from 'react'
-import Navbar from '../Components/Navbar/Navbar'
-import Footer from '../Components/Footer/Footer'
+import React,{useState,useEffect} from 'react'
 import ImageGallery from "react-image-gallery";
 import "react-image-gallery/styles/css/image-gallery.css";
-import Button from '../Components/Button/Button';
+import Button from '../../Components/Button/Button';
 import { MdVerified } from "react-icons/md";
 import { Link, useLocation, useParams } from 'react-router-dom';
 import { MdLocationPin } from "react-icons/md";
 import { FaRegHeart } from "react-icons/fa";
+import axiosInstance from '../../api/axiosInstance'
+import { baseURL } from '../../api/axiosInstance';
 
 
-const images = [
-    {
-      original: "https://picsum.photos/id/1018/1000/600/",
-      thumbnail: "https://picsum.photos/id/1018/250/150/",
-    },
-    {
-      original: "https://picsum.photos/id/1015/1000/600/",
-      thumbnail: "https://picsum.photos/id/1015/250/150/",
-    },
-    {
-      original: "https://picsum.photos/id/1019/1000/600/",
-      thumbnail: "https://picsum.photos/id/1019/250/150/",
-    },
-  ];
 
-const FeaturedAdsDetails = () => {
-    const location = useLocation();
-    // const { data } = location.state;
-    console.log(location)
+
+const PropertiesDetails = () => {
+    const {id} = useParams();
+    const [propertyData, setPropertyData] = useState({})
+    useEffect(()=> {
+        axiosInstance.get(`api/property/id/${id}`)
+        .then(response => {
+            console.log(response)
+            const data = response.data.data.advertisement;
+            const updatedData = {
+                ...data,
+                images: data.images.map(image => ({
+                    
+                    original: baseURL + image,
+                    thumbnail: baseURL + image,
+                }))
+            };
+            setPropertyData(updatedData);
+        
+        })
+        .catch(error => {
+          console.error(error);
+        });
+      },[])
+
+     console.log(propertyData)
+
+
   return (
+    <>
+    {Object.keys(propertyData).length>0 && 
     <div className='max-w-[1500px] m-auto'>
       
         <div className='md:px-12 sm:px-4 px-2 py-8'>
@@ -40,19 +52,19 @@ const FeaturedAdsDetails = () => {
             </div>
             <section className='flex xl:flex-row flex-col gap-4 '>
                     <div className='xl:w-3/5'>
-                        <ImageGallery items={images} lazyLoad={true}/>
+                        <ImageGallery items={propertyData?.images} lazyLoad={true}/>
                     </div>
                     <div className='xl:w-2/5 border-[1px] border-slate-400 sm:px-6 py-6 px-2 h-[100%] rounded-md '>
                             <div className='pb-4 border-b-[1px] border-slate-300 '>
                                     <div className='flex justify-between '>
-                                        <h3 className='font-bold sm:text-3xl text-2xl mb-2'>₹ 36,90,000</h3>
+                                        <h3 className='font-bold sm:text-3xl text-2xl mb-2'>₹ {propertyData?.price}</h3>
                                         <button className='mt-[-20px] bg-red'>
                                             <FaRegHeart size={25}                                    />
                                         </button>
                                     </div>
-                                    <p className='text-sm sm:text-base text-slate-700'>1 Bds - 1 Ba - 1010 ft2 luxurious apartment for sale</p>
+                                    <p className='text-sm sm:text-base text-slate-700'>{propertyData?.title}</p>
                                     <div className='mt-4 mb-4 flex  flex-col justify-between'>
-                                        <span className='text-sm sm:text-base flex items-center text-slate-700'><MdLocationPin size={25}/> Bharalumukh, AT Road, Guwahati - 781009, Assam</span>
+                                        <span className='text-sm sm:text-base flex items-center text-slate-700'><MdLocationPin size={25}/>{`${propertyData?.house_no}, ${propertyData?.street}, ${propertyData?.street}, ${propertyData?.city}, ${propertyData?.state}, ${propertyData?.pincode}  `}</span>
                                     </div>
                                     <div className='flex justify-between items-cnter'>
                                         <a href="" className='text-[#179CF0]'>Get Directions</a>
@@ -85,39 +97,39 @@ const FeaturedAdsDetails = () => {
                 <div className='flex flex-col gap-2 min-w-[600px]'>
                     <div className='flex justify-between'>
                         <p className='w-1/4 text-slate-500 text-sm'>Type</p>
-                        <p className='w-1/4 text-sm text-slate-700'>Houses & Villas</p>
+                        <p className='w-1/4 text-sm text-slate-700'>{propertyData?.type}</p>
                         <p className='w-1/4 text-sm text-slate-500'>Bedrooms</p>
-                        <p className='w-1/4 text-sm text-slate-700'>3</p>
+                        <p className='w-1/4 text-sm text-slate-700'>{propertyData?.bedrooms}</p>
                     </div>
                     <div className='flex justify-between'>
                         <p className='w-1/4 text-sm text-slate-500'>Bathrooms</p>
-                        <p className='w-1/4 text-sm text-slate-700'>3</p>
+                        <p className='w-1/4 text-sm text-slate-700'>{propertyData?.bathrooms}</p>
                         <p className='w-1/4 text-sm text-slate-500'>Furnishing</p>
-                        <p className='w-1/4 text-sm text-slate-700'>Semi-furnished</p>
+                        <p className='w-1/4 text-sm text-slate-700'>{propertyData?.furnishing}</p>
                     </div>
                     <div className='flex justify-between'>
                         <p className='w-1/4 text-sm text-slate-500'>Construction Status</p>
-                        <p className='w-1/4 text-sm text-slate-700'>Ready to move</p>
+                        <p className='w-1/4 text-sm text-slate-700'>{propertyData?.construction_status}</p>
                         <p className='w-1/4 text-sm text-slate-500'>Listed by</p>
-                        <p className='w-1/4 text-sm text-slate-700'>Dealer</p>
+                        <p className='w-1/4 text-sm text-slate-700'>{propertyData?.listed_by}</p>
                     </div>
                     <div className='flex justify-between'>
                         <p className='w-1/4 text-sm text-slate-500'>Super buildup area</p>
-                        <p className='w-1/4 text-sm text-slate-700'>2100</p>
+                        <p className='w-1/4 text-sm text-slate-700'>{propertyData?.super_builtup_area}</p>
                         <p className='w-1/4 text-sm text-slate-500'>Carpet area</p>
-                        <p className='w-1/4 text-sm text-slate-700'>1750</p>
+                        <p className='w-1/4 text-sm text-slate-700'>{propertyData?.carpet_area}</p>
                     </div>
                     <div className='flex justify-between'>
                         <p className='w-1/4 text-sm text-slate-500'>Total floors</p>
-                        <p className='w-1/4 text-sm text-slate-700'>2</p>
+                        <p className='w-1/4 text-sm text-slate-700'>{propertyData?.total_floors}</p>
                         <p className='w-1/4 text-sm text-slate-500'>Floor No.</p>
-                        <p className='w-1/4 text-sm text-slate-700'>1</p>
+                        <p className='w-1/4 text-sm text-slate-700'>{propertyData?.floor_no}</p>
                     </div>
                     <div className='flex justify-between'>
                         <p className='w-1/4 text-sm text-slate-500'>Car parking</p>
-                        <p className='w-1/4 text-sm text-slate-700'>1</p>
-                        <p className='w-1/4 text-sm text-slate-500'>Facing</p>
-                        <p className='w-1/4 text-sm text-slate-700'>East</p>
+                        <p className='w-1/4 text-sm text-slate-700'>{propertyData?.car_parking}</p>
+                        <p className='w-1/4 text-sm text-slate-500'>Total Rooms</p>
+                        <p className='w-1/4 text-sm text-slate-700'>{propertyData?.total_rooms}</p>
                     </div>
                 </div>
             </section>
@@ -135,7 +147,10 @@ const FeaturedAdsDetails = () => {
         </div>
         
     </div>
+    }
+    </>
+
   )
 }
 
-export default FeaturedAdsDetails
+export default PropertiesDetails

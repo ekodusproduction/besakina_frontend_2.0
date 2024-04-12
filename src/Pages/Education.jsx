@@ -12,30 +12,29 @@ import axiosInstance from '../api/axiosInstance'
 import { IoFilterOutline } from "react-icons/io5";
 
 
-const Properties = () => {
+const Education = () => {
+  const [educationList, setEducationList] = useState([])
   const [priceRange, setPriceRange] = useState({min_price:'', max_price:''});
-  const token = localStorage.getItem('token');
-  const [propertiesList, setPropertiesList] = useState([])
   const [notFound, setNotFound] = useState(false)
   const [showFilter, setShowFilter] = useState(false)
 
   useEffect(()=> {
-    axiosInstance.get('api/property/list')
+    axiosInstance.get('api/education/list')
     .then(response => {
       console.log(response);
-      setPropertiesList(response.data.data.advertisements);
+      setEducationList(response.data.data.advertisements);
     })
     .catch(error => {
       console.error(error);
     });
-  },[]);
+  },[])
 
   const filterHandler = () => {
     console.log(priceRange)
-    axiosInstance.get(`api/property/filter?minPrice=${priceRange.min_price}&maxPrice=${priceRange.max_price}`)
+    axiosInstance.get(`api/education/filter?minPrice=${priceRange.min_price}&maxPrice=${priceRange.max_price}`)
     .then(response=> {
       console.log(response);
-      setPropertiesList(response.data.data.advertisements)
+      setEducationList(response.data.data.advertisements)
     })
     .catch(err=> {
       console.log(err)
@@ -68,7 +67,7 @@ const Properties = () => {
             <div className='py-4 flex flex-col gap-4'>
               <div className='flex flex-col gap-2'> 
                   <div className='w-full max-w-[300px] bg-white'>
-                    <div className='bg-[#3484A1] px-2 py-[3px] rounded text-white shadow flex flex-row items-center gap-2 cursor-pointer w-fit' onClick={()=> setShowFilter(!showFilter)}>
+                    <div className='bg-[#3484A1] px-2 py-[3px] rounded shadow text-white flex flex-row items-center gap-2 cursor-pointer w-fit' onClick={()=> setShowFilter(!showFilter)}>
                       <h3 className='font-semibold'>Filter</h3>
                       <IoFilterOutline/>
                     </div>
@@ -88,8 +87,8 @@ const Properties = () => {
                   </div>
               </div>
               <div className='grid xl:grid-cols-4 lg:grid-cols-3 sm:grid-cols-2 grid-cols-1 gap-2 md:gap-4 '>
-                {propertiesList?.map(item => (
-                  <ProductCard data={item} key={item.id} link={'/propertiesdetails'}/>
+                {educationList?.map(item => (
+                  <ProductCard data={item} key={item.id} link={'/educationdetails'}/>
                 ))}
             
               </div>
@@ -101,4 +100,4 @@ const Properties = () => {
   )
 }
 
-export default Properties
+export default Education

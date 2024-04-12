@@ -14,7 +14,7 @@ const PostAd = () => {
             <div className=''>
                 <p className='text-center py-4 font-semibold text-xl border-b-[1px] border-gray-300'>POST YOUR AD</p>
             </div>
-            <div className='grid grid-cols-4 py-16 px-56 gap-6'>
+            <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 py-16 px-4 sm:px-36 md:px-56 gap-6'>
                 <Link to={'/propertiesadform'} className='flex flex-col gap-2 justify-center items-center border-[1px] border-gray-400 p-4 rounded-lg bg-white'>
                     <img src="/assets/icons/properties.png" className='w-[60px]' alt="" />
                     <p className='font-semibold'>Properties</p>

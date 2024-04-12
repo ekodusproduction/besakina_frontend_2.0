@@ -10,20 +10,21 @@ import LatestAds from '../Components/LatestAds/LatestAds'
 import ProductCard from '../Components/Cards/ProductCard'
 import axiosInstance from '../api/axiosInstance'
 import { IoFilterOutline } from "react-icons/io5";
+import HospitalCard from '../Components/Cards/HospitalCard'
 
 
-const Properties = () => {
+const Hospitals = () => {
   const [priceRange, setPriceRange] = useState({min_price:'', max_price:''});
   const token = localStorage.getItem('token');
-  const [propertiesList, setPropertiesList] = useState([])
+  const [hospitalityList, setHospitalityList] = useState([])
   const [notFound, setNotFound] = useState(false)
   const [showFilter, setShowFilter] = useState(false)
 
   useEffect(()=> {
-    axiosInstance.get('api/property/list')
+    axiosInstance.get('api/hospitals/list')
     .then(response => {
       console.log(response);
-      setPropertiesList(response.data.data.advertisements);
+      setHospitalityList(response.data.data.advertisements);
     })
     .catch(error => {
       console.error(error);
@@ -32,10 +33,10 @@ const Properties = () => {
 
   const filterHandler = () => {
     console.log(priceRange)
-    axiosInstance.get(`api/property/filter?minPrice=${priceRange.min_price}&maxPrice=${priceRange.max_price}`)
+    axiosInstance.get(`api/hospitals/filter?minPrice=${priceRange.min_price}&maxPrice=${priceRange.max_price}`)
     .then(response=> {
       console.log(response);
-      setPropertiesList(response.data.data.advertisements)
+      setHospitalityList(response.data.data.advertisements)
     })
     .catch(err=> {
       console.log(err)
@@ -88,8 +89,8 @@ const Properties = () => {
                   </div>
               </div>
               <div className='grid xl:grid-cols-4 lg:grid-cols-3 sm:grid-cols-2 grid-cols-1 gap-2 md:gap-4 '>
-                {propertiesList?.map(item => (
-                  <ProductCard data={item} key={item.id} link={'/propertiesdetails'}/>
+                {hospitalityList?.map(item => (
+                  <HospitalCard data={item} key={item.id} link={'/hospitaldetails'}/>
                 ))}
             
               </div>
@@ -101,4 +102,4 @@ const Properties = () => {
   )
 }
 
-export default Properties
+export default Hospitals
