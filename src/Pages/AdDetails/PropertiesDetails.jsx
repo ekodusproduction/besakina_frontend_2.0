@@ -8,6 +8,7 @@ import { MdLocationPin } from "react-icons/md";
 import { FaRegHeart } from "react-icons/fa";
 import axiosInstance from '../../api/axiosInstance'
 import { baseURL } from '../../api/axiosInstance';
+import dayjs from 'dayjs';
 
 
 
@@ -34,10 +35,20 @@ const PropertiesDetails = () => {
         .catch(error => {
           console.error(error);
         });
-      },[])
+      },[id])
 
-     console.log(propertyData)
 
+
+     const postedDate = dayjs(propertyData?.created_at);
+     const today = dayjs();
+     let displayDate;
+     if(postedDate.isSame(today,"day")){
+        displayDate ="Today";
+     } else{
+        displayDate = postedDate.format("DD MMM YY")
+     }
+
+console.log("details",propertyData);
 
   return (
     <>
@@ -68,7 +79,7 @@ const PropertiesDetails = () => {
                                     </div>
                                     <div className='flex justify-between items-cnter'>
                                         <a href="" className='text-[#179CF0]'>Get Directions</a>
-                                        <p className='font-bold text-sm'><span className='font-semibold text-slate-600'>Posted: </span>Today</p>
+                                        <p className='font-bold text-sm'><span className='font-semibold text-slate-600'>Posted: </span>{displayDate}</p>
                                     </div>
                             </div>
                             <div>
@@ -88,7 +99,7 @@ const PropertiesDetails = () => {
                                         <p className='text-sm font-bold'>Verified</p>
                                     </div>
                                     <p className='py-2 text-sm sm:text-base text-slate-700'>Our priority is to find your dream home</p>
-                                    <Button category={'primarybtn'}>Contact Seller</Button>
+                                    {/* <Button category={'primarybtn'}>Contact Seller</Button> */}
                             </div>
                     </div>
             </section>

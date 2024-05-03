@@ -10,10 +10,10 @@ const DeleteProfile = () => {
                 <label htmlFor="reason" className='text-gray-500 text-sm'>Please enter a reason why you are deleting your account</label>
                 <textarea placeholder='Enter here' name="reason" id="reason" cols="20" rows="5" className=' p-2 border border-gray-200 rounded'></textarea>
         </div>
-        <div className='flex flex-col gap-2'>
+        {/* <div className='flex flex-col gap-2'>
             <label htmlFor="password" className='text-gray-500 text-sm'>Please enter your Password</label>
             <input id='password' type="text" placeholder='Password' name='password' className='border border-gray-200 rounded' />
-        </div>
+        </div> */}
         
        </div>
     <div className='flex justify-end pt-4'>

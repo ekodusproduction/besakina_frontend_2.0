@@ -52,7 +52,7 @@ const Education = () => {
             <div className='flex gap-2 sm:mb-6'>
                 <Link to="/" className='font-semibold'>Home</Link>
                 <p> {'>'} </p>
-                <a href="" className='font-semibold'>Properties</a>
+                <a href="" className='font-semibold'>Educations</a>
             </div>
             <div>
                 <Splide aria-label="Banner" >

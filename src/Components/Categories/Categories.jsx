@@ -16,8 +16,8 @@ const Categories = () => {
                         <li><Link to="/education" className='border-[1px] border-slate-400 px-2 py-[2px] rounded-md'>Education</Link></li>
                         <li><Link to="/vehicles" className='border-[1px] border-slate-400 px-2 py-[2px] rounded-md'>Vehicles</Link></li>
                         <li><Link to="/hospitality" className='border-[1px] border-slate-400 px-2 py-[2px] rounded-md'>Hospitality</Link></li>
-                        <li><Link to="/doctors" className='border-[1px] border-slate-400 px-2 py-[2px] rounded-md'>Doctors</Link></li>
-                        <li><Link to="/hospitals" className='border-[1px] border-slate-400 px-2 py-[2px] rounded-md'>Hospitals</Link></li>
+                        <li><Link to="/healthcare" className='border-[1px] border-slate-400 px-2 py-[2px] rounded-md'>Healthcare</Link></li>
+                        {/* <li><Link to="/hospitals" className='border-[1px] border-slate-400 px-2 py-[2px] rounded-md'>Hospitals</Link></li> */}
                     </ul>
                 </nav>
         </section>

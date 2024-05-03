@@ -3,6 +3,7 @@ import { FaLocationDot } from "react-icons/fa6";
 import { MdVerified } from "react-icons/md";
 import { Link } from 'react-router-dom';
 import { baseURL } from '../../api/axiosInstance';
+import dayjs from 'dayjs';
 
 
 const HospitalCard = ({data,link}) => {
@@ -16,8 +17,8 @@ const HospitalCard = ({data,link}) => {
             </div>
             <div className='w-[100%] p-2 flex flex-col gap-2'>
                 <div>
-                    <h2 className='font-bold xl:text-lg'> {data?.name}</h2>
-                    <p className='text-xs xl:text-sm'>{data?.title.slice(0,40)}...</p>
+                    <h2 className='font-bold xl:text-lg capitalize'> {data?.name}</h2>
+                    <p className='text-xs xl:text-sm capitalize'>{data?.title?.slice(0,40)}...</p>
                 </div>
                 <div>
                     <div className='flex items-center gap-[3px]'>
@@ -32,7 +33,7 @@ const HospitalCard = ({data,link}) => {
                         <MdVerified/>
                         <p className='text-sm font-bold'>Verified</p>
                     </div>
-                    <p className='text-xs font-bold'>1/1/2024</p>
+                    <p className='text-xs font-bold'>{dayjs(data?.createdAt).format("DD/MM/YYYY")}</p>
                 </div>
             </div>
         </div>

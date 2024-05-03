@@ -6,6 +6,7 @@ import '../../styles/style.css'
 import Button from '../../Components/Button/Button';
 import axiosInstance from '../../api/axiosInstance'
 import Swal from 'sweetalert2';
+import { useNavigate, useParams } from 'react-router-dom';
 
 
 const VehicleAdForm = () => {
@@ -14,6 +15,8 @@ const VehicleAdForm = () => {
     const [submitting, setSubmitting] = useState(false);
     const token = localStorage.getItem('token');
     const [second_hand, setSecondHand] = useState(0);
+    const navigate = useNavigate();
+    
 
     const imageHandler = (e,index) => {
         const files = e.target.files;
@@ -87,7 +90,8 @@ const VehicleAdForm = () => {
                 text: "The form was successfully submitted",
                 icon: "success"
               });
-            setSubmitting(false)
+            setSubmitting(false);
+            navigate("/");
           }).catch(err=> {
             console.log(err)
             setSubmitting(false)
@@ -186,8 +190,11 @@ const VehicleAdForm = () => {
                             </div>
                             <div>
                                 <p className='mb-2 font-semibold text-gray-700'>Transmission (auto/manual)</p>
-                                <div className='flex gap-2'>
-                                    <input name='transmission' required type="text" className='w-[85vw] md:w-[50vw] border-[1px] pl-2 border-gray-400 py-2 rounded-md' />
+                                <div className='flex gap-2 text-gray-700'>
+                                    <select name="transmission" id="" required className='border-[1px]  border-gray-400 rounded-sm w-[150px]'>
+                                        <option value="automatic">Automatic</option>
+                                        <option value="manual">Manual</option>
+                                    </select>
                                 </div>
                             </div>
                             <div>
@@ -346,9 +353,14 @@ const VehicleAdForm = () => {
                             </div>
                             <div>
                                 <p className='mb-2 font-semibold text-gray-700'>Transmission (auto/manual)</p>
-                                <div className='flex gap-2'>
-                                    <input name='transmission' required type="text" className='w-[85vw] md:w-[50vw] border-[1px] pl-2 border-gray-400 py-2 rounded-md' />
+                                <div>
+                                <div className='flex gap-2 text-gray-700'>
+                                    <select name="transmission" id="" required className='border-[1px]  border-gray-400 rounded-sm w-[150px]'>
+                                        <option value="automatic">Automatic</option>
+                                        <option value="manual">Manual</option>
+                                    </select>
                                 </div>
+                            </div>
                             </div>
                             <div>
                                 <p className='mb-2 font-semibold text-gray-700'>Fuel</p>

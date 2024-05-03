@@ -8,6 +8,7 @@ import { MdLocationPin } from "react-icons/md";
 import { FaRegHeart } from "react-icons/fa";
 import axiosInstance from '../../api/axiosInstance'
 import { baseURL } from '../../api/axiosInstance';
+import dayjs from 'dayjs';
 
 
 const images = [
@@ -48,9 +49,18 @@ const HospitalityDetails = () => {
         .catch(error => {
           console.error(error);
         });
-      },[])
+      },[id])
 
      console.log(hospitalityData)
+
+     const postedDate = dayjs(hospitalityData?.created_at);
+     const today = dayjs();
+     let displayDate;
+     if(postedDate.isSame(today,"day")){
+        displayDate ="Today";
+     } else{
+        displayDate = postedDate.format("DD MMM YY")
+     }
 
 
   return (
@@ -62,7 +72,7 @@ const HospitalityDetails = () => {
             <div className='flex gap-2 sm:mb-6 mb-4'>
                 <Link to="/" className='font-semibold'>Home</Link>
                 <p> {'>'}</p>
-                <a href="" className='font-semibold'>Properties</a>
+                <a href="" className='font-semibold'>Hospital</a>
             </div>
             <section className='flex xl:flex-row flex-col gap-4 '>
                     <div className='xl:w-3/5'>
@@ -82,7 +92,7 @@ const HospitalityDetails = () => {
                                     </div>
                                     <div className='flex justify-between items-cnter'>
                                         <a href="" className='text-[#179CF0]'>Get Directions</a>
-                                        <p className='font-bold text-sm'><span className='font-semibold text-slate-600'>Posted: </span>Today</p>
+                                        <p className='font-bold text-sm'><span className='font-semibold text-slate-600'>Posted: </span>{displayDate}</p>
                                     </div>
                             </div>
                             <div>
@@ -102,7 +112,7 @@ const HospitalityDetails = () => {
                                         <p className='text-sm font-bold'>Verified</p>
                                     </div>
                                     <p className='py-2 text-sm sm:text-base text-slate-700'>Our priority is to find your dream home</p>
-                                    <Button category={'primarybtn'}>Contact Seller</Button>
+                                    {/* <Button category={'primarybtn'}>Contact Seller</Button> */}
                             </div>
                     </div>
             </section>

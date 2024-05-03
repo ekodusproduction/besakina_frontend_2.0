@@ -6,6 +6,7 @@ import '../../styles/style.css'
 import Button from '../../Components/Button/Button';
 import axiosInstance from '../../api/axiosInstance'
 import Swal from 'sweetalert2';
+import { useNavigate } from 'react-router-dom';
 
 
 const HospitalityAdForm = () => {
@@ -13,6 +14,7 @@ const HospitalityAdForm = () => {
     const token = localStorage.getItem('token')
     const [image, setImage] = useState([]);
     const [submitting, setSubmitting] = useState(false);
+    const navigate = useNavigate();
 
     const imageHandler = (e,index) => {
         const files = e.target.files;
@@ -86,7 +88,8 @@ const HospitalityAdForm = () => {
                 text: "The form was successfully submitted",
                 icon: "success"
               });
-            setSubmitting(false)
+            setSubmitting(false);
+            navigate("/");
           }).catch(err=> {
             console.log(err)
             setSubmitting(false)

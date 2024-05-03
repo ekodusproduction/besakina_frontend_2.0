@@ -28,6 +28,11 @@ import Doctors from './Pages/Doctors'
 import Hospitals from './Pages/Hospitals'
 import DoctorDetails from './Pages/AdDetails/DoctorDetails'
 import HospitalDetails from './Pages/AdDetails/HospitalDetails'
+import EditDetails from './Pages/EditDetails/EditVehicleDetails'
+import HospitalityEditForm from './Pages/EditDetails/HospitalityEditForm'
+import PropertyEditForm from './Pages/EditDetails/PropertyEditForm'
+import EducationEditForm from './Pages/EditDetails/EducationEditForm'
+import HealthEditForm from './Pages/EditDetails/HealthEditForm'
 
 
 const App = () => {
@@ -44,7 +49,7 @@ const App = () => {
             <Route path='education' element={<Education/>}/>
             <Route path='vehicles' element={<Vehicles/>}/>
             <Route path='hospitality' element={<Hospitality/>}/>
-            <Route path='doctors' element={<Doctors/>}/>
+            <Route path='healthcare' element={<Doctors/>}/>
             <Route path='hospitals' element={<Hospitals/>}/>
             <Route path='propertiesdetails/:id' element={<PropertiesDetails/>}/>
             <Route path='vehicledetails/:id' element={<VehicleDetails/>}/>
@@ -59,6 +64,12 @@ const App = () => {
             <Route path='hospitalityadform' element={<HospitalityAdForm/>}/>
             <Route path='healthadform' element={<HealthAdForm/>}/>
             <Route path='educationadform' element={<EducationAdForm/>}/>
+            <Route path='details/:id' element={<VehicleDetails/>}/>
+            <Route path='edit-vehicle-details/:id' element={<EditDetails/>}/>
+            <Route path='edit-hospitality-details/:id' element={<HospitalityEditForm/>}/>
+            <Route path='edit-property-details/:id' element={<PropertyEditForm/>}/>
+            <Route path='edit-education-details/:id' element={<EducationEditForm/>}/>
+            <Route path='edit-healthcare-details/:id' element={<HealthEditForm/>}/>
         </Route>
     </Routes>
     

@@ -6,13 +6,15 @@ import '../../styles/style.css'
 import Button from '../../Components/Button/Button'
 import axiosInstance from '../../api/axiosInstance'
 import Swal from 'sweetalert2';
+import { useNavigate } from 'react-router-dom';
 
 
 const EducationAdForm = () => {
     const [selectedImages, setSelectedImages] = useState([]);
     const [image, setImage] = useState([]);
     const [submitting, setSubmitting] = useState(false);
-    const token = localStorage.getItem('token')
+    const token = localStorage.getItem('token');
+    const navigate = useNavigate();
 
     const imageHandler = (e,index) => {
         const files = e.target.files;
@@ -86,7 +88,8 @@ const EducationAdForm = () => {
                 text: "The form was successfully submitted",
                 icon: "success"
               });
-            setSubmitting(false)
+            setSubmitting(false);
+            navigate("/");
           }).catch(err=> {
             console.log(err)
             setSubmitting(false)
@@ -132,6 +135,14 @@ const EducationAdForm = () => {
                                         <input type="radio" id="certification"  name="type" value="certification" className='hidden'/>
                                         <label for="certification" className='px-4 py-[2px] cursor-pointer'>Certification</label>
                                     </div>
+                                    <div className='border-[1px] border-gray-400 rounded-sm'>
+                                        <input type="radio" id="tuition/coaching" name="type" value="tuition/coaching" className='hidden' />
+                                        <label for="tuition/coaching" className='px-4 py-[2px] cursor-pointer'>Tuition/Coaching</label>
+                                    </div>
+                                    <div className='border-[1px] border-gray-400 rounded-sm'>
+                                        <input type="radio" id="sports-center" name="type" value="sports-center" className='hidden' />
+                                        <label for="sports-center" className='px-4 py-[2px] cursor-pointer'>Sports Center</label>
+                                    </div>
                                 </div>
                             </div>
                             <div>
@@ -171,9 +182,9 @@ const EducationAdForm = () => {
                                 </div>
                             </div>
                             <div>
-                                <p className='mb-2 font-semibold text-gray-700'>Course Duration*</p>
+                                <p className='mb-2 font-semibold text-gray-700'>Course Duration (In months)*</p>
                                 <div className='flex gap-2'>
-                                    <input name='course_duration' required type="text" className='w-[90vw] sm:w-[50vw] pl-2 border-[1px] border-gray-400 py-2 rounded-md' />
+                                    <input name='course_duration' required type="number" className='w-[90vw] sm:w-[50vw] pl-2 border-[1px] border-gray-400 py-2 rounded-md' />
                                 </div>
                             </div>
                             <div>
@@ -223,14 +234,14 @@ const EducationAdForm = () => {
                                 <h3 className='font-bold mt-4 mb-2 text-xl '>Set a price</h3>
                                 <p className='mb-2 font-semibold text-gray-700'>Price</p>
                                 <div className='flex gap-2'>
-                                    <input name='price' type="text" required className='w-[90vw] sm:w-[50vw] pl-2 border-[1px] border-gray-400 py-2 rounded-md' />
+                                    <input name='price' type="text" required className='w-[90vw] sm:w-[50vw] pl-2 border-[1px] border-gray-400 py-2 rounded-md' onkeypress="return event.charCode != 45" />
                                 </div>
                             </div>
                             <div>
                                 <h3 className='font-bold mt-4  mb-4 text-xl text-gray-700'>Upload upto 20 photos</h3>
                                 <div className='grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-7 gap-2 text-gray-700'>
                                 {[...Array(20)].map((_, index) => (
-                                    <div key={index} className='border border-gray-400 rounded-md'>
+                                    <div key={index} className='flex items-center justify-center border border-gray-400 rounded-md'>
                                         {selectedImages[index] ? (
                                             <div className='relative'>
                                                 <img src={image[index]} alt={`Image ${index}`} className='h-24 w-24 rounded-md' />

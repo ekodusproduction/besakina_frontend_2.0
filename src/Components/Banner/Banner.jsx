@@ -2,8 +2,10 @@ import React from 'react'
 import { Splide, SplideSlide } from '@splidejs/react-splide';
 import '@splidejs/react-splide/css/skyblue';
 import Button from '../Button/Button';
+import { useNavigate } from 'react-router-dom';
 
 const Banner = () => {
+    const navigate = useNavigate();
   return (
     
    <>
@@ -51,7 +53,7 @@ const Banner = () => {
                 <img src="/assets/Banner/side_banner_one.png"  className='lg:w-[100%] md:w-[100%] w-[95vw]'   alt="" />
                 <div className='absolute top-[50%] left-[2rem] translate-y-[-50%]'>
                     <h2 className='text-black font-bold sm:text-2xl text-xl w-[70%] mb-2 primaryheader'>Want to grow your business 10X Faster?</h2>
-                    <Button category={'primarybtn'}>Post an Ad</Button>
+                    <Button clickHandler={()=>navigate("/postad")} category={'primarybtn'}>Post an Ad</Button>
                 </div>
             </div>
         </div>

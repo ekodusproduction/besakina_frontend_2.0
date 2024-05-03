@@ -4,6 +4,7 @@ import '../../styles/style.css'
 import axiosInstance from '../../api/axiosInstance'
 import Button from '../../Components/Button/Button';
 import Swal from 'sweetalert2';
+import { useNavigate } from 'react-router-dom';
 
 
 
@@ -17,6 +18,7 @@ const HealthAdForm = () => {
       const [doctorsImage, setDoctorsImage] = useState([]);
       const [hospitalsImage, setHospitalsImage] = useState([]);
       const [submitting, setSubmitting] = useState(false);
+      const navigate= useNavigate();
 
 
     const token = localStorage.getItem('token')
@@ -145,7 +147,8 @@ const HealthAdForm = () => {
                 text: "The form was successfully submitted",
                 icon: "success"
               });
-            setSubmitting(false) 
+            setSubmitting(false);
+            navigate("/");
           }).catch(err=> {
             console.log(err)
             setSubmitting(false)
@@ -176,7 +179,8 @@ const HealthAdForm = () => {
                 text: "The form was successfully submitted",
                 icon: "success"
               });
-            setSubmitting(false) 
+            setSubmitting(false);
+            navigate("/");
           }).catch(err=> {
             console.log(err)
             setSubmitting(false)
@@ -297,13 +301,13 @@ const HealthAdForm = () => {
                                     <input name='description' type="text" className='w-[85vw] md:w-[50vw] pl-2 border-[1px] border-gray-400 py-2 rounded-md' />
                                 </div>
                             </div>
-                            <div>
+                            {/* <div>
                                
                                 <p className='mb-2 font-semibold text-gray-700'>Registration Price</p>
                                 <div className='flex gap-2'>
                                     <input name='price_registration' type="text" className='w-[85vw] md:w-[50vw] pl-2 border-[1px] border-gray-400 py-2 rounded-md' />
                                 </div>
-                            </div>
+                            </div> */}
                             <div>
                                 <h3 className='font-bold mt-4 mb-2 text-xl '>Set a price</h3>
                                 <p className='mb-2 font-semibold text-gray-700'>Price (per visit)</p>
@@ -339,17 +343,17 @@ const HealthAdForm = () => {
                             <div>
                                 <p className='mb-2 font-semibold text-gray-700'>Pincode*</p>
                                 <div className='flex gap-2'>
-                                    <input type="text" name='pincode' className='w-[85vw] md:w-[50vw] border-[1px] border-gray-400 py-2 rounded-md' />
+                                    <input type="number" name='pincode' className='w-[85vw] md:w-[50vw] border-[1px] border-gray-400 py-2 rounded-md' />
                                 </div>
                             </div>
                             <div>
                                 <h3 className='font-bold mt-4  mb-4 text-xl text-gray-700'>Upload upto 20 photos</h3>
                                 <div className='grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-7 gap-2 text-gray-700'>
                                 {[...Array(20)].map((_, index) => (
-                                    <div key={index} className='border border-gray-400 rounded-md'>
+                                    <div key={index} className='flex items-center justify-center border border-gray-400 rounded-md'>
                                         {selectedDoctorsImages[index] ? (
                                             <div className='relative'>
-                                                <img src={doctorsImage[index]} alt={`Image ${index}`} className='h-24 w-24 rounded-md' />
+                                                <img src={doctorsImage[index]} alt={`Image ${index}`} className='h-24 w-full rounded-md object-cover' />
                                                 <button type='button' onClick={() => handleDeleteDoctorsImage(index)} className='text-[#f58181] p-[2px] shadow-md rounded absolute top-[2px] right-[2px] text-sm font-bold'>X</button>
                                             </div>
                                         ) : (
@@ -411,12 +415,12 @@ const HealthAdForm = () => {
                                 <input name='description' type="text" className='w-[85vw] md:w-[50vw] pl-2 border-[1px] border-gray-400 py-2 rounded-md' />
                             </div>
                         </div>
-                        <div>
+                        {/* <div>
                             <p className='mb-2 font-semibold text-gray-700'>Registration Price</p>
                             <div className='flex gap-2'>
                                 <input name='price_registration' type="text" className='w-[85vw] md:w-[50vw] pl-2 border-[1px] border-gray-400 py-2 rounded-md' />
                             </div>
-                        </div>
+                        </div> */}
                     
                         <div>
                             <h3 className='font-bold mt-4 mb-2 text-xl '>Set a price</h3>
@@ -453,14 +457,14 @@ const HealthAdForm = () => {
                             <div>
                                 <p className='mb-2 font-semibold text-gray-700'>Pincode*</p>
                                 <div className='flex gap-2'>
-                                    <input type="text" name='pincode' className='w-[85vw] md:w-[50vw] border-[1px] border-gray-400 py-2 rounded-md' />
+                                    <input type="number" name='pincode' className='w-[85vw] md:w-[50vw] border-[1px] border-gray-400 py-2 rounded-md' />
                                 </div>
                             </div>
                             <div>
                                 <h3 className='font-bold mt-4  mb-4 text-xl text-gray-700'>Upload upto 20 photos</h3>
                                 <div className='grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-7 gap-2 text-gray-700'>
                                 {[...Array(20)].map((_, index) => (
-                                    <div key={index} className='border border-gray-400 rounded-md'>
+                                    <div key={index} className='flex items-center justify-center  rounded-md'>
                                         {selectedHospitalImages[index] ? (
                                             <div className='relative'>
                                                 <img src={hospitalsImage[index]} alt={`Image ${index}`} className='h-24 w-24 rounded-md' />
