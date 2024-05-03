@@ -7,6 +7,8 @@ import Switch from "@mui/material/Switch";
 import axiosInstance from "../../api/axiosInstance";
 import dayjs from "dayjs";
 import { FaRegEdit } from "react-icons/fa";
+import { MdOutlineDeleteOutline } from "react-icons/md";
+import Swal from "sweetalert2";
 
 const AdCard = ({ data, link }) => {
   const token = localStorage.getItem("token");
@@ -28,7 +30,7 @@ const AdCard = ({ data, link }) => {
     education: "education",
     hospitality: "hospitality",
     doctors : "healthcare",
-    hospital : "healthcare",
+    hospitals : "healthcare",
   }
 
   const category = data?.category;
@@ -76,6 +78,27 @@ const AdCard = ({ data, link }) => {
     }
   };
 
+  const handleDeleteAd = () => {
+    if (confirm("Are you sure you want to delete the ad?") == true) {
+      axiosInstance
+        .delete(`api/${category}/id/${id}`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        })
+        .then((response) => {
+          Swal.fire({
+            title: "Delete",
+            text: response?.data?.message,
+            icon: "success"
+          });
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
+  }
+
 
   return (
     <div className="border-[1px] border-slate-400 rounded-md overflow-hidden bg-white">
@@ -100,9 +123,10 @@ const AdCard = ({ data, link }) => {
                 onChange={() => disableHandler(data?.id, data?.category)}
               />
               <FaRegEdit
-                onClick={() => navigate(`/edit-${editRoutes[category]}-details/${data?.id}`)}
+                onClick={() => navigate(`/edit-${editRoutes[category]}-details/${data?.id}`,{state:{category:category}})}
                 className="w-5 h-5 cursor-pointer"
               />
+              <MdOutlineDeleteOutline onClick={handleDeleteAd} className="w-6 h-6 cursor-pointer"/>
             </div>
           </div>
           <p className="text-xs xl:text-sm">{data?.title?.slice(0, 40)}...</p>
