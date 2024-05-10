@@ -7,6 +7,7 @@ import Button from '../../Components/Button/Button';
 import axiosInstance from '../../api/axiosInstance'
 import Swal from 'sweetalert2';
 import { useNavigate } from 'react-router-dom';
+import BackButton from '../../Components/BackButton/BackButton';
 
 
 const HospitalityAdForm = () => {
@@ -94,13 +95,14 @@ const HospitalityAdForm = () => {
             console.log(err)
             setSubmitting(false)
             Swal.fire({
-                title: "Error",
-                text: "Something went wrong",
-                icon: "error"
+                title: er?.response?.data?.message,
+                // text: er?.response?.data?.message,
+                icon: "warning"
               });
-          })
-       
-    }
+              if(err?.response?.data?.message==="User Profile Incomplete"){
+                navigate("/setup-profile");
+            }})}
+
     const handleDeleteImage = (index) => {
         const newImages = [...image];
         const newSelectedImages = [...selectedImages]
@@ -113,7 +115,8 @@ const HospitalityAdForm = () => {
    <>
      
             <section className='bg-white'>
-                <div >
+                <div>
+                <BackButton path={(-1)} style={"absolute pt-3 pl-12"}/>
                     <p className='text-center py-4 font-semibold text-xl border-b-[1px] border-gray-300'>POST YOUR AD</p>
                 </div>
                 <div className='flex justify-center p-8 gap-16'>

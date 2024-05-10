@@ -10,19 +10,21 @@ import LatestAds from '../Components/LatestAds/LatestAds'
 import ProductCard from '../Components/Cards/ProductCard'
 import axiosInstance from '../api/axiosInstance'
 import { IoFilterOutline } from "react-icons/io5";
+import { EducationTypeList } from '../data/constains'
 
 
 const Education = () => {
   const [educationList, setEducationList] = useState([])
-  const [priceRange, setPriceRange] = useState({min_price:'', max_price:''});
+  const [priceRange, setPriceRange] = useState({min_price:0, max_price:''});
   const [notFound, setNotFound] = useState(false)
+  const [selectedEducationtype,setSelectedEducationType] = useState("");
   const [showFilter, setShowFilter] = useState(false)
 
   useEffect(()=> {
     axiosInstance.get('api/education/list')
     .then(response => {
       console.log(response);
-      setEducationList(response.data.data.advertisements);
+      setEducationList(response.data.data.education);
     })
     .catch(error => {
       console.error(error);
@@ -30,11 +32,13 @@ const Education = () => {
   },[])
 
   const filterHandler = () => {
-    console.log(priceRange)
-    axiosInstance.get(`api/education/filter?minPrice=${priceRange.min_price}&maxPrice=${priceRange.max_price}`)
+    let url = `api/education/filter?minPrice=${priceRange.min_price}`;
+    if(selectedEducationtype) url+= `&type=${selectedEducationtype}`;
+    if (priceRange.max_price) url += `&maxPrice=${priceRange.max_price}`;
+
+    axiosInstance.get(url)
     .then(response=> {
-      console.log(response);
-      setEducationList(response.data.data.advertisements)
+      setEducationList(response.data.data.education)
     })
     .catch(err=> {
       console.log(err)
@@ -71,17 +75,25 @@ const Education = () => {
                       <h3 className='font-semibold'>Filter</h3>
                       <IoFilterOutline/>
                     </div>
-                    {showFilter && <>
+                    {showFilter && <div className='flex items-center gap-2'>
+                      <div><p className='font-medium py-2'>Type</p>
+                      <select name="" onChange={(e)=>setSelectedEducationType(e.target.value)} id="">
+                        {EducationTypeList?.map((item,index)=>(
+                          <option key={index} value={item}>{item}</option>
+                        ))}
+                        </select></div>
+                        <div className='pt-3'>
                       <p className='block text-sm text-gray-500 mt-2'>Choose Budget range</p>
                     <div className='my-2 flex flex-row items-center gap-2'>
-                      <input required className='border border-gray-200 rounded w-[35vw]' type="number" placeholder='Minimum price' name='min_price' onChange={(e) => setPriceRange((prev) => ({ ...prev, [e.target.name]: e.target.value }))} />
+                      <input required className='border border-gray-200 rounded w-[10vw]' type="number" placeholder='Minimum price' name='min_price' onChange={(e) => setPriceRange((prev) => ({ ...prev, [e.target.name]: e.target.value }))} />
                       <p className='font-bold'>To</p>
-                      <input required className='border border-gray-200 rounded w-[35vw] ' type="number" placeholder='Maximum price' name='max_price' onChange={(e) => setPriceRange((prev) => ({ ...prev, [e.target.name]: e.target.value }))} />
+                      <input required className='border border-gray-200 rounded w-[10vw] ' type="number" placeholder='Maximum price' name='max_price' onChange={(e) => setPriceRange((prev) => ({ ...prev, [e.target.name]: e.target.value }))} />
                       <Button category={'primarybtn'} clickHandler={filterHandler}>Search</Button>
+                  </div>
                   </div>
                   {notFound && <p className='text-[red] text-sm'>*Property Not Found! Please select a valid range</p>}
 
-                    </>}
+                    </div>}
                     
                    
                   </div>

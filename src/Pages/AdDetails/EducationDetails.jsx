@@ -3,12 +3,14 @@ import ImageGallery from "react-image-gallery";
 import "react-image-gallery/styles/css/image-gallery.css";
 import Button from '../../Components/Button/Button';
 import { MdVerified } from "react-icons/md";
-import { Link, useLocation, useParams } from 'react-router-dom';
+import { Link, useLocation, useNavigate, useParams } from 'react-router-dom';
 import { MdLocationPin } from "react-icons/md";
 import { FaRegHeart } from "react-icons/fa";
 import axiosInstance from '../../api/axiosInstance'
 import { baseURL } from '../../api/axiosInstance';
 import dayjs from 'dayjs';
+import { useLogin } from '../../hooks/useLogin';
+import Contactseller from '../../Components/ContactSeller/Contactseller';
 
 
 const images = [
@@ -29,11 +31,16 @@ const images = [
 const EducationDetails = () => {
     const {id} = useParams();
     const [educationData, setEducationData] = useState({})
+    const token = localStorage.getItem("token");
+    const { isLoggedIn, setIsLoggedIn } = useLogin();
+    const [showContactDetails,setShowContactDetails] = useState(false);
+    const [ contactDetails,setContactDetails]= useState([]);
+    const navigate = useNavigate();
     useEffect(()=> {
         axiosInstance.get(`api/education/id/${id}`)
         .then(response => {
             console.log(response)
-            const data = response.data.data.advertisement;
+            const data = response.data.data;
             console.log(data)
             const updatedData = {
                 ...data,
@@ -62,6 +69,24 @@ const EducationDetails = () => {
         displayDate = postedDate.format("DD MMM YY")
      }
 
+     const handleContactSeller =(id)=>{
+        if(isLoggedIn){
+            axiosInstance.get(`api/users/id/${id}`,{
+                headers:{
+                    Authorization:`Bearer ${token}`
+                },
+            })
+            .then(response=>{
+                setContactDetails(response?.data?.data);
+                setShowContactDetails(true);
+            })
+            .catch(error=>{
+                console.error(error)
+            })
+        }else{
+            navigate("/login");
+        }
+     }
 
   return (
     <>
@@ -95,14 +120,14 @@ const EducationDetails = () => {
                                         <p className='font-bold text-sm'><span className='font-semibold text-slate-600'>Posted: </span>{displayDate}</p>
                                     </div>
                             </div>
-                            <div>
+                            {/* <div>
                                     <h3 className='my-4 font-bold'>Seller Details</h3>
                                     <div className='flex gap-4 items-center pb-2'>
                                         <div className='py-2 border-[1px] border-slate-400 flex justify-center items-center'>
-                                            <img src="/assets/logos/logo1.svg" className='w-[120px]' alt="" />
+                                            <img src={educationData?.user?.profile_pic ? educationData?.user?.profile_pic : "/assets/logos/logo1.svg"} className='w-[120px]' alt="" />
                                         </div>
                                         <div>
-                                            <h4 className='font-bold'>Ekodus Technologies</h4>
+                                            <h4 className='font-bold'>{educationData?.user?.fullname}</h4>
                                             <p className='text-sm sm:text-base text-slate-700'><span className='font-semibold'>GST:</span>  09AAZPB2229H1Z</p>
                                             <p className='text-sm sm:text-base text-slate-700'>Member since Jan 2016</p>
                                         </div>
@@ -112,8 +137,11 @@ const EducationDetails = () => {
                                         <p className='text-sm font-bold'>Verified</p>
                                     </div>
                                     <p className='py-2 text-sm sm:text-base text-slate-700'>Our priority is to find your dream home</p>
-                                    {/* <Button category={'primarybtn'}>Contact Seller</Button> */}
-                            </div>
+                                    <Button clickHandler={()=>handleContactSeller(educationData?.user?.id)} category={'primarybtn'}>Contact Seller</Button>
+                                    
+                                    {contactDetails?.mobile && <p className='py-4 font-medium text-lg'>Phone number: {contactDetails?.mobile} </p>}
+                            </div> */}
+                            <Contactseller data={educationData}/>
                     </div>
             </section>
             <section className='xl:w-3/5 border-[1px] border-slate-400 sm:mt-8 mt-4 p-4 rounded-md overflow-x-scroll'>

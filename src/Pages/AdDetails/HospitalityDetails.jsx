@@ -9,6 +9,7 @@ import { FaRegHeart } from "react-icons/fa";
 import axiosInstance from '../../api/axiosInstance'
 import { baseURL } from '../../api/axiosInstance';
 import dayjs from 'dayjs';
+import Contactseller from '../../Components/ContactSeller/Contactseller';
 
 
 const images = [
@@ -33,7 +34,7 @@ const HospitalityDetails = () => {
         axiosInstance.get(`api/hospitality/id/${id}`)
         .then(response => {
             console.log(response)
-            const data = response.data.data.advertisement;
+            const data = response.data.data;
             console.log(data)
             const updatedData = {
                 ...data,
@@ -95,7 +96,7 @@ const HospitalityDetails = () => {
                                         <p className='font-bold text-sm'><span className='font-semibold text-slate-600'>Posted: </span>{displayDate}</p>
                                     </div>
                             </div>
-                            <div>
+                            {/* <div>
                                     <h3 className='my-4 font-bold'>Seller Details</h3>
                                     <div className='flex gap-4 items-center pb-2'>
                                         <div className='py-2 border-[1px] border-slate-400 flex justify-center items-center'>
@@ -112,8 +113,8 @@ const HospitalityDetails = () => {
                                         <p className='text-sm font-bold'>Verified</p>
                                     </div>
                                     <p className='py-2 text-sm sm:text-base text-slate-700'>Our priority is to find your dream home</p>
-                                    {/* <Button category={'primarybtn'}>Contact Seller</Button> */}
-                            </div>
+                            </div> */}
+                            <Contactseller data={hospitalityData}/>
                     </div>
             </section>
             <section className='xl:w-3/5 border-[1px] border-slate-400 sm:mt-8 mt-4 p-4 rounded-md overflow-x-scroll'>

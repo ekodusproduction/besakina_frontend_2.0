@@ -9,6 +9,7 @@ import { FaRegHeart } from "react-icons/fa";
 import axiosInstance from '../../api/axiosInstance'
 import { baseURL } from '../../api/axiosInstance';
 import dayjs from 'dayjs';
+import Contactseller from '../../Components/ContactSeller/Contactseller';
 
 
 const images = [
@@ -32,7 +33,7 @@ const VehicleDetails = () => {
     useEffect(()=> {
         axiosInstance.get(`api/vehicles/id/${id}`)
         .then(response => {
-            const data = response.data.data.advertisement;
+            const data = response.data.data;
             console.log(data)
             const updatedData = {
                 ...data,
@@ -79,13 +80,13 @@ const VehicleDetails = () => {
                     </div>
                     <div className='xl:w-2/5 border-[1px] border-slate-400 sm:px-6 py-6 px-2 h-[100%] rounded-md '>
                             <div className='pb-4 border-b-[1px] border-slate-300 '>
-                                    <div className='flex justify-between '>
-                                        <h3 className='font-bold sm:text-3xl text-2xl mb-2'>₹ {vehicleData?.price}</h3>
+                                  <div className='flex justify-between '>
+                                    <h3 className='font-bold sm:text-xl text-2xl mb-2'>{vehicleData?.title}</h3>
                                         <button className='mt-[-20px] bg-red'>
-                                            <FaRegHeart size={25}                                    />
+                                            <FaRegHeart size={25}/>
                                         </button>
-                                    </div>
-                                    <p className='text-sm sm:text-base text-slate-700'>{vehicleData?.title}</p>
+                                  </div>
+                                    <p className='text-xl font-bold'>₹ {vehicleData?.price}</p>
                                     <div className='mt-4 mb-4 flex  flex-col justify-between'>
                                         <span className='text-sm sm:text-base flex items-center text-slate-700'><MdLocationPin size={25}/>{`${vehicleData?.street}, ${vehicleData?.street}, ${vehicleData?.city}, ${vehicleData?.state}, ${vehicleData?.pincode}  `}</span>
                                     </div>
@@ -94,25 +95,7 @@ const VehicleDetails = () => {
                                         <p className='font-bold text-sm'><span className='font-semibold text-slate-600'>Posted: </span>{displayDate}</p>
                                     </div>
                             </div>
-                            <div>
-                                    <h3 className='my-4 font-bold'>Seller Details</h3>
-                                    <div className='flex gap-4 items-center pb-2'>
-                                        <div className='py-2 border-[1px] border-slate-400 flex justify-center items-center'>
-                                            <img src="/assets/logos/logo1.svg" className='w-[120px]' alt="" />
-                                        </div>
-                                        <div>
-                                            <h4 className='font-bold'>Ekodus Technologies</h4>
-                                            <p className='text-sm sm:text-base text-slate-700'><span className='font-semibold'>GST:</span>  09AAZPB2229H1Z</p>
-                                            <p className='text-sm sm:text-base text-slate-700'>Member since Jan 2016</p>
-                                        </div>
-                                    </div>
-                                    <div className='flex items-center gap-[3px] text-[#179CF0]'>
-                                        <MdVerified/>
-                                        <p className='text-sm font-bold'>Verified</p>
-                                    </div>
-                                    <p className='py-2 text-sm sm:text-base text-slate-700'>Our priority is to find your dream home</p>
-                                    {/* <Button category={'primarybtn'}>Contact Seller</Button> */}
-                            </div>
+                            <Contactseller data={vehicleData}/>
                     </div>
             </section>
             <section className='xl:w-3/5 border-[1px] border-slate-400 sm:mt-8 mt-4 p-4 rounded-md overflow-x-scroll'>

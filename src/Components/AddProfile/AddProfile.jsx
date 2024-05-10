@@ -22,7 +22,6 @@ const AddProfile = () => {
         city: '',
         locality: '',
         pincode: '',
-        plan_id: '',
         doc_type: '',
         doc_number: '',
         about: '',
@@ -170,7 +169,7 @@ const AddProfile = () => {
                     <label htmlFor="pincode" className='text-gray-500 text-sm'>Pincode</label>
                     <input id='pincode' required type="text" placeholder='Pincode' name='pincode' className='border border-gray-200 rounded' value={userDetails?.pincode ||""} onChange={(e)=>handleEditForm(e,"pincode")} />
                 </div>
-                <div className='flex flex-col gap-2'>
+                {/* <div className='flex flex-col gap-2'>
                     <label htmlFor="plans" className='text-gray-500 text-sm'>Select Plan</label>
                     <select name="plan_id" id="plans" className='border border-gray-200 rounded text-gray-500'>
                             <option value="" disabled>Select Plan</option>
@@ -178,7 +177,7 @@ const AddProfile = () => {
                                 <option value={item.id} key={item.id}>{item.type}</option>
                             ))}
                     </select>
-                </div>
+                </div> */}
                 
                 
            

@@ -23,7 +23,7 @@ const Hospitality = () => {
     axiosInstance.get('api/hospitality/list')
     .then(response => {
       console.log(response);
-      setHospitalityList(response.data.data.advertisements);
+      setHospitalityList(response.data.data.hospitality);
     })
     .catch(error => {
       console.error(error);
@@ -89,7 +89,7 @@ const Hospitality = () => {
               </div>
               <div className='grid xl:grid-cols-4 lg:grid-cols-3 sm:grid-cols-2 grid-cols-1 gap-2 md:gap-4 '>
                 {hospitalityList?.map(item => (
-                  <ProductCard data={item} key={item.id} link={'/propertiesdetails'}/>
+                  <ProductCard data={item} key={item.id} link={'/hospitalitydetails'}/>
                 ))}
             
               </div>

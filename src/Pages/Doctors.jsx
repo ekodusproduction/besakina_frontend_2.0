@@ -106,6 +106,7 @@ import axiosInstance from "../api/axiosInstance";
 import { IoFilterOutline } from "react-icons/io5";
 import Hospitals from "./Hospitals";
 import HospitalCard from "../Components/Cards/HospitalCard";
+import { hospitalTypeList } from "../data/constains";
 
 const Doctors = () => {
   const token = localStorage.getItem("token");
@@ -116,6 +117,7 @@ const Doctors = () => {
   const [notFound, setNotFound] = useState(false);
   const [showFilter, setShowFilter] = useState("");
   const [filterVisible,setFilterVisible]= useState(false);
+  const [selectedHospitalType,setSelectedHospitalType]= useState("");
   const [priceRange, setPriceRange] = useState({
     min_price: "",
     max_price: "",
@@ -125,7 +127,7 @@ const Doctors = () => {
       .get("api/doctors/list")
       .then((response) => {
         console.log(response);
-        setDoctorsList(response.data.data.advertisements);
+        setDoctorsList(response.data.data.doctors);
       })
       .catch((error) => {
         console.error(error);
@@ -137,7 +139,7 @@ const Doctors = () => {
       .get(`api/doctors/filter?expertise=${expertise}`)
       .then((response) => {
         console.log(response);
-        setDoctorsList(response.data.data.advertisements);
+        setDoctorsList(response.data.data.doctors);
       })
       .catch((err) => {
         console.log(err);
@@ -152,7 +154,7 @@ const Doctors = () => {
       .get("api/hospitals/list")
       .then((response) => {
         console.log(response);
-        setHospitalityList(response.data.data.advertisements);
+        setHospitalityList(response.data.data.hospitals);
       })
       .catch((error) => {
         console.error(error);
@@ -163,11 +165,11 @@ const Doctors = () => {
     console.log(priceRange);
     axiosInstance
       .get(
-        `api/hospitals/filter?minPrice=${priceRange.min_price}&maxPrice=${priceRange.max_price}`
+        `api/hospitals/filter?type=${selectedHospitalType}`
       )
       .then((response) => {
         console.log(response);
-        setHospitalityList(response.data.data.advertisements);
+        setHospitalityList(response.data.data.hospitals);
       })
       .catch((err) => {
         console.log(err);
@@ -281,51 +283,31 @@ const Doctors = () => {
                 </>
               ) : (
                 showFilter === "hospitals" && filterVisible && (
-                  <>
-                    <p className="block text-sm text-gray-500 mt-2">
-                      Choose Budget range
-                    </p>
-                    <div className="my-2 flex flex-row items-center gap-2">
-                      <input
-                        required
-                        className="border border-gray-200 rounded w-[35vw]"
-                        type="number"
-                        placeholder="Minimum price"
-                        name="min_price"
-                        onChange={(e) =>
-                          setPriceRange((prev) => ({
-                            ...prev,
-                            [e.target.name]: e.target.value,
-                          }))
-                        }
-                      />
-                      <p className="font-bold">To</p>
-                      <input
-                        required
-                        className="border border-gray-200 rounded w-[35vw] "
-                        type="number"
-                        placeholder="Maximum price"
-                        name="max_price"
-                        onChange={(e) =>
-                          setPriceRange((prev) => ({
-                            ...prev,
-                            [e.target.name]: e.target.value,
-                          }))
-                        }
-                      />
+                  <div>
+                    <div className="flex items-center">
+                    <div className="">
+                      <p className="font-medium py-2">Type</p>
+                      <select name="" onChange={(e)=>setSelectedHospitalType(e.target.value)} id="">
+                        {hospitalTypeList?.map((item,index)=>(
+                          <option key={index} value={item}>{item}</option>
+                        ))}
+                      </select>
+                    </div>
+                    <div className="mx-2 mt-10">
                       <Button
                         category={"primarybtn"}
                         clickHandler={filterHandlerHospitals}
                       >
                         Search
                       </Button>
-                    </div>
+                      </div>
+                      </div>
                     {notFound && (
                       <p className="text-[red] text-sm">
                         *Property Not Found! Please select a valid range
                       </p>
                     )}
-                  </>
+                  </div>
                 )
               )}
             </div>

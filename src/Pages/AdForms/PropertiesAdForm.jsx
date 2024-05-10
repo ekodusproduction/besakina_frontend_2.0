@@ -7,6 +7,7 @@ import '../../styles/style.css'
 import axiosInstance from '../../api/axiosInstance'
 import Swal from 'sweetalert2';
 import { useNavigate } from 'react-router-dom';
+import BackButton from '../../Components/BackButton/BackButton';
 
 const PropertiesAdForm = () => {
     const [selectedImages, setSelectedImages] = useState([]);
@@ -91,13 +92,16 @@ const PropertiesAdForm = () => {
             setSubmitting(false);
             navigate("/");
           }).catch(err=> {
-            console.log(err)
+            console.log("hiiiii",err?.response?.data?.message)
             setSubmitting(false)
             Swal.fire({
-                title: "Error",
-                text: "Something went wrong",
-                icon: "error"
-              });
+                title: err?.response?.data?.message,
+                // text: err?.response?.data?.message,
+                icon: "warning"
+            });
+              if (err?.response?.data?.message === "User Profile Incomplete") {
+                  navigate("/setup-profile");
+              }
           })
        
     }
@@ -114,7 +118,8 @@ const PropertiesAdForm = () => {
    <>
      
             <section className='bg-white'>
-                <div >
+                <div>
+                    <BackButton path={(-1)} style={"absolute pt-3 pl-12"}/>
                     <p className='text-center py-4 font-semibold text-xl border-b-[1px] border-gray-300'>POST YOUR AD</p>
                 </div>
                 <div className='flex justify-center p-8 gap-16'>
@@ -129,7 +134,7 @@ const PropertiesAdForm = () => {
                                         <label for="apartments" className='px-4 py-[2px] cursor-pointer'>Apartments</label>
                                     </div>
                                     <div className='border-[1px] border-gray-400 rounded-sm'>
-                                        <input type="radio" id="builder_floor" name="type" value="builder_floor" className='hidden'/>
+                                        <input type="radio" id="builder_floors" name="type" value="builder_floors" className='hidden'/>
                                         <label for="builder_floor" className='px-4 py-[2px] cursor-pointer'>Builder Floors</label>
                                     </div>
                                     <div className='border-[1px] border-gray-400 rounded-sm'>
@@ -312,6 +317,12 @@ const PropertiesAdForm = () => {
                                 <div className='flex gap-2'>
                                     <input type="text" name='total_rooms' className='w-[90vw] sm:w-[50vw] border-[1px] border-gray-400 py-2 rounded-md' />
                                 </div>
+                            </div>
+                          <div>
+                              <p className='mb-2 font-semibold text-gray-700'>Description*</p>
+                              <div>
+                                  <input type="text" name='description' className='w-[90vw] sm:w-[50vw] border-[1px] border-gray-400 py-2 rounded-md' />
+                              </div>
                             </div>
                             <div>
                                 <p className='mb-2 font-semibold text-gray-700'>Car Parking</p>

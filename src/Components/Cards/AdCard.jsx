@@ -10,7 +10,7 @@ import { FaRegEdit } from "react-icons/fa";
 import { MdOutlineDeleteOutline } from "react-icons/md";
 import Swal from "sweetalert2";
 
-const AdCard = ({ data, link }) => {
+const AdCard = ({ data, link , refresh}) => {
   const token = localStorage.getItem("token");
   const [isActive, setisActive] = useState(data?.is_active);
   const navigate = useNavigate();
@@ -35,6 +35,10 @@ const AdCard = ({ data, link }) => {
 
   const category = data?.category;
   const id = data?.id;
+
+  const refreshOnce = () => {
+    refresh();
+  }
 
   const disableHandler = (id, category) => {
     if (isActive) {
@@ -92,6 +96,7 @@ const AdCard = ({ data, link }) => {
             text: response?.data?.message,
             icon: "success"
           });
+          refreshOnce();
         })
         .catch((err) => {
           console.log(err);

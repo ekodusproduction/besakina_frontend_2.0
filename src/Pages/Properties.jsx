@@ -10,12 +10,14 @@ import LatestAds from '../Components/LatestAds/LatestAds'
 import ProductCard from '../Components/Cards/ProductCard'
 import axiosInstance from '../api/axiosInstance'
 import { IoFilterOutline } from "react-icons/io5";
+import { propertyType } from '../data/constains'
 
 
 const Properties = () => {
-  const [priceRange, setPriceRange] = useState({min_price:'', max_price:''});
+  const [priceRange, setPriceRange] = useState({min_price:0, max_price:''});
   const token = localStorage.getItem('token');
-  const [propertiesList, setPropertiesList] = useState([])
+  const [propertiesList, setPropertiesList] = useState([]);
+  const [selectedPropertyType,setSelectedPropertyType] = useState("");
   const [notFound, setNotFound] = useState(false)
   const [showFilter, setShowFilter] = useState(false)
 
@@ -23,19 +25,23 @@ const Properties = () => {
     axiosInstance.get('api/property/list')
     .then(response => {
       console.log(response);
-      setPropertiesList(response.data.data.advertisements);
+      setPropertiesList(response.data.data.property);
     })
     .catch(error => {
       console.error(error);
     });
   },[]);
 
+  
   const filterHandler = () => {
+    let url = `api/property/filter?minPrice=${priceRange.min_price}`;
+    if (selectedPropertyType) url += `&type=${selectedPropertyType}`;
+    if (priceRange.max_price) url += `&maxPrice=${priceRange.max_price}`;
     console.log(priceRange)
-    axiosInstance.get(`api/property/filter?minPrice=${priceRange.min_price}&maxPrice=${priceRange.max_price}`)
+    axiosInstance.get(url)
     .then(response=> {
       console.log(response);
-      setPropertiesList(response.data.data.advertisements)
+      setPropertiesList(response.data.data.property)
     })
     .catch(err=> {
       console.log(err)
@@ -43,6 +49,10 @@ const Properties = () => {
         setNotFound(true);
       }
     })
+  }
+
+  const handleFilterPropertyType=(event)=>{
+    setSelectedPropertyType(event.target.value)
   }
 
   return (
@@ -72,17 +82,27 @@ const Properties = () => {
                       <h3 className='font-semibold'>Filter</h3>
                       <IoFilterOutline/>
                     </div>
-                    {showFilter && <>
+                    {showFilter && <div className='flex items-center gap-5'>
+                      <div>
+                    <p className='text-sm font-medium pb-2'>Type</p>
+                    <select onChange={handleFilterPropertyType}>
+                      {propertyType?.map((item,index)=>(
+                        <option key={index} value={item.value}>{item.label}</option>
+                      ))}
+                    </select>
+                    </div>
+                    <div>
                       <p className='block text-sm text-gray-500 mt-2'>Choose Budget range</p>
                     <div className='my-2 flex flex-row items-center gap-2'>
-                      <input required className='border border-gray-200 rounded w-[35vw]' type="number" placeholder='Minimum price' name='min_price' onChange={(e) => setPriceRange((prev) => ({ ...prev, [e.target.name]: e.target.value }))} />
+                      <input required className='border border-gray-200 rounded w-[10vw]' type="number" placeholder='Minimum price' name='min_price' onChange={(e) => setPriceRange((prev) => ({ ...prev, [e.target.name]: e.target.value }))} />
                       <p className='font-bold'>To</p>
-                      <input required className='border border-gray-200 rounded w-[35vw] ' type="number" placeholder='Maximum price' name='max_price' onChange={(e) => setPriceRange((prev) => ({ ...prev, [e.target.name]: e.target.value }))} />
+                      <input required className='border border-gray-200 rounded w-[10vw] ' type="number" placeholder='Maximum price' name='max_price' onChange={(e) => setPriceRange((prev) => ({ ...prev, [e.target.name]: e.target.value }))} />
                       <Button category={'primarybtn'} clickHandler={filterHandler}>Search</Button>
+                  </div>
                   </div>
                   {notFound && <p className='text-[red] text-sm'>*Property Not Found! Please select a valid range</p>}
 
-                    </>}
+                    </div>}
                     
                    
                   </div>

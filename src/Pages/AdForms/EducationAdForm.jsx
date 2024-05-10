@@ -7,12 +7,14 @@ import Button from '../../Components/Button/Button'
 import axiosInstance from '../../api/axiosInstance'
 import Swal from 'sweetalert2';
 import { useNavigate } from 'react-router-dom';
+import BackButton from '../../Components/BackButton/BackButton';
 
 
 const EducationAdForm = () => {
     const [selectedImages, setSelectedImages] = useState([]);
     const [image, setImage] = useState([]);
     const [submitting, setSubmitting] = useState(false);
+    const [selectedOptions, setSelectedOptions] = useState([]);
     const token = localStorage.getItem('token');
     const navigate = useNavigate();
 
@@ -69,6 +71,27 @@ const EducationAdForm = () => {
        
     }
 
+    // const handleCheckChange = (event) => {
+    //     const value = event.target.value;
+    //     if (value) {
+    //         setSelectedOptions([...selectedOptions, value]);
+    //     } else {
+    //         setSelectedOptions(selectedOptions.filter(option => option !== value));
+    //     }
+    // }
+
+    const handleCheckChange = (event) => {
+        const selectedValue = event.target.getAttribute('value');
+        if (selectedOptions.includes(selectedValue)) {
+          // If already selected, remove it
+          setSelectedOptions(selectedOptions.filter(option => option !== selectedValue));
+        } else {
+          // If not selected, add it
+          setSelectedOptions([...selectedOptions, selectedValue]);
+        }
+      };
+
+
     const formSubmitHandler = (e) => {
         setSubmitting(true)
         e.preventDefault();
@@ -94,12 +117,14 @@ const EducationAdForm = () => {
             console.log(err)
             setSubmitting(false)
             Swal.fire({
-                title: "Error",
-                text: "Something went wrong",
-                icon: "error"
+                title: err?.response?.data?.message,
+                // text: err?.response?.data?.message,
+                icon: 'warning',
               });
-          })
-       
+              if (err?.response?.data?.message === "User Profile Incomplete") {
+                navigate("/setup-profile");
+            }
+            });
     }
     const handleDeleteImage = (index) => {
         const newImages = [...image];
@@ -108,12 +133,15 @@ const EducationAdForm = () => {
         newSelectedImages.splice(index,1)
         setImage(newImages);
         setSelectedImages(newSelectedImages)
-      };
+    };
+    
   return (
    <>
        
             <section className='bg-white'>
                 <div>
+
+                <BackButton path={(-1)} style={"absolute pt-3 pl-12"}/>
                     <p className='text-center py-4 font-semibold text-xl border-b-[1px] border-gray-300'>POST YOUR AD</p>
                 </div>
                 <div className='flex justify-center p-8 gap-16'>
@@ -148,27 +176,40 @@ const EducationAdForm = () => {
                             <div>
                                 <p className='mb-2 font-semibold text-gray-700'>Select Domain*</p>
                                 <div className='flex flex-wrap gap-2 text-gray-700'>
-                                    <div className='border-[1px] border-gray-400 rounded-sm'>
+                                    <div className='border-[1px] border-gray-400 rounded-sm cursor-pointer'>
+                                      {/* <div id="science" onClick={handleCheckChange} value="science" className={`${selectedOptions.includes('science') ? "bg-blue-500 text-white":""} w-20 h-7 flex items-center justify-center select-none`}>Science</div> */}
+                                        
                                         <input type="radio" id="science"  name="domain" value="science" className='hidden'/>
+                                        
                                         <label for="science" className='px-4 py-[2px] cursor-pointer'>Science</label>
                                     </div>
-                                    <div className='border-[1px] border-gray-400 rounded-sm'>
+                                    <div className='border-[1px] border-gray-400 rounded-sm cursor-pointer'>
+                                      {/* <div id="arts" onClick={handleCheckChange} value="arts" className={`${selectedOptions.includes('arts') ? "bg-blue-500 text-white":""} w-20 h-7 flex items-center justify-center select-none`}>Arts</div> */}
+
                                         <input type="radio" id="arts"  name="domain" value="arts" className='hidden'/>
                                         <label for="arts" className='px-4 py-[2px] cursor-pointer'>Arts</label>
                                     </div>
-                                    <div className='border-[1px] border-gray-400 rounded-sm'>
+                                    <div className='border-[1px] border-gray-400 rounded-sm cursor-pointer'>
+                                      {/* <div id="commerce" onClick={handleCheckChange} value="commerce" className={`${selectedOptions.includes('commerce') ? "bg-blue-500 text-white":""} w-fit px-2 h-7 flex items-center justify-center select-none`}>Commerce</div> */}
+
                                         <input type="radio" id="commerce"  name="domain" value="commerce" className='hidden'/>
                                         <label for="commerce" className='px-4 py-[2px] cursor-pointer'>Commerce</label>
                                     </div>
-                                    <div className='border-[1px] border-gray-400 rounded-sm'>
+                                    <div className='border-[1px] border-gray-400 rounded-sm cursor-pointer'>
+                                    {/* <div id="computer_science" onClick={handleCheckChange} value="computer_science" className={`${selectedOptions.includes('computer_science') ? "bg-blue-500 text-white":""} w-fit px-2 h-7 flex items-center justify-center select-none`}>Computer Science</div> */}
+
                                         <input type="radio" id="computer_science"  name="domain" value="computer_science" className='hidden'/>
                                         <label for="computer_science" className='px-4 py-[2px] cursor-pointer'>Computer Science</label>
                                     </div>
-                                    <div className='border-[1px] border-gray-400 rounded-sm'>
+                                    <div className='border-[1px] border-gray-400 rounded-sm cursor-pointer'>
+                                      {/* <div id="cooking" onClick={handleCheckChange} value="cooking" className={`${selectedOptions.includes('cooking') ? "bg-blue-500 text-white":""} w-20 h-7 flex items-center justify-center select-none`}>Cooking</div> */}
+
                                         <input type="radio" id="cooking"  name="domain" value="cooking" className='hidden'/>
                                         <label for="cooking" className='px-4 py-[2px] cursor-pointer'>Cooking</label>
                                     </div>
-                                    <div className='border-[1px] border-gray-400 rounded-sm'>
+                                    <div className='border-[1px] border-gray-400 rounded-sm cursor-pointer'>
+                                      {/* <div id="electronics" onClick={handleCheckChange} value="electronics" className={`${selectedOptions.includes('electronics') ? "bg-blue-500 text-white":""} w-fit px-2 h-7 flex items-center justify-center select-none`}>Electronics</div> */}
+
                                         <input type="radio" id="electronics"  name="domain" value="electronics" className='hidden'/>
                                         <label for="electronics" className='px-4 py-[2px] cursor-pointer'>Electronics</label>
                                     </div>

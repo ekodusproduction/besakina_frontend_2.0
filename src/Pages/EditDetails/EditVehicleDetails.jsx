@@ -7,12 +7,16 @@ import Button from '../../Components/Button/Button';
 import axiosInstance, { baseURL } from '../../api/axiosInstance';
 import Swal from 'sweetalert2';
 import { useNavigate, useParams } from 'react-router-dom';
+import { VehicleData } from '../../data/VehicleData';
 
 const EditVehicleDetails = () => {
   const [selectedImages, setSelectedImages] = useState([]);
   const [image, setImage] = useState([]);
   const [submitting, setSubmitting] = useState(false);
   const token = localStorage.getItem('token');
+  const [selectedBrand, setSelectedBrand] = useState("");
+  const [otherBrand, setOtherBrand] = useState("");
+  const [selectedType, setSelectedType] = useState("");
   const [second_hand, setSecondHand] = useState(0);
   const navigate = useNavigate();
   const { id } = useParams();
@@ -31,7 +35,7 @@ const EditVehicleDetails = () => {
       });
   };
 
-  useEffect(() => {
+    useEffect(() => {
     getVehicleDetails();
     if (vehicleData?.second_hand === 1) {
       setSecondHand(1);
@@ -179,6 +183,23 @@ const EditVehicleDetails = () => {
     }));
   };
 
+  const handleOtherBrandChange = (event) => {
+    setOtherBrand(event.target.value);
+  }
+
+  const handleBrand = (event) => {
+    const selectedValue = event.target.value;
+    setSelectedBrand(selectedBrand);
+    if (selectedValue === "Other") {
+      setOtherBrand("");
+    }
+  }
+
+  const handleTypeChange = (e) => {
+    setSelectedType(e.target.value);
+    setSelectedBrand("");
+  }
+
   const handleVehicleTypeChange = (event) => {
     setVehicleData((prevData) => ({
       ...prevData,
@@ -222,7 +243,7 @@ const EditVehicleDetails = () => {
                         value="car"
                         className="hidden"
                         checked={vehicleData?.type === 'car'}
-                        onChange={handleVehicleTypeChange}
+                        onChange={(e) => { handleVehicleTypeChange(e), handleTypeChange(e) }}
                       />
                       <label for="car" className="px-4 py-[2px] cursor-pointer">
                         Car
@@ -235,7 +256,7 @@ const EditVehicleDetails = () => {
                         name="type"
                         value="motorcycle"
                         className="hidden"
-                        onChange={handleVehicleTypeChange}
+                        onChange={(e) => { handleVehicleTypeChange(e),handleTypeChange(e)}}
                         checked={vehicleData?.type === 'motorcycle'}
                       />
                       <label
@@ -252,7 +273,7 @@ const EditVehicleDetails = () => {
                         name="type"
                         value="scooter"
                         className="hidden"
-                        onChange={handleVehicleTypeChange}
+                        onChange={(e) => { handleVehicleTypeChange(e), handleTypeChange(e) }}
                         checked={vehicleData?.type === 'scooter'}
                       />
                       <label
@@ -269,7 +290,7 @@ const EditVehicleDetails = () => {
                         name="type"
                         value="bicycle"
                         className="hidden"
-                        onChange={handleVehicleTypeChange}
+                        onChange={(e) => { handleVehicleTypeChange(e), handleTypeChange(e) }}
                         checked={vehicleData?.type === 'bicycle'}
                       />
                       <label
@@ -296,20 +317,31 @@ const EditVehicleDetails = () => {
                         name="brand"
                         id=""
                         required
+                        disabled={selectedType?.length === 0}
                         value={vehicleData?.brand}
                         onChange={handleBrandChange}
                         className="border-[1px]  border-gray-400 rounded-sm w-[150px]"
                       >
-                        <option value="BMW">BMW</option>
+                        {/* <option value="BMW">BMW</option>
                         <option value="Ford">Ford</option>
                         <option value="Fiat">Fiat</option>
                         <option value="Honda">Honda</option>
                         <option value="Hyundai">Hyundai</option>
                         <option value="Jeep">Jeep</option>
                         <option value="Mercedes">Mercedes</option>
-                        <option value="Toyota">Toyota</option>
+                        <option value="Toyota">Toyota</option> */}
+                        {selectedType && 
+                          VehicleData?.find((vehicle) =>
+                            vehicle?.label?.toLocaleLowerCase() ==
+                            selectedType?.toLocaleLowerCase())?.models?.map((model, index) => (
+                              <option key={index} value={model}>{model}</option>
+                        ))
+                        }
                         <option value="Other">Other</option>
                       </select>
+                      {selectedBrand === "Other" && (
+                        <input type="text" value={otherBrand} onChange={handleOtherBrandChange} placeholder='Enter brand' />
+                      )}
                     </div>
                   </div>
                   <div>

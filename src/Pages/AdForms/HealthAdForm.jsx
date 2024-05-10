@@ -5,6 +5,7 @@ import axiosInstance from '../../api/axiosInstance'
 import Button from '../../Components/Button/Button';
 import Swal from 'sweetalert2';
 import { useNavigate } from 'react-router-dom';
+import BackButton from '../../Components/BackButton/BackButton';
 
 
 
@@ -185,11 +186,14 @@ const HealthAdForm = () => {
             console.log(err)
             setSubmitting(false)
             Swal.fire({
-                title: "Error",
-                text: "Something went wrong",
-                icon: "error"
+                title: err?.response?.data?.message,
+                // text: err?.response?.data?.message,
+                icon: 'warning',
               });
-          })
+              if (err?.response?.data?.message === "User Profile Incomplete") {
+                navigate("/setup-profile");
+            }
+            });
        
     }
 
@@ -214,6 +218,7 @@ const HealthAdForm = () => {
    <>  
             <section className='bg-white'>
                 <div>
+                <BackButton path={(-1)} style={"absolute pt-3 pl-12"}/>
                     <p className='text-center py-4 font-semibold text-xl border-b-[1px] border-gray-300'>POST YOUR AD</p>
                 </div>
                 
@@ -392,6 +397,10 @@ const HealthAdForm = () => {
                                 <div className='border-[1px] border-gray-400 rounded-sm'>
                                     <input type="radio" id="nursing_home" name="type" value="nursing_home" className='hidden'/>
                                     <label for="nursing_home" className='px-4 py-[2px] cursor-pointer'>Nursing Home</label>
+                                </div>
+                                <div className='border-[1px] border-gray-400 rounded-sm'>
+                                    <input type="radio" id='care_giving_service' name='type' value="care_giving_home" className='hidden' />
+                                    <label htmlFor="care_giving_service" className='px-4 py-[2px] cursor-pointer'>Care Giving Service</label>
                                 </div>
                             </div>
                         </div>

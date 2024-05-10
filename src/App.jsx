@@ -33,6 +33,7 @@ import HospitalityEditForm from './Pages/EditDetails/HospitalityEditForm'
 import PropertyEditForm from './Pages/EditDetails/PropertyEditForm'
 import EducationEditForm from './Pages/EditDetails/EducationEditForm'
 import HealthEditForm from './Pages/EditDetails/HealthEditForm'
+import AddProfile from './Components/AddProfile/AddProfile'
 
 
 const App = () => {
@@ -69,7 +70,8 @@ const App = () => {
             <Route path='edit-hospitality-details/:id' element={<HospitalityEditForm/>}/>
             <Route path='edit-property-details/:id' element={<PropertyEditForm/>}/>
             <Route path='edit-education-details/:id' element={<EducationEditForm/>}/>
-            <Route path='edit-healthcare-details/:id' element={<HealthEditForm/>}/>
+            <Route path='edit-healthcare-details/:id' element={<HealthEditForm />} />
+            <Route path='setup-profile' element={<div className='w-full px-56'><AddProfile/></div>}/>
         </Route>
     </Routes>
     

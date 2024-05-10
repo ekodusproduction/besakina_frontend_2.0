@@ -5,19 +5,26 @@ import { IoBagAddOutline } from "react-icons/io5";
 import { IoKeyOutline } from "react-icons/io5";
 import { CiTrash } from "react-icons/ci";
 import Button from '../Components/Button/Button'
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import AddProfile from '../Components/AddProfile/AddProfile';
 import MyListing from '../Components/MyListing/MyListing';
 import ChangePassword from '../Components/ChangePassword/ChangePassword';
 import DeleteProfile from '../Components/DeleteProfile/DeleteProfile';
 import { RxHamburgerMenu } from "react-icons/rx";
+import BackButton from '../Components/BackButton/BackButton';
 
 const Profile = () => {
     const [showMenu, setShowMenu] = useState(false)
-    const [selectMenu, setSelectedMenu] = useState('addprofile')
-  return (
-    <div className='mx-4 my-12 lg:m-12 flex flex-col lg:flex-row gap-6 '>
-        <div className='bg-white shadow rounded lg:w-[300px] h-fit'>
+    const [selectMenu, setSelectedMenu] = useState('addprofile');
+    const location = useLocation();
+    const state = location?.state?.state;
+    return (
+      <>
+          <BackButton path={(-1)} style={"mx-12 py-2"}/>
+      <div className='mx-12 flex flex-col lg:flex-row gap-6 '>
+          
+          <div className='bg-white shadow rounded lg:w-[300px] h-fit'>
+              
             <button onClick={()=>setShowMenu(!showMenu)} className='py-2 px-4 bg-black text-white flex items-center gap-2 w-full'>
                 <div className='lg:hidden'><RxHamburgerMenu/></div>
                 <h3 className='font-semibold '>Navigation</h3>
@@ -70,7 +77,8 @@ const Profile = () => {
         {selectMenu == 'mylisting' && <MyListing/>}
         {selectMenu == 'changepassword' && <ChangePassword/>}
         {selectMenu == 'deleteprofile' && <DeleteProfile/>}
-    </div>
+            </div>
+            </>
   )
 }
 

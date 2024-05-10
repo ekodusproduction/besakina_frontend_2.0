@@ -3,6 +3,7 @@ import Navbar from '../Components/Navbar/Navbar'
 import Categories from '../Components/Categories/Categories'
 import Footer from '../Components/Footer/Footer'
 import { Link } from 'react-router-dom'
+import BackButton from '../Components/BackButton/BackButton'
 
 
 const PostAd = () => {
@@ -12,6 +13,7 @@ const PostAd = () => {
      
         <section>
             <div className=''>
+            <BackButton path={(-1)} style={"absolute pt-3 pl-12"}/>
                 <p className='text-center py-4 font-semibold text-xl border-b-[1px] border-gray-300'>POST YOUR AD</p>
             </div>
             <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 py-16 px-4 sm:px-36 md:px-56 gap-6'>

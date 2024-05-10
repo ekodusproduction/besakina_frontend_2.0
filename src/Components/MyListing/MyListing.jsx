@@ -7,6 +7,7 @@ import { useNavigate } from "react-router-dom";
 
 const MyListing = () => {
   const [userAds, setUserAds] = useState([]);
+  const [reload, setReload] = useState(false);
   const token = localStorage.getItem("token");
   const navigate = useNavigate();
   useEffect(() => {
@@ -19,7 +20,11 @@ const MyListing = () => {
       .then((response) => {
         setUserAds(response?.data?.data);
       });
-  }, []);
+  }, [reload]);
+
+  const refreshOnce = () => {
+    setReload(true);
+  }
 
   return (
     <div className="w-full flex flex-col justify-center items-center shadow rounded">
@@ -31,7 +36,7 @@ const MyListing = () => {
       ) : (
         <div className="w-full grid xl:grid-cols-3 lg:grid-cols-2 grid-cols-1 gap-2 md:gap-4">
           {userAds?.map((item) => (
-            <AdCard data={item} key={item.id} link={"/propertiesdetails"} />
+            <AdCard data={item} key={item.id} refresh={refreshOnce} link={"/propertiesdetails"} />
           ))}
         </div>
       )}
