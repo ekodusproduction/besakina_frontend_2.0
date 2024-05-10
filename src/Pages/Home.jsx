@@ -20,7 +20,7 @@ const Home = () => {
       {/* <PopularSearches/> */}
       <FeaturedAds />
       <LatestAds />
-      <SecondaryAd />
+      {/* <SecondaryAd /> */}
       {/* <Sponsors/> */}
       {/* <SaveButton/> */}
     </div>
