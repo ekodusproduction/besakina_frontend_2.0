@@ -82,9 +82,9 @@ const VehicleDetails = () => {
                             <div className='pb-4 border-b-[1px] border-slate-300 '>
                                   <div className='flex justify-between '>
                                     <h3 className='font-bold sm:text-xl text-2xl mb-2'>{vehicleData?.title}</h3>
-                                        <button className='mt-[-20px] bg-red'>
+                                        {/* <button className='mt-[-20px] bg-red'>
                                             <FaRegHeart size={25}/>
-                                        </button>
+                                        </button> */}
                                   </div>
                                     <p className='text-xl font-bold'>₹ {vehicleData?.price}</p>
                                     <div className='mt-4 mb-4 flex  flex-col justify-between'>

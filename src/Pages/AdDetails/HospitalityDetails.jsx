@@ -83,9 +83,9 @@ const HospitalityDetails = () => {
                             <div className='pb-4 border-b-[1px] border-slate-300 '>
                                     <div className='flex justify-between '>
                                         <h3 className='font-bold sm:text-3xl text-2xl mb-2'>₹ {hospitalityData?.price}</h3>
-                                        <button className='mt-[-20px] bg-red'>
+                                        {/* <button className='mt-[-20px] bg-red'>
                                             <FaRegHeart size={25}                                    />
-                                        </button>
+                                        </button> */}
                                     </div>
                                     <p className='text-sm sm:text-base text-slate-700'>{hospitalityData?.title}</p>
                                     <div className='mt-4 mb-4 flex  flex-col justify-between'>
