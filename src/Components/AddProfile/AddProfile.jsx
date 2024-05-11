@@ -206,7 +206,7 @@ const AddProfile = () => {
                     <p className='text-gray-500 text-sm mb-2'>{isAadhar ? "Upload Document(Front Side)*":"Upload Document*"}</p>
                     <div className={`${doctImage || userDetails?.doc_file && "w-fit h-fit"} border border-gray-400 rounded-md`}>
                     {doctImage ||userDetails?.doc_file?.length ? (
-                            <img src={userDetails?.doc_file?.length ?`${baseURL}${userDetails?.doc_file}` : doctImage} alt='doctImage' className='w-full h-full rounded-md object-cover' />
+                            <img src={userDetails?.doc_file?.length ?`${userDetails?.doc_file}` : doctImage} alt='doctImage' className='w-full h-full rounded-md object-cover' />
                     ) : (
                         <label htmlFor='document'  className='cursor-pointer py-8 flex justify-center items-center'>
                             <FaCamera size={30} color='gray'/>
@@ -219,7 +219,7 @@ const AddProfile = () => {
                     <p className='text-gray-500 text-sm mb-2'>Upload Document(Back Side)*</p>
                     <div className={`${aadharImage && "w-fit h-fit"} border border-gray-400 rounded-md`}>
                     {aadharImage || userDetails?.doc_file_back ? (
-                        <img src={userDetails?.doc_file_back ? `${baseURL}${userDetails?.doc_file_back}` : aadharImage} alt='aadharImage' className='w-full h-full rounded-md object-cover'/>
+                        <img src={userDetails?.doc_file_back ? `${userDetails?.doc_file_back}` : aadharImage} alt='aadharImage' className='w-full h-full rounded-md object-cover'/>
                     ):(
                         <label htmlFor='documentAadhar'  className='cursor-pointer py-8 flex justify-center items-center'>
                             <FaCamera size={30} color='gray'/>

@@ -379,7 +379,7 @@ const HealthAdForm = () => {
                     {selectedForm=='hospitals' && 
                         <form action="" className='flex flex-col gap-8' onSubmit={hospitalFormSubmitHandler}>
                         <h3 className='mb-2 font-semibold text-xl'>Add Some Details</h3>
-                        <div>
+                        <div className='w-[62rem]'>
                             <p className='mb-2 font-semibold text-gray-700'>Select Type*</p>
                             <div className='flex flex-wrap gap-2 text-gray-700'>
                                 <div className='border-[1px] border-gray-400 rounded-sm'>
@@ -473,7 +473,7 @@ const HealthAdForm = () => {
                                 <h3 className='font-bold mt-4  mb-4 text-xl text-gray-700'>Upload upto 20 photos</h3>
                                 <div className='grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-7 gap-2 text-gray-700'>
                                 {[...Array(20)].map((_, index) => (
-                                    <div key={index} className='flex items-center justify-center  rounded-md'>
+                                    <div key={index} className='flex items-center justify-center border border-gray-400 rounded-md'>
                                         {selectedHospitalImages[index] ? (
                                             <div className='relative'>
                                                 <img src={hospitalsImage[index]} alt={`Image ${index}`} className='h-24 w-24 rounded-md' />
