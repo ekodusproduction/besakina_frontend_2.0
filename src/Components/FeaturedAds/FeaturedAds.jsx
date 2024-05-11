@@ -4,6 +4,7 @@ import { Splide, SplideSlide } from '@splidejs/react-splide';
 import '@splidejs/react-splide/css/skyblue';
 import axiosInstance from '../../api/axiosInstance'
 import { baseURL } from '../../api/axiosInstance';
+import HospitalCard from '../Cards/HospitalCard';
 
 const FeaturedAds = () => {
     const [featuredData, setFeaturedData] = useState([])
@@ -56,8 +57,14 @@ const FeaturedAds = () => {
                 {item.category == 'education' && 
                     <ProductCard data={item} key={item.id} link={'/educationdetails'}/>
                 }
-                {item.category == '"hospitality"' && 
+                {item.category == "hospitality" && 
                     <ProductCard data={item} key={item.id} link={'/hospitalitydetails'}/>
+                }
+                {item?.category == "doctors" &&
+                    <ProductCard data={item} key={item.id} link={"/doctordetails"} />
+                }
+                {item?.category == "hospitals" &&
+                    <HospitalCard data={item} key={item.id} link={"/hospitaldetails"} />
                 }
                
             </SplideSlide>

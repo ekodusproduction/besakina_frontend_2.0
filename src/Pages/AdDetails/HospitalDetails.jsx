@@ -24,8 +24,8 @@ const HospitalDetails = () => {
             const updatedData = {
                 ...data,
                 images: data.images.map(image => ({
-                    original: baseURL + image,
-                    thumbnail: baseURL + image,
+                    original: image,
+                    thumbnail: image,
                 }))
             };
             setEducationData(updatedData);

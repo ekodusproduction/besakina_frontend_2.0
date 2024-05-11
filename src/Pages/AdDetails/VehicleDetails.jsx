@@ -39,8 +39,8 @@ const VehicleDetails = () => {
                 ...data,
                 images: data.images.map(image => ({
                     
-                    original: baseURL + image,
-                    thumbnail: baseURL + image,
+                    original: image,
+                    thumbnail: image,
                 }))
             };
             setVehicleData(updatedData);

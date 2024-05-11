@@ -51,13 +51,20 @@ const LatestAds = () => {
                 link={"/educationdetails"}
               />
             )}
-            {item.category == '"hospitality"' && (
+            {item.category == "hospitality" && (
               <ProductCard
                 data={item}
                 key={item.id}
                 link={"/hospitalitydetails"}
               />
             )}
+            {item?.category =="doctors" && (
+                <ProductCard
+                  data={item}
+                  key={item.id}
+                  link={"/doctordetails"}
+                />
+              )}
           </div>
         ))}
         {/* // <ProductCard/>

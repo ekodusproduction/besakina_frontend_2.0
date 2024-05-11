@@ -135,7 +135,7 @@ const PropertiesAdForm = () => {
                                     </div>
                                     <div className='border-[1px] border-gray-400 rounded-sm'>
                                         <input type="radio" id="builder_floors" name="type" value="builder_floors" className='hidden'/>
-                                        <label for="builder_floor" className='px-4 py-[2px] cursor-pointer'>Builder Floors</label>
+                                        <label for="builder_floors" className='px-4 py-[2px] cursor-pointer'>Builder Floors</label>
                                     </div>
                                     <div className='border-[1px] border-gray-400 rounded-sm'>
                                         <input type="radio" id="farm_houses" name="type" value="farm_houses" className='hidden'/>
