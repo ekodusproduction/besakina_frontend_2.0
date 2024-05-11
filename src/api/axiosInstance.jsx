@@ -1,8 +1,8 @@
 import axios from 'axios'
 
-export const baseURL = 'http://167.71.235.196/api/'
+export const baseURL = import.meta.env.baseURLApi
 const instance = axios.create({
-    baseURL:'http://167.71.235.196/'
+    baseURL: import.meta.env.BASE_URL
 })
 
 export default instance;
