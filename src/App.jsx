@@ -34,6 +34,7 @@ import PropertyEditForm from './Pages/EditDetails/PropertyEditForm'
 import EducationEditForm from './Pages/EditDetails/EducationEditForm'
 import HealthEditForm from './Pages/EditDetails/HealthEditForm'
 import AddProfile from './Components/AddProfile/AddProfile'
+import BusinessAdForm from './Pages/AdForms/BusinessAdForm'
 
 
 const App = () => {
@@ -61,6 +62,7 @@ const App = () => {
             <Route path='plans' element={<Plans/>}/>
             <Route path='postad' element={<PostAd/>}/>
             <Route path='propertiesadform' element={<PropertiesAdForm/>}/>
+            <Route path='businessadform' element={<BusinessAdForm/>}/>
             <Route path='vehicleadform' element={<VehicleAdForm/>}/>
             <Route path='hospitalityadform' element={<HospitalityAdForm/>}/>
             <Route path='healthadform' element={<HealthAdForm/>}/>

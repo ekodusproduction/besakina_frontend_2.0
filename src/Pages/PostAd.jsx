@@ -4,6 +4,7 @@ import Categories from '../Components/Categories/Categories'
 import Footer from '../Components/Footer/Footer'
 import { Link } from 'react-router-dom'
 import BackButton from '../Components/BackButton/BackButton'
+import { MdOutlineAddBusiness } from "react-icons/md";
 
 
 const PostAd = () => {
@@ -40,6 +41,10 @@ const PostAd = () => {
                 <Link to={'/educationadform'} className='flex flex-col gap-2 justify-center items-center border-[1px] border-gray-400 p-4 rounded-lg bg-white'>
                     <img src="/assets/icons/learinng-07.svg" className='w-[60px]' alt="" />
                     <p className='font-semibold'>Education</p>
+                </Link>
+                <Link to={'/businessadform'} className='flex flex-col gap-2 justify-center items-center border-[1px] border-gray-400 p-4 rounded-lg bg-white'>
+                    <img src="/assets/icons/briefcase.png" className='w-[55px]' alt="" />
+                    <p className='font-semibold'>Business Listing</p>
                 </Link>
     
             </div>
