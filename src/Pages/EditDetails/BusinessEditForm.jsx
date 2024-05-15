@@ -16,14 +16,14 @@ const BusinessEditForm = () => {
     const token = localStorage.getItem('token')
     const navigate = useNavigate();
     const { id } = useParams();
-    const [propertyData, setPropertyData] = useState({});
+    const [businessData, setBusinessData] = useState({});
 
     useEffect(() => {
         axiosInstance.get(`api/property/id/${id}`)
             .then((response) => {
                 console.log(response);
                 const data = response.data.data.advertisement;
-                setPropertyData(data);
+                setBusinessData(data);
             })
             .catch((error) => {
                 console.error(error)
@@ -31,13 +31,13 @@ const BusinessEditForm = () => {
     }, [id]);
 
     useEffect(() => {
-        if (propertyData?.images?.length) {
+        if (businessData?.images?.length) {
           setSelectedImages((prev) => [
             ...prev, // Spread the previous images
-            ...propertyData?.images, // Spread the new images fetched from vehicleData
+            ...businessData?.images, // Spread the new images fetched from vehicleData
           ]);
         }
-      }, [propertyData?.images]);
+      }, [businessData?.images]);
 
     const imageHandler = (e) => {
         if (selectedImages?.length >= 20) {
@@ -97,7 +97,6 @@ const BusinessEditForm = () => {
        
         const body = {
             ...value,
-            car_parking: propertyData?.car_parking,
         }
         axiosInstance.put(`api/property/id/${id}`, body , {
             headers: {
@@ -172,129 +171,58 @@ const BusinessEditForm = () => {
                         <form action="" className='flex flex-col gap-8' onSubmit={formSubmitHandler}>
                             <h3 className='mb-2 font-semibold text-xl'>Add Some Details</h3>
                             <div>
-                                <p className='mb-2 font-semibold text-gray-700'>Type*</p>
-                                <div className='flex flex-wrap gap-2 text-gray-700'>
-                                    <div className='border-[1px] border-gray-400 rounded-sm'>
-                                        <input type="radio" id="apartments" checked={propertyData?.type ==="apartments"} onChange={(e)=>handleEditForm(e,"type")} name="type" value="apartments" className='hidden'/>
-                                        <label for="apartments" className='px-4 py-[2px] cursor-pointer'>Apartments</label>
-                                    </div>
-                                    <div className='border-[1px] border-gray-400 rounded-sm'>
-                                        <input type="radio" id="builder_floor" checked={propertyData?.type ==="builder_floor"} onChange={(e)=>handleEditForm(e,"type")} name="type" value="builder_floor" className='hidden'/>
-                                        <label for="builder_floor" className='px-4 py-[2px] cursor-pointer'>Builder Floors</label>
-                                    </div>
-                                    <div className='border-[1px] border-gray-400 rounded-sm'>
-                                        <input type="radio" id="farm_houses" name="type" checked={propertyData?.type ==="farm_houses"} onChange={(e)=>handleEditForm(e,"type")} value="farm_houses" className='hidden'/>
-                                        <label for="farm_houses" className='px-4 py-[2px] cursor-pointer'>Farm Houses</label>
-                                    </div>
-                                    <div className='border-[1px] border-gray-400 rounded-sm'>
-                                        <input type="radio" id="houses_villas" name="type" checked={propertyData?.type ==="houses_villas"} onChange={(e)=>handleEditForm(e,"type")} value="houses_villas" className='hidden'/>
-                                        <label for="houses_villas" className='px-4 py-[2px] cursor-pointer'>Houses & Villas</label>
-                                    </div>
+                                <p className='mb-2 font-semibold text-gray-700'>Product/Business name*</p>
+                                <div className='flex gap-2'>
+                                    <input type="text" name='super_builtup_area' value={businessData?.super_builtup_area} onChange={(e)=>handleEditForm(e,"super_builtup_area")} className='w-[90vw] sm:w-[50vw] border-[1px] border-gray-400 py-2 rounded-md' />
                                 </div>
                             </div>
                             <div>
-                                <p className='mb-2 font-semibold text-gray-700'>Super Builtup Area*</p>
+                                <p className='mb-2 font-semibold text-gray-700'>Ad title*</p>
                                 <div className='flex gap-2'>
-                                    <input type="text" name='super_builtup_area' value={propertyData?.super_builtup_area} onChange={(e)=>handleEditForm(e,"super_builtup_area")} className='w-[90vw] sm:w-[50vw] border-[1px] border-gray-400 py-2 rounded-md' />
+                                    <input type="text" name='carpet_area' value={businessData?.carpet_area} onChange={(e)=>handleEditForm(e,"carpet_area")} className='w-[90vw] sm:w-[50vw] border-[1px] border-gray-400 py-2 rounded-md' />
                                 </div>
                             </div>
                             <div>
-                                <p className='mb-2 font-semibold text-gray-700'>Carpet Area*</p>
-                                <div className='flex gap-2'>
-                                    <input type="text" name='carpet_area' value={propertyData?.carpet_area} onChange={(e)=>handleEditForm(e,"carpet_area")} className='w-[90vw] sm:w-[50vw] border-[1px] border-gray-400 py-2 rounded-md' />
-                                </div>
-                            </div>
-                            {/* <div>
-                                <p className='mb-2 font-semibold text-gray-700'>Maintainance*</p>
+                                <p className='mb-2 font-semibold text-gray-700'>Description*</p>
                                 <div className='flex gap-2'>
                                     <input type="text" name='maintainance' className='w-[50vw] border-[1px] border-gray-400 py-2 rounded-md' />
-                                </div>
-                            </div> */}
-                            <div>
-                                <p className='mb-2 font-semibold text-gray-700'>Total Floors*</p>
-                                <div className='flex gap-2'>
-                                    <input type="text" name='total_floors' value={propertyData?.total_floors} onChange={(e)=>handleEditForm(e,"total_floors")} className='w-[90vw] sm:w-[50vw] border-[1px] border-gray-400 py-2 rounded-md' />
-                                </div>
-                            </div>
-                            <div>
-                                <p className='mb-2 font-semibold text-gray-700'>Floor No.</p>
-                                <div className='flex gap-2'>
-                                    <input type="text" name='floor_no' value={propertyData?.floor_no} onChange={(e)=>handleEditForm(e,"floor_no")} className='w-[90vw] sm:w-[50vw] border-[1px] border-gray-400 py-2 rounded-md' />
-                                </div>
-                            </div>
-                            <div>
-                                <p className='mb-2 font-semibold text-gray-700'>Total Rooms*</p>
-                                <div className='flex gap-2'>
-                                    <input type="text" name='total_rooms' value={propertyData?.total_rooms} onChange={(e)=>handleEditForm(e,"total_rooms")} className='w-[90vw] sm:w-[50vw] border-[1px] border-gray-400 py-2 rounded-md' />
-                                </div>
-                            </div>
-                            <div>
-                                <p className='mb-2 font-semibold text-gray-700'>Car Parking</p>
-                                <div className='flex flex-wrap gap-2 text-gray-700'>
-                                    <div className='border-[1px] border-gray-400 rounded-sm'>
-                                        <input type="radio" id="car_parking_no_0" name="car_parking" checked={propertyData?.car_parking == "0"} onChange={(e)=>handleEditForm(e,"car_parking")} value="0" className='hidden'/>
-                                        <label for="car_parking_no_0" className='px-4 py-[2px]'>0</label>
-                                    </div>
-                                    <div className='border-[1px] border-gray-400 rounded-sm'>
-                                        <input type="radio" id="car_parking_no_1" name="car_parking" checked={propertyData?.car_parking == "1"} onChange={(e)=>handleEditForm(e,"car_parking")} value="1" className='hidden'/>
-                                        <label for="car_parking_no_1" className='px-4 py-[2px]'>1</label>
-                                    </div>
-                                    <div className='border-[1px] border-gray-400 rounded-sm'>
-                                        <input type="radio" id="car_parking_no_2" name="car_parking" checked={propertyData?.car_parking == "2"} onChange={(e)=>handleEditForm(e,"car_parking")} value="2" className='hidden'/>
-                                        <label for="car_parking_no_2" className='px-4 py-[2px]'>2</label>
-                                    </div>
-                                    <div className='border-[1px] border-gray-400 rounded-sm'>
-                                        <input type="radio" id="car_parking_no_3" name="car_parking" checked={propertyData?.car_parking == "3"} onChange={(e)=>handleEditForm(e,"car_parking")} value="3" className='hidden'/>
-                                        <label for="car_parking_no_3" className='px-4 py-[2px]'>3</label>
-                                    </div>
-                                    <div className='border-[1px] border-gray-400 rounded-sm'>
-                                        <input type="radio" id="car_parking_no_4" name="car_parking" checked={propertyData?.car_parking == "4"} onChange={(e)=>handleEditForm(e,"car_parking")} value="4" className='hidden'/>
-                                        <label for="car_parking_no_4" className='px-4 py-[2px]'>4</label>
-                                    </div>
-
-                                </div>
-                            </div>
-                            <div>
-                                <p className='mb-2 font-semibold text-gray-700'>House Number*</p>
-                                <div className='flex gap-2'>
-                                    <input type="text" name='house_no' value={propertyData?.house_no} onChange={(e)=>handleEditForm(e,"house_no")} className='w-[90vw] sm:w-[50vw] border-[1px] border-gray-400 py-2 rounded-md' />
                                 </div>
                             </div>
                             <div>
                                 <p className='mb-2 font-semibold text-gray-700'>Street*</p>
                                 <div className='flex gap-2'>
-                                    <input type="text" name='street' value={propertyData?.street} onChange={(e)=>handleEditForm(e,"street")} className='w-[90vw] sm:w-[50vw] border-[1px] border-gray-400 py-2 rounded-md' />
+                                    <input type="text" name='street' value={businessData?.street} onChange={(e)=>handleEditForm(e,"street")} className='w-[90vw] sm:w-[50vw] border-[1px] border-gray-400 py-2 rounded-md' />
                                 </div>
                             </div>
                             <div>
                                 <p className='mb-2 font-semibold text-gray-700'>City*</p>
                                 <div className='flex gap-2'>
-                                    <input type="text" name='city' value={propertyData?.city} onChange={(e)=>handleEditForm(e,"city")} className='w-[90vw] sm:w-[50vw] border-[1px] border-gray-400 py-2 rounded-md' />
+                                    <input type="text" name='city' value={businessData?.city} onChange={(e)=>handleEditForm(e,"city")} className='w-[90vw] sm:w-[50vw] border-[1px] border-gray-400 py-2 rounded-md' />
                                 </div>
                             </div>
                             <div>
                                 <p className='mb-2 font-semibold text-gray-700'>Landmark*</p>
                                 <div className='flex gap-2'>
-                                    <input type="text" name='landmark' value={propertyData?.landmark} onChange={(e)=>handleEditForm(e,"landmark")} className='w-[90vw] sm:w-[50vw] border-[1px] border-gray-400 py-2 rounded-md' />
+                                    <input type="text" name='landmark' value={businessData?.landmark} onChange={(e)=>handleEditForm(e,"landmark")} className='w-[90vw] sm:w-[50vw] border-[1px] border-gray-400 py-2 rounded-md' />
                                 </div>
                             </div>
                             <div>
                                 <p className='mb-2 font-semibold text-gray-700'>State*</p>
                                 <div className='flex gap-2'>
-                                    <input type="text" name='state' value={propertyData?.state} onChange={(e)=>handleEditForm(e,"state")} className='w-[90vw] sm:w-[50vw] border-[1px] border-gray-400 py-2 rounded-md' />
+                                    <input type="text" name='state' value={businessData?.state} onChange={(e)=>handleEditForm(e,"state")} className='w-[90vw] sm:w-[50vw] border-[1px] border-gray-400 py-2 rounded-md' />
                                 </div>
                             </div>
                             <div>
                                 <p className='mb-2 font-semibold text-gray-700'>Pincode*</p>
                                 <div className='flex gap-2'>
-                                    <input type="text" name='pincode' value={propertyData?.pincode} onChange={(e)=>handleEditForm(e,"pincode")} className='w-[90vw] sm:w-[50vw] border-[1px] border-gray-400 py-2 rounded-md' />
+                                    <input type="text" name='pincode' value={businessData?.pincode} onChange={(e)=>handleEditForm(e,"pincode")} className='w-[90vw] sm:w-[50vw] border-[1px] border-gray-400 py-2 rounded-md' />
                                 </div>
                             </div>
                             <div>
                                 <h3 className='font-bold mt-4 mb-2 text-xl '>Set a price</h3>
                                 <p className='mb-2 font-semibold text-gray-700'>Price</p>
                                 <div className='flex gap-2'>
-                                    <input type="text" name='price' value={propertyData?.price} onChange={(e)=>handleEditForm(e,"price")} className='w-[90vw] sm:w-[50vw] border-[1px] border-gray-400 py-2 rounded-md' />
+                                    <input type="text" name='price' value={businessData?.price} onChange={(e)=>handleEditForm(e,"price")} className='w-[90vw] sm:w-[50vw] border-[1px] border-gray-400 py-2 rounded-md' />
                                 </div>
                             </div>
                             <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-7 gap-2 text-gray-700">

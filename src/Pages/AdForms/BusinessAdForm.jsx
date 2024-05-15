@@ -137,30 +137,6 @@ const BusinessAdForm = () => {
                                     <input type="text" name='title' className='w-[90vw] sm:w-[50vw] border-[1px] border-gray-400 py-2 rounded-md' />
                                 </div>
                             </div>
-                            {/* <div>
-                                <p className='mb-2 font-semibold text-gray-700'>Maintainance*</p>
-                                <div className='flex gap-2'>
-                                    <input type="text" name='maintainance' className='w-[50vw] border-[1px] border-gray-400 py-2 rounded-md' />
-                                </div>
-                            </div> */}
-                            {/* <div>
-                                <p className='mb-2 font-semibold text-gray-700'>Total Floors*</p>
-                                <div className='flex gap-2'>
-                                    <input type="text" name='total_floors' className='w-[90vw] sm:w-[50vw] border-[1px] border-gray-400 py-2 rounded-md' />
-                                </div>
-                            </div> */}
-                            {/* <div>
-                                <p className='mb-2 font-semibold text-gray-700'>Floor No.</p>
-                                <div className='flex gap-2'>
-                                    <input type="text" name='floor_no' className='w-[90vw] sm:w-[50vw] border-[1px] border-gray-400 py-2 rounded-md' />
-                                </div>
-                            </div> */}
-                            {/* <div>
-                                <p className='mb-2 font-semibold text-gray-700'>Total Rooms*</p>
-                                <div className='flex gap-2'>
-                                    <input type="text" name='total_rooms' className='w-[90vw] sm:w-[50vw] border-[1px] border-gray-400 py-2 rounded-md' />
-                                </div>
-                            </div> */}
                           <div>
                               <p className='mb-2 font-semibold text-gray-700'>Description*</p>
                               <div>
