@@ -35,6 +35,7 @@ import EducationEditForm from './Pages/EditDetails/EducationEditForm'
 import HealthEditForm from './Pages/EditDetails/HealthEditForm'
 import AddProfile from './Components/AddProfile/AddProfile'
 import BusinessAdForm from './Pages/AdForms/BusinessAdForm'
+import BusinessEditForm from './Pages/EditDetails/BusinessEditForm'
 
 
 const App = () => {
@@ -54,6 +55,7 @@ const App = () => {
             <Route path='healthcare' element={<Doctors/>}/>
             <Route path='hospitals' element={<Hospitals/>}/>
             <Route path='propertiesdetails/:id' element={<PropertiesDetails/>}/>
+            <Route path='businesssdetails/:id' element={<BusinessEditForm/>}/>
             <Route path='vehicledetails/:id' element={<VehicleDetails/>}/>
             <Route path='educationdetails/:id' element={<EducationDetails/>}/>
             <Route path='hospitalitydetails/:id' element={<HospitalityDetails/>}/>
