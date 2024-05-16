@@ -440,7 +440,7 @@ const PropertyEditForm = () => {
                         >
                           <div className="relative">
                             <img
-                              src={`${baseURL}${image}`}
+                              src={`${image}`}
                               alt="photo"
                               className="h-24 rounded-md w-32"
                             />

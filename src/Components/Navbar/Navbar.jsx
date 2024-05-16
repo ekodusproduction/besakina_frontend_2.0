@@ -123,7 +123,7 @@ const Navbar = () => {
                       onClick={() => handleProductNavigate(item)}
                       className="flex items-center gap-2 cursor-pointer hover:bg-gray-200 p-2"
                     >
-                      <img src={`${baseURL}${item?.images[0]}`} alt={item?.images[0]} className="w-12 h-12 object-cover rounded-md" />
+                      <img src={`${item?.images[0]}`} alt={item?.images[0]} className="w-12 h-12 object-cover rounded-md" />
                       <div className="flex flex-col">
                       <p className="capitalize">{item?.title}</p>
                       <p className="capitalize text-sm">

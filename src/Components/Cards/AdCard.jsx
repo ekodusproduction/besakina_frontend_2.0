@@ -109,7 +109,7 @@ const AdCard = ({ data, link , refresh}) => {
     <div className="border-[1px] border-slate-400 rounded-md overflow-hidden bg-white">
       <div className="h-[150px] sm:h-[200px]">
         <img
-          src={`${baseURL}${data?.images[0]}`}
+          src={`${data?.images[0]}`}
           alt="image"
           className="sm:h-[200px] h-full w-full object-cover"
         />
