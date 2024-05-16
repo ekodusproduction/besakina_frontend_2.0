@@ -131,7 +131,7 @@ const AddProfile = () => {
                     <p className='text-gray-500 text-sm mb-2'>Upload Profile Picture*</p>
                     <div className="w-20 h-20 flex items-center justify-center border border-gray-400 rounded-full">
                     {(profilePic || userDetails?.profile_pic?.length) ? (
-                            <img src={userDetails?.profile_pic?.length ? `${baseURL}${userDetails?.profile_pic}` : profilePic} alt='Profile' className='w-full h-full rounded-full object-cover' />
+                            <img src={userDetails?.profile_pic?.length ? `${userDetails?.profile_pic}` : profilePic} alt='Profile' className='w-full h-full rounded-full object-cover' />
                         ) : (
                             <label htmlFor='profile' className='cursor-pointer py-8 flex justify-center items-center'>
                                 <FaCamera size={20} color='gray' />
