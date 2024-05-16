@@ -141,7 +141,7 @@ const AddProfile = () => {
                     </div>
                 </div>
                 <div className='flex flex-col gap-2'>
-                    <label htmlFor="firstname" className='text-gray-500 text-sm'>Full Name</label>
+                    <label htmlFor="firstname" className='text-gray-500 text-sm'>Full Name/Company</label>
                     <input id='firstname' required type="text" placeholder='Full Name' name='fullname' className='border border-gray-200 rounded' value={userDetails?.fullname ||""} onChange={(e) => handleEditForm(e, "fullname")} />
                 </div>
                 
