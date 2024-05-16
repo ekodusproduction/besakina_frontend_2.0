@@ -37,6 +37,7 @@ import AddProfile from './Components/AddProfile/AddProfile'
 import BusinessAdForm from './Pages/AdForms/BusinessAdForm'
 import BusinessEditForm from './Pages/EditDetails/BusinessEditForm'
 import Wishlist from './Pages/Wishlist'
+import ListingCategories from './Pages/ListingCategories'
 
 
 const App = () => {
@@ -78,6 +79,7 @@ const App = () => {
             <Route path='edit-healthcare-details/:id' element={<HealthEditForm />} />
             <Route path='setup-profile' element={<div className='w-full px-56'><AddProfile/></div>}/>
             {/* <Route path='wishlist' element={<Wishlist/>}/> */}
+            <Route path='listing-categories' element={<ListingCategories/>}/>
 
         </Route>
     </Routes>
