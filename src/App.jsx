@@ -36,6 +36,7 @@ import HealthEditForm from './Pages/EditDetails/HealthEditForm'
 import AddProfile from './Components/AddProfile/AddProfile'
 import BusinessAdForm from './Pages/AdForms/BusinessAdForm'
 import BusinessEditForm from './Pages/EditDetails/BusinessEditForm'
+import Wishlist from './Pages/Wishlist'
 
 
 const App = () => {
@@ -55,7 +56,7 @@ const App = () => {
             <Route path='healthcare' element={<Doctors/>}/>
             <Route path='hospitals' element={<Hospitals/>}/>
             <Route path='propertiesdetails/:id' element={<PropertiesDetails/>}/>
-            <Route path='businesssdetails/:id' element={<BusinessEditForm/>}/>
+            {/* <Route path='businesssdetails/:id' element={<BusinessEditForm/>}/> */}
             <Route path='vehicledetails/:id' element={<VehicleDetails/>}/>
             <Route path='educationdetails/:id' element={<EducationDetails/>}/>
             <Route path='hospitalitydetails/:id' element={<HospitalityDetails/>}/>
@@ -64,7 +65,7 @@ const App = () => {
             <Route path='plans' element={<Plans/>}/>
             <Route path='postad' element={<PostAd/>}/>
             <Route path='propertiesadform' element={<PropertiesAdForm/>}/>
-            <Route path='businessadform' element={<BusinessAdForm/>}/>
+            {/* <Route path='businessadform' element={<BusinessAdForm/>}/> */}
             <Route path='vehicleadform' element={<VehicleAdForm/>}/>
             <Route path='hospitalityadform' element={<HospitalityAdForm/>}/>
             <Route path='healthadform' element={<HealthAdForm/>}/>
@@ -76,6 +77,8 @@ const App = () => {
             <Route path='edit-education-details/:id' element={<EducationEditForm/>}/>
             <Route path='edit-healthcare-details/:id' element={<HealthEditForm />} />
             <Route path='setup-profile' element={<div className='w-full px-56'><AddProfile/></div>}/>
+            {/* <Route path='wishlist' element={<Wishlist/>}/> */}
+
         </Route>
     </Routes>
     
