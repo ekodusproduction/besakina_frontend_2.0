@@ -214,7 +214,7 @@ const PropertyEditForm = () => {
 
                                 </div>
                             </div>
-                            <div>
+                            {/* <div>
                                 <p className='mb-2 font-semibold text-gray-700'>Bathroom*</p>
                                 <div className='flex flex-wrap gap-2 text-gray-700'>
                                     <div className='border-[1px] border-gray-400 rounded-sm'>
@@ -235,7 +235,7 @@ const PropertyEditForm = () => {
                                     </div>
 
                                 </div>
-                            </div>
+                            </div> */}
                             <div>
                                 <p className='mb-2 font-semibold text-gray-700'>Furnishing*</p>
                                 <div className='flex flex-wrap gap-2 text-gray-700'>
@@ -325,6 +325,12 @@ const PropertyEditForm = () => {
                                         <input type="radio" id="owner" name="listed_by" checked={propertyData?.listed_by =="owner"} onChange={(e)=>handleEditForm(e,"listed_by")} value="owner" className='hidden'/>
                                         <label for="owner" className='px-4 py-[2px] cursor-pointer'>Owner</label>
                                     </div>
+                                </div>
+                            </div>
+                            <div>
+                                <p className='mb-2 font-semibold text-gray-700'>Ad title*</p>
+                                <div className='flex gap-2'>
+                                    <input type="text" name='title' value={propertyData?.title} onChange={(e)=>handleEditForm(e,"super_builtup_area")} className='w-[90vw] sm:w-[50vw] border-[1px] border-gray-400 py-2 rounded-md' />
                                 </div>
                             </div>
                             <div>
