@@ -3,6 +3,7 @@ import ProductCard from "../Cards/ProductCard";
 import Button from "../Button/Button";
 import axiosInstance from "../../api/axiosInstance";
 import { baseURL } from "../../api/axiosInstance";
+import HospitalCard from "../Cards/HospitalCard";
 
 const LatestAds = () => {
   const [latestData, setLatestData] = useState([]);
@@ -31,7 +32,7 @@ const LatestAds = () => {
       <h2 className="sm:font-bold text-xl font-semibold sm:text-2xl mb-2 sm:mb-4">
         Latest Ads
       </h2>
-      <div className="grid xl:grid-cols-4 lg:grid-cols-3 grid-cols-2 gap-2 md:gap-4 ">
+      <div className="grid xl:grid-cols-4 lg:grid-cols-3 grid-cols-2 gap-2 md:gap-4">
         {latestData?.slice(0, visibleCards).map((item,index) => (
           <div key={index}>
             {item.category == "property" && (
@@ -65,6 +66,9 @@ const LatestAds = () => {
                   link={"/doctordetails"}
                 />
               )}
+              {item?.category == "hospitals" &&
+                    <HospitalCard data={item} key={item.id} link={"/hospitaldetails"} />
+                }
           </div>
         ))}
         {/* // <ProductCard/>

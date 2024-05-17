@@ -7,8 +7,6 @@ import dayjs from 'dayjs';
 
 
 const HospitalCard = ({data,link}) => {
-   
-    console.log(data)
   return (
     <Link to={`${link}/${data?.id}`} >
         <div className='border-[1px] border-slate-400 rounded-md overflow-hidden bg-white'>
@@ -17,7 +15,7 @@ const HospitalCard = ({data,link}) => {
             </div>
             <div className='w-[100%] p-2 flex flex-col gap-2'>
                 <div>
-                    <h2 className='font-bold xl:text-lg capitalize'> {data?.name}</h2>
+                    <h2 className='font-bold xl:text-lg capitalize'> {data?.price}</h2>
                     <p className='text-xs xl:text-sm capitalize'>{data?.title?.slice(0,40)}...</p>
                 </div>
                 <div>
