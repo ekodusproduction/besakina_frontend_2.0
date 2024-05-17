@@ -14,9 +14,9 @@ const EditVehicleDetails = () => {
   const [image, setImage] = useState([]);
   const [submitting, setSubmitting] = useState(false);
   const token = localStorage.getItem('token');
-  const [selectedBrand, setSelectedBrand] = useState("");
-  const [otherBrand, setOtherBrand] = useState("");
-  const [selectedType, setSelectedType] = useState("");
+  const [selectedBrand, setSelectedBrand] = useState('');
+  const [otherBrand, setOtherBrand] = useState('');
+  const [selectedType, setSelectedType] = useState('');
   const [second_hand, setSecondHand] = useState(0);
   const navigate = useNavigate();
   const { id } = useParams();
@@ -28,14 +28,13 @@ const EditVehicleDetails = () => {
       .then((response) => {
         const data = response?.data?.data;
         setVehicleData(data);
-        
       })
       .catch((error) => {
         console.error(error);
       });
   };
 
-    useEffect(() => {
+  useEffect(() => {
     getVehicleDetails();
     if (vehicleData?.second_hand === 1) {
       setSecondHand(1);
@@ -95,7 +94,6 @@ const EditVehicleDetails = () => {
       });
   };
 
-
   const imageDeleteHandler = (image) => {
     const body = {
       images: image,
@@ -126,7 +124,7 @@ const EditVehicleDetails = () => {
     for (let i = 0; i < data.length; i++) {
       const { name, value: val } = data[i];
 
-      if (name !== "") {
+      if (name !== '') {
         value[name] = val;
       }
     }
@@ -138,16 +136,12 @@ const EditVehicleDetails = () => {
     };
 
     axiosInstance
-      .put(
-        `api/vehicles/id/${id}`,
-        body,
-        {
-          headers: {
-            'Content-Type': 'application/json',
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      )
+      .put(`api/vehicles/id/${id}`, body, {
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+      })
       .then((response) => {
         console.log(response);
         Swal.fire({
@@ -185,20 +179,20 @@ const EditVehicleDetails = () => {
 
   const handleOtherBrandChange = (event) => {
     setOtherBrand(event.target.value);
-  }
+  };
 
   const handleBrand = (event) => {
     const selectedValue = event.target.value;
     setSelectedBrand(selectedBrand);
-    if (selectedValue === "Other") {
-      setOtherBrand("");
+    if (selectedValue === 'Other') {
+      setOtherBrand('');
     }
-  }
+  };
 
   const handleTypeChange = (e) => {
     setSelectedType(e.target.value);
-    setSelectedBrand("");
-  }
+    setSelectedBrand('');
+  };
 
   const handleVehicleTypeChange = (event) => {
     setVehicleData((prevData) => ({
@@ -243,7 +237,9 @@ const EditVehicleDetails = () => {
                         value="car"
                         className="hidden"
                         checked={vehicleData?.type === 'car'}
-                        onChange={(e) => { handleVehicleTypeChange(e), handleTypeChange(e) }}
+                        onChange={(e) => {
+                          handleVehicleTypeChange(e), handleTypeChange(e);
+                        }}
                       />
                       <label for="car" className="px-4 py-[2px] cursor-pointer">
                         Car
@@ -256,7 +252,9 @@ const EditVehicleDetails = () => {
                         name="type"
                         value="motorcycle"
                         className="hidden"
-                        onChange={(e) => { handleVehicleTypeChange(e),handleTypeChange(e)}}
+                        onChange={(e) => {
+                          handleVehicleTypeChange(e), handleTypeChange(e);
+                        }}
                         checked={vehicleData?.type === 'motorcycle'}
                       />
                       <label
@@ -273,7 +271,9 @@ const EditVehicleDetails = () => {
                         name="type"
                         value="scooter"
                         className="hidden"
-                        onChange={(e) => { handleVehicleTypeChange(e), handleTypeChange(e) }}
+                        onChange={(e) => {
+                          handleVehicleTypeChange(e), handleTypeChange(e);
+                        }}
                         checked={vehicleData?.type === 'scooter'}
                       />
                       <label
@@ -290,7 +290,9 @@ const EditVehicleDetails = () => {
                         name="type"
                         value="bicycle"
                         className="hidden"
-                        onChange={(e) => { handleVehicleTypeChange(e), handleTypeChange(e) }}
+                        onChange={(e) => {
+                          handleVehicleTypeChange(e), handleTypeChange(e);
+                        }}
                         checked={vehicleData?.type === 'bicycle'}
                       />
                       <label
@@ -330,17 +332,25 @@ const EditVehicleDetails = () => {
                         <option value="Jeep">Jeep</option>
                         <option value="Mercedes">Mercedes</option>
                         <option value="Toyota">Toyota</option> */}
-                        {selectedType && 
-                          VehicleData?.find((vehicle) =>
-                            vehicle?.label?.toLocaleLowerCase() ==
-                            selectedType?.toLocaleLowerCase())?.models?.map((model, index) => (
-                              <option key={index} value={model}>{model}</option>
-                        ))
-                        }
+                        {selectedType &&
+                          VehicleData?.find(
+                            (vehicle) =>
+                              vehicle?.label?.toLocaleLowerCase() ==
+                              selectedType?.toLocaleLowerCase()
+                          )?.models?.map((model, index) => (
+                            <option key={index} value={model}>
+                              {model}
+                            </option>
+                          ))}
                         <option value="Other">Other</option>
                       </select>
-                      {selectedBrand === "Other" && (
-                        <input type="text" value={otherBrand} onChange={handleOtherBrandChange} placeholder='Enter brand' />
+                      {selectedBrand === 'Other' && (
+                        <input
+                          type="text"
+                          value={otherBrand}
+                          onChange={handleOtherBrandChange}
+                          placeholder="Enter brand"
+                        />
                       )}
                     </div>
                   </div>
@@ -551,23 +561,25 @@ const EditVehicleDetails = () => {
                           key={index}
                           className="border border-gray-400 rounded-md"
                         >
-                          <div className="relative">
-                            <img
-                              src={`${image}`}
-                              alt="photo"
-                              className="h-24 rounded-md w-32"
-                            />
-                            <button
-                              type="button"
-                              onClick={() => {
-                                handleDeleteImage(index);
-                                imageDeleteHandler(image);
-                              }}
-                              className="text-[#f58181] p-[2px] shadow-md rounded absolute top-[2px] right-[2px] text-sm font-bold"
-                            >
-                              X
-                            </button>
-                          </div>
+                          {image && (
+                            <div className="relative">
+                              <img
+                                src={`${image}`}
+                                alt="photo"
+                                className="h-24 rounded-md w-32"
+                              />
+                              <button
+                                type="button"
+                                onClick={() => {
+                                  handleDeleteImage(index);
+                                  imageDeleteHandler(image);
+                                }}
+                                className="text-[#f58181] p-[2px] shadow-md rounded absolute top-[2px] right-[2px] text-sm font-bold"
+                              >
+                                X
+                              </button>
+                            </div>
+                          )}
                         </div>
                       ))}
                       <div className="border border-gray-400 rounded-md">
