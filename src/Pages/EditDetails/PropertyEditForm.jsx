@@ -330,7 +330,7 @@ const PropertyEditForm = () => {
                             <div>
                                 <p className='mb-2 font-semibold text-gray-700'>Ad title*</p>
                                 <div className='flex gap-2'>
-                                    <input type="text" name='title' value={propertyData?.title} onChange={(e)=>handleEditForm(e,"super_builtup_area")} className='w-[90vw] sm:w-[50vw] border-[1px] border-gray-400 py-2 rounded-md' />
+                                    <input type="text" name='title' value={propertyData?.title} onChange={(e)=>handleEditForm(e,"title")} className='w-[90vw] sm:w-[50vw] border-[1px] border-gray-400 py-2 rounded-md' />
                                 </div>
                             </div>
                             <div>
