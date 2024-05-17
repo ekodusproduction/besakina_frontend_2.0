@@ -154,10 +154,13 @@ const HealthAdForm = () => {
             console.log(err)
             setSubmitting(false)
             Swal.fire({
-                title: "Error",
-                text: "Something went wrong",
-                icon: "error"
+                title: err?.response?.data?.message,
+                // text: err?.response?.data?.message,
+                icon: "warning"
               });
+              if (err?.response?.data?.message == "User Profile Incomplete") {
+                navigate("/setup-profile");
+            }
           })
        
     }
@@ -190,7 +193,7 @@ const HealthAdForm = () => {
                 // text: err?.response?.data?.message,
                 icon: 'warning',
               });
-              if (err?.response?.data?.message === "User Profile Incomplete") {
+              if (err?.response?.message == "User Profile Incomplete") {
                 navigate("/setup-profile");
             }
             });
