@@ -99,7 +99,7 @@ const HospitalityAdForm = () => {
                 // text: er?.response?.data?.message,
                 icon: "warning"
               });
-              if(err?.response?.data?.message==="User Profile Incomplete"){
+              if(err?.response?.data?.message=="User Profile Incomplete"){
                 navigate("/setup-profile");
             }})}
 
