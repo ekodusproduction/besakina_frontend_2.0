@@ -22,7 +22,7 @@ const HospitalityEditForm = () => {
       .get(`api/hospitality/id/${id}`)
       .then((response) => {
         console.log(response);
-        const data = response.data.data.advertisement;
+        const data = response.data.data;
         setHospitalityData(data);
       })
       .catch((error) => {

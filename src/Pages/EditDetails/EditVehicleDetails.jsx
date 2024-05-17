@@ -26,7 +26,7 @@ const EditVehicleDetails = () => {
     axiosInstance
       .get(`api/vehicles/id/${id}`)
       .then((response) => {
-        const data = response?.data?.data?.advertisement;
+        const data = response?.data?.data;
         setVehicleData(data);
         
       })

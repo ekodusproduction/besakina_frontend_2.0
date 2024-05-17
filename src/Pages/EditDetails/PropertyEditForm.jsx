@@ -22,7 +22,7 @@ const PropertyEditForm = () => {
         axiosInstance.get(`api/property/id/${id}`)
             .then((response) => {
                 console.log(response);
-                const data = response.data.data.advertisement;
+                const data = response.data.data;
                 setPropertyData(data);
             })
             .catch((error) => {

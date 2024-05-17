@@ -43,7 +43,7 @@ const HealthEditForm = () => {
       .get(`api/hospitals/id/${id}`)
       .then((response) => {
         console.log('hospitals', response);
-        const data = response.data.data.advertisement;
+        const data = response.data.data;
         setHospitalDetails(data);
       })
       .catch((error) => {

@@ -22,7 +22,7 @@ const EducationEditForm = () => {
       .get(`api/education/id/${id}`)
       .then((response) => {
         console.log(response);
-        const data = response.data.data.advertisement;
+        const data = response.data.data;
         setEducationData(data);
       })
       .catch((error) => {
