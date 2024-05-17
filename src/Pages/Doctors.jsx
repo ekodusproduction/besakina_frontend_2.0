@@ -315,7 +315,6 @@ const Doctors = () => {
           {(activeTab === "doctors" || activeTab === "all") && (
             <>
               {" "}
-              <p className="text-2xl text-center font-bold">Doctors</p>
               <div className="grid xl:grid-cols-4 lg:grid-cols-3 sm:grid-cols-2 grid-cols-1 gap-2 md:gap-4 ">
                 {doctorsList?.map((item) => (
                   <ProductCard
@@ -329,7 +328,7 @@ const Doctors = () => {
           )}
           {(activeTab === "hospitals" || activeTab === "all") && (
             <>
-              <p className="text-2xl text-center font-bold">Hospitals</p>
+              {/* <p className="text-2xl text-center font-bold">Hospitals</p> */}
               <div className="grid xl:grid-cols-4 lg:grid-cols-3 sm:grid-cols-2 grid-cols-1 gap-2 md:gap-4 ">
                 {hospitalityList?.map((item) => (
                   <HospitalCard
