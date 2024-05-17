@@ -169,7 +169,7 @@ const PropertiesAdForm = () => {
 
                                 </div>
                             </div>
-                            <div>
+                            {/* <div>
                                 <p className='mb-2 font-semibold text-gray-700'>Bathroom*</p>
                                 <div className='flex flex-wrap gap-2 text-gray-700'>
                                     <div className='border-[1px] border-gray-400 rounded-sm'>
@@ -190,7 +190,7 @@ const PropertiesAdForm = () => {
                                     </div>
 
                                 </div>
-                            </div>
+                            </div> */}
                             <div>
                                 <p className='mb-2 font-semibold text-gray-700'>Furnishing*</p>
                                 <div className='flex flex-wrap gap-2 text-gray-700'>
@@ -344,7 +344,7 @@ const PropertiesAdForm = () => {
                                         <label for="car_parking_no_3" className='px-4 py-[2px]'>3</label>
                                     </div>
                                     <div className='border-[1px] border-gray-400 rounded-sm'>
-                                        <input type="radio" id="car_parking_no_3_plus" name="car_parking" value="3+" className='hidden'/>
+                                        <input type="radio" id="car_parking_no_3_plus" name="car_parking" value="4" className='hidden'/>
                                         <label for="car_parking_no_3_plus" className='px-4 py-[2px]'>3+</label>
                                     </div>
 
