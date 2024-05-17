@@ -93,10 +93,18 @@ const HospitalDetails = () => {
                         <p className='w-1/4 text-sm text-slate-700'>{educationData?.type}</p>
                     </div>
                     <div className='flex justify-between'>
+                        {educationData?.price_registration &&
+                        <>
                         <p className='w-1/4 text-sm text-slate-500'>Price per registration</p>
                         <p className='w-1/4 text-sm text-slate-700'>₹ {educationData?.price_registration} </p>
+                        </>
+}
+                        {educationData?.price_per_visit &&
+                        <>
                         <p className='w-1/4 text-sm text-slate-500'>Price per visit</p>
                         <p className='w-1/4 text-sm text-slate-700'>₹ {educationData?.price_per_visit} </p>
+                        </>
+}
                     </div>
                   
                 </div>
