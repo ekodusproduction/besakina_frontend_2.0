@@ -38,12 +38,13 @@ import BusinessAdForm from './Pages/AdForms/BusinessAdForm'
 import BusinessEditForm from './Pages/EditDetails/BusinessEditForm'
 import Wishlist from './Pages/Wishlist'
 import ListingCategories from './Pages/ListingCategories'
+import { DataProvider } from './contexts/DataContext'
 
 
 const App = () => {
   return (
     <>
-    
+    <DataProvider>
     <Routes> 
         <Route path='/login' element={<Login/>}/>
         <Route path="/" element={<Protected Component={Layout} />}>
@@ -83,6 +84,7 @@ const App = () => {
 
         </Route>
     </Routes>
+    </DataProvider>
     
     </>
   )
