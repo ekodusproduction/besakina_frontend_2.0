@@ -15,36 +15,38 @@ import Contactseller from '../../Components/ContactSeller/Contactseller';
 
 
 
-const ViewDetails = ({props}) => {
-    const {type,data} = props;
+const ViewDetails = ({data,route,category}) => {
     const {id} = useParams();
     const token = localStorage.getItem("token");
     const { isLoggedIn, setIsLoggedIn } = useLogin();
     const [showContactDetails,setShowContactDetails] = useState(false);
     const [ contactDetails,setContactDetails]= useState([]);
     const navigate = useNavigate();
-    useEffect(()=> {
-        axiosInstance.get(`api/property/id/${id}`)
-        .then(response => {
-            console.log(response)
-            const data = response.data.data;
-            const updatedData = {
-                ...data,
-                images: data.images.map(image => ({
+    // useEffect(()=> {
+    //     axiosInstance.get(`api/property/id/${id}`)
+    //     .then(response => {
+    //         console.log(response)
+    //         const data = response.data.data;
+    //         const updatedData = {
+    //             ...data,
+    //             images: data.images.map(image => ({
                     
-                    original: image,
-                    thumbnail: image,
-                }))
-            };
-            setPropertyData(updatedData);
+    //                 original: image,
+    //                 thumbnail: image,
+    //             }))
+    //         };
+    //         setPropertyData(updatedData);
         
-        })
-        .catch(error => {
-          console.error(error);
-        });
-      },[id])
+    //     })
+    //     .catch(error => {
+    //       console.error(error);
+    //     });
+    //   },[id])
 
-
+    function convertString(str) {
+        // Replace underscores with spaces
+        return str.replace(/_/g, ' ');
+      }
 
      const postedDate = dayjs(data?.created_at);
      const today = dayjs();
@@ -76,14 +78,14 @@ const ViewDetails = ({props}) => {
 
   return (
     <>
-    {Object.keys(propertyData).length>0 && 
+    {Object.keys(data).length>0 && 
     <div className='max-w-[1500px] m-auto'>
       
         <div className='md:px-12 sm:px-4 px-2 py-8'>
             <div className='flex gap-2 sm:mb-6 mb-4'>
                 <Link to="/" className='font-semibold'>Home</Link>
                 <p> {'>'}</p>
-                <a href="" className='font-semibold'>Properties</a>
+                <a href="" className='font-semibold capitalize'>{category}</a>
             </div>
             <section className='flex xl:flex-row flex-col gap-4 '>
                     <div className='xl:w-3/5'>
@@ -99,55 +101,39 @@ const ViewDetails = ({props}) => {
                                     </div>
                                     <p className='text-sm sm:text-base text-slate-700'>{data?.title}</p>
                                     <div className='mt-4 mb-4 flex  flex-col justify-between'>
-                                        <span className='text-sm sm:text-base flex items-center text-slate-700'><MdLocationPin size={25}/>{`${data?.house_no}, ${data?.street}, ${data?.street}, ${data?.city}, ${data?.state}, ${data?.pincode}  `}</span>
+                                        <span className='text-sm sm:text-base flex items-center text-slate-700'><MdLocationPin size={25}/>{`${data?.house_no ? `House No: ${data?.house_no},` : ""} ${data?.street}, ${data?.city} - ${data?.pincode}, ${data?.state}`}</span>
                                     </div>
                                     <div className='flex justify-between items-cnter'>
                                         <a href="" className='text-[#179CF0]'>Get Directions</a>
                                         <p className='font-bold text-sm'><span className='font-semibold text-slate-600'>Posted: </span>{displayDate}</p>
                                     </div>
                             </div>
-                            {/* <div>
-                                    <h3 className='my-4 font-bold'>Seller Details</h3>
-                                    <div className='flex gap-4 items-center pb-2'>
-                                        <div className='py-2 border-[1px] border-slate-400 flex justify-center items-center'>
-                                            <img src={propertyData?.user?.profile_pic ? propertyData?.user?.profile_pic : "/assets/logos/logo1.svg"} className='w-[120px]' alt="" />
-                                        </div>
-                                        <div>
-                                            <h4 className='font-bold'>{propertyData?.user?.fullname}</h4>
-                                            <p className='text-sm sm:text-base text-slate-700'><span className='font-semibold capitalize'>{propertyData?.user?.doc_type}:</span>  {propertyData?.user?.doc_number}</p>
-                                            <p className='text-sm sm:text-base text-slate-700'>Member since Jan 2016</p>
-                                        </div>
-                                    </div>
-                                    <div className='flex items-center gap-[3px] text-[#179CF0]'>
-                                        <MdVerified/>
-                                        <p className='text-sm font-bold'>Verified</p>
-                                    </div>
-                                    <p className='py-2 text-sm sm:text-base text-slate-700'>{propertyData?.user?.about}</p>
-                                    <Button clickHandler={()=>handleContactSeller(propertyData?.user?.id)} category={'primarybtn'}>Contact Seller</Button>
-                                    
-                                    {contactDetails?.mobile && <p className='py-4 font-medium text-lg'>Phone number: {contactDetails?.mobile} </p>}
-                            </div> */}
-                            <Contactseller data={data}/>
+                            <Contactseller data={data} route={route}/>
                     </div>
             </section>
-            <section className='xl:w-3/5 border-[1px] border-slate-400 sm:mt-8 mt-4 p-4 rounded-md overflow-x-scroll'>
+
+            {/* property */}
+            {category == "property" &&
+            <section className='xl:w-3/5 border-[1px] border-slate-400 sm:mt-8 mt-4 p-4 rounded-md overflow-x-scroll capitalize'>
                 <h2 className='font-bold mb-4'>Details</h2>
                 <div className='flex flex-col gap-2 min-w-[600px]'>
                     <div className='flex justify-between'>
-                        <p className='w-1/4 text-slate-500 text-sm'>Type</p>
-                        <p className='w-1/4 text-sm text-slate-700'>{data?.type}</p>
-                        <p className='w-1/4 text-sm text-slate-500'>Bedrooms</p>
+                        <p className='w-1/4 text-slate-500 text-sm'>Type:</p>
+                        <p className='w-1/4 text-sm text-slate-700'>{convertString(data?.type)}</p>
+                        <p className='w-1/4 text-sm text-slate-500'>Bedrooms:</p>
                         <p className='w-1/4 text-sm text-slate-700'>{data?.bedrooms}</p>
                     </div>
                     <div className='flex justify-between'>
-                        <p className='w-1/4 text-sm text-slate-500'>Bathrooms</p>
-                        <p className='w-1/4 text-sm text-slate-700'>{data?.bathrooms}</p>
+                        {/* <p className='w-1/4 text-sm text-slate-500'>Bathrooms</p>
+                        <p className='w-1/4 text-sm text-slate-700'>{data?.bathrooms}</p> */}
+                        <p className='w-1/4 text-sm text-slate-500'>Total Rooms</p>
+                        <p className='w-1/4 text-sm text-slate-700'>{data?.total_rooms}</p>
                         <p className='w-1/4 text-sm text-slate-500'>Furnishing</p>
                         <p className='w-1/4 text-sm text-slate-700'>{data?.furnishing}</p>
                     </div>
                     <div className='flex justify-between'>
                         <p className='w-1/4 text-sm text-slate-500'>Construction Status</p>
-                        <p className='w-1/4 text-sm text-slate-700'>{data?.construction_status}</p>
+                        <p className='w-1/4 text-sm text-slate-700'>{convertString(data?.construction_status)}</p>
                         <p className='w-1/4 text-sm text-slate-500'>Listed by</p>
                         <p className='w-1/4 text-sm text-slate-700'>{data?.listed_by}</p>
                     </div>
@@ -163,14 +149,16 @@ const ViewDetails = ({props}) => {
                         <p className='w-1/4 text-sm text-slate-500'>Floor No.</p>
                         <p className='w-1/4 text-sm text-slate-700'>{data?.floor_no}</p>
                     </div>
-                    <div className='flex justify-between'>
-                        <p className='w-1/4 text-sm text-slate-500'>Car parking</p>
+                    <div className='flex items-center gap-4'>
+                        <p className='w-[23%] text-sm text-slate-500'>Car parking</p>
                         <p className='w-1/4 text-sm text-slate-700'>{data?.car_parking}</p>
-                        <p className='w-1/4 text-sm text-slate-500'>Total Rooms</p>
-                        <p className='w-1/4 text-sm text-slate-700'>{data?.total_rooms}</p>
                     </div>
                 </div>
             </section>
+}
+
+            {/* vehicle */}
+            {category=="vehicle" &&
             <section className='xl:w-3/5 border-[1px] border-slate-400 sm:mt-8 mt-4 p-4 rounded-md overflow-x-scroll'>
                 <h2 className='font-bold mb-4'>Details</h2>
                 <div className='flex flex-col gap-2 min-w-[600px]'>
@@ -189,6 +177,10 @@ const ViewDetails = ({props}) => {
                   
                 </div>
             </section>
+}
+
+            {/* education */}
+            {category == "education" &&
             <section className='xl:w-3/5 border-[1px] border-slate-400 sm:mt-8 mt-4 p-4 rounded-md overflow-x-scroll'>
                 <h2 className='font-bold mb-4'>Details</h2>
                 <div className='flex flex-col gap-2 min-w-[600px]'>
@@ -207,6 +199,7 @@ const ViewDetails = ({props}) => {
                   
                 </div>
             </section>
+}
             <section className='xl:w-3/5 border-[1px] border-slate-400 sm:mt-8 mt-4 p-4 rounded-md overflow-x-scroll'>
                 <h2 className='font-bold mb-4'>Details</h2>
                 <div className='flex flex-col gap-2 min-w-[600px]'>
@@ -216,10 +209,10 @@ const ViewDetails = ({props}) => {
                         <p className='w-1/4 text-sm text-slate-500'>City</p>
                         <p className='w-1/4 text-sm text-slate-700'>{data?.city}</p>
                     </div>
-                  
-                  
                 </div>
             </section>
+            {/* doctor */}
+            {category == "doctor" &&
             <section className="xl:w-3/5 border-[1px] border-slate-400 sm:mt-8 mt-4 p-4 rounded-md overflow-x-scroll">
               <h2 className="font-bold mb-4">Details</h2>
               <div className="flex flex-col gap-2 min-w-[600px]">
@@ -249,6 +242,10 @@ const ViewDetails = ({props}) => {
                 </div>
               </div>
             </section>
+}
+
+            {/* hospital */}
+            {category == "hospital" &&
             <section className='xl:w-3/5 border-[1px] border-slate-400 sm:mt-8 mt-4 p-4 rounded-md overflow-x-scroll'>
                 <h2 className='font-bold mb-4'>Details</h2>
                 <div className='flex flex-col gap-2 min-w-[600px]'>
@@ -275,6 +272,7 @@ const ViewDetails = ({props}) => {
                   
                 </div>
             </section>
+}
             <section className='xl:w-3/5 border-[1px] border-slate-400 sm:mt-8 mt-4 p-4 rounded-md'>
             <h2 className='font-bold mb-4'>Overview</h2>
             <p className='text-sm'>{data?.description}</p>

@@ -114,7 +114,7 @@ const EducationDetails = () => {
                                     </div>
                                     <p className='text-sm sm:text-base text-slate-700'>{educationData?.title}</p>
                                     <div className='mt-4 mb-4 flex  flex-col justify-between'>
-                                        <span className='text-sm sm:text-base flex items-center text-slate-700'><MdLocationPin size={25}/>{`${educationData?.street}, ${educationData?.street}, ${educationData?.city}, ${educationData?.state}, ${educationData?.pincode}  `}</span>
+                                        <span className='text-sm sm:text-base flex items-center text-slate-700'><MdLocationPin size={25}/>{`${educationData?.street}, ${educationData?.city}, ${educationData?.state}, ${educationData?.pincode}  `}</span>
                                     </div>
                                     <div className='flex justify-between items-cnter'>
                                         <a href="" className='text-[#179CF0]'>Get Directions</a>
