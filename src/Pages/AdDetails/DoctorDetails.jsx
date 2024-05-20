@@ -14,6 +14,8 @@ import Contactseller from '../../Components/ContactSeller/Contactseller';
 const DoctorDetails = () => {
   const { id } = useParams();
   const [educationData, setEducationData] = useState({});
+  const location = useLocation();
+
   useEffect(() => {
     axiosInstance
       .get(`api/doctors/id/${id}`)
@@ -113,7 +115,7 @@ const DoctorDetails = () => {
                                     </div>
                                     <p className='py-2 text-sm sm:text-base text-slate-700'>Our priority is to find your dream home</p>
                             </div> */}
-                <Contactseller data={educationData} />
+                <Contactseller data={educationData} route={location?.pathname} />
               </div>
             </section>
             <section className="xl:w-3/5 border-[1px] border-slate-400 sm:mt-8 mt-4 p-4 rounded-md overflow-x-scroll">

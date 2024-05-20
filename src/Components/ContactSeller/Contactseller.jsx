@@ -7,7 +7,7 @@ import { MdVerified } from 'react-icons/md';
 import Button from '../Button/Button';
 import profilePic from "../../../public/profile.png"
 
-const Contactseller = ({ data }) => {
+const Contactseller = ({ data,route }) => {
   const token = localStorage.getItem('token');
   const { isLoggedIn } = useLogin();
   const [showContactDetails, setShowContactDetails] = useState(false);
@@ -30,7 +30,7 @@ const Contactseller = ({ data }) => {
           console.error(error);
         });
     } else {
-      navigate('/login');
+      navigate('/login',{state:{route}});
     }
   };
   
@@ -73,12 +73,13 @@ const Contactseller = ({ data }) => {
         </div>
         <div>
           <h4 className="font-bold">{data?.user?.fullname}</h4>
+          {data?.user?.doc_number &&
           <p className="text-sm sm:text-base text-slate-700">
             <span className="font-semibold capitalize">
               {data?.user?.doc_type}:
             </span>
             {data?.user?.doc_number}
-          </p>
+          </p>}
           <p className="text-sm sm:text-base text-slate-700">
             {formatDate(data?.user?.created_at)}
           </p>

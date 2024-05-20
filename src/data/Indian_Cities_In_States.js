@@ -1,4 +1,4 @@
-{
+export const StateCitiesData = {
   "Andaman and Nicobar Islands": [
     "Port Blair"
   ],

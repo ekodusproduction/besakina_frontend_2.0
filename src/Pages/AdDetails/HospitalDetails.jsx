@@ -14,7 +14,9 @@ import Contactseller from '../../Components/ContactSeller/Contactseller';
 
 const HospitalDetails = () => {
     const {id} = useParams();
-    const [educationData, setEducationData] = useState({})
+    const [educationData, setEducationData] = useState({});
+    const location = useLocation();
+
     useEffect(()=> {
         axiosInstance.get(`api/hospitals/id/${id}`)
         .then(response => {
@@ -80,7 +82,7 @@ const HospitalDetails = () => {
                                         <p className='font-bold text-sm'><span className='font-semibold text-slate-600'>Posted: </span>{displayDate}</p>
                                     </div>
                             </div>
-                            <Contactseller data={educationData}/>
+                            <Contactseller data={educationData} route={location?.pathname}/>
                     </div>
             </section>
             <section className='xl:w-3/5 border-[1px] border-slate-400 sm:mt-8 mt-4 p-4 rounded-md overflow-x-scroll'>

@@ -1,9 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import Button from '../Button/Button';
 import { FaCamera } from 'react-icons/fa';
+import { FiCamera } from 'react-icons/fi'
 import axiosInstance, { baseURL } from '../../api/axiosInstance';
 import Swal from 'sweetalert2';
 import { useLocation, useNavigate } from 'react-router-dom';
+import { StateCitiesData } from '../../data/Indian_Cities_In_States';
+import toast from 'react-hot-toast';
 
 const AddProfile = () => {
   const [plans, setPlans] = useState([]);
@@ -13,6 +16,7 @@ const AddProfile = () => {
   const [profilePic, setProfilePic] = useState(null);
   const [doctImage, setDoctImage] = useState(null);
   const [aadharImage, setAadharImage] = useState(null);
+  const [selectedState, setSelectedState] = useState("");
   const location = useLocation();
   const [userDetails, setUserDetails] = useState({
     fullname: '',
@@ -27,7 +31,7 @@ const AddProfile = () => {
     about: '',
   });
   const navigate = useNavigate();
-  const route = location?.state?.form;
+  const route = location?.state?.route;
 
   useEffect(() => {
     axiosInstance
@@ -55,6 +59,7 @@ const AddProfile = () => {
         const userData = response.data.data;
         if (userData) {
           setUserDetails(userData);
+          setSelectedState(userData?.state)
         }
       })
       .catch((error) => {
@@ -69,10 +74,7 @@ const AddProfile = () => {
       setIsAadhar(false);
     }
   };
-  const handleProfilePicChange = (e) => {
-    const file = e.target.files[0];
-    setProfilePic(URL.createObjectURL(file));
-  };
+ 
   const handleDoctImage = (e) => {
     const file = e.target.files[0];
     setDoctImage(URL.createObjectURL(file));
@@ -81,6 +83,71 @@ const AddProfile = () => {
     const file = e.target.files[0];
     setAadharImage(URL.createObjectURL(file));
   };
+
+  const handleStateChange = (event) => {
+    const selectedState = event.target.value;
+    setSelectedState(selectedState);
+  };
+
+  const handlePicChange = (e,fieldName) => {
+    const file = e.target.files[0];
+    // setProfilePic(URL.createObjectURL(file));
+
+      const formData = new FormData();
+      if(fieldName =="profilePic"){
+      formData.append('profile_pic',file );
+      } else if(fieldName =="doctFront"){
+        formData.append("doc_file",file)
+      } else if(fieldName =="doctBack"){
+        formData.append("doc_file_back",file)
+      }
+
+      axiosInstance.post(
+        'api/users/doc',
+        formData,
+        {
+          headers: {
+            'Content-Type': 'multipart/form-data',
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      )
+      .then((response) => {
+        setSubmitting(false);
+        if(fieldName =="profilePic"){
+        setUserDetails((prev) => ({
+          ...prev,
+          profile_pic: response?.data?.data?.profile_pic,
+        }));
+      }
+        else if(fieldName == "doctFront"){
+          setUserDetails((prev)=>({
+            ...prev,
+            doc_file:response?.data?.data?.doc_file,
+        }))}
+        else if(fieldName=="doctBack"){
+          setUserDetails((prev)=>({
+            ...prev,
+            doc_file_back:response?.data?.data?.doc_file_back,
+          }))
+        }
+      })
+      .catch((err) => {
+        setSubmitting(false);
+        Swal.fire({
+          title: 'Error',
+          text: err.response.data.message,
+          icon: 'error',
+        });
+      });
+      // setProfilePic(response);
+      // if (route?.length) {
+      //   navigate(route, { state: { state: "getData" } });
+      // } else {
+      //   navigate('/profile');
+      // }
+  }
+    
 
   const profileSubmitHandler = (e) => {
     setSubmitting(true);
@@ -91,7 +158,7 @@ const AddProfile = () => {
     axiosInstance
       .post('api/users/details', value, {
         headers: {
-          'Content-Type': 'multipart/form-data',
+          'Content-Type': 'application/json',
           Authorization: `Bearer ${token}`,
         },
       })
@@ -103,9 +170,7 @@ const AddProfile = () => {
           icon: 'success',
         });
         setSubmitting(false);
-        route?.length ? navigate(route,{state:{
-            state:"getData"
-        }}) : navigate('/profile');
+        route?.length ? navigate(route) : navigate('/profile');
       })
       .catch((err) => {
         console.log(err);
@@ -125,6 +190,14 @@ const AddProfile = () => {
       [fieldName]: value,
     }));
   };
+useEffect(()=>{
+  if(route?.length){
+    toast('Please complete your profile to post an ads!', {
+      icon: '⚠️',
+    });
+  }
+},[])
+
 
   return (
     <form
@@ -135,7 +208,7 @@ const AddProfile = () => {
       <div className="grid sm:grid-cols-2 gap-8">
         <div>
           <p className="text-gray-500 text-sm mb-2">Upload Profile Picture*</p>
-          <div className="w-20 h-20 flex items-center justify-center border border-gray-400 rounded-full">
+          <div className="w-20 h-20 flex items-center justify-center border border-gray-400 rounded-full relative">
             {profilePic || userDetails?.profile_pic?.length ? (
               <img
                 src={
@@ -158,11 +231,19 @@ const AddProfile = () => {
               id="profile"
               type="file"
               accept="image/*"
-              name="profile_pic"
               className="hidden"
-              onChange={handleProfilePicChange}
+              onChange={(e)=>handlePicChange(e,"profilePic")}
             />
+            <div className='w-7 h-7 bg-gray-500 flex items-center justify-center border absolute bottom-0 -right-1 rounded-full'>
+          <label
+                htmlFor="profile"
+                className="cursor-pointer flex justify-center items-center"
+              >
+                <FiCamera size={15} color="white" />
+              </label>
+              </div>
           </div>
+
         </div>
         <div className="flex flex-col gap-2">
           <label htmlFor="firstname" className="text-gray-500 text-sm">
@@ -214,7 +295,7 @@ const AddProfile = () => {
           <label htmlFor="state" className="text-gray-500 text-sm">
             State
           </label>
-          <input
+          {/* <input
             id="state"
             required
             type="text"
@@ -223,13 +304,18 @@ const AddProfile = () => {
             className="border border-gray-200 rounded"
             value={userDetails?.state || ''}
             onChange={(e) => handleEditForm(e, 'state')}
-          />
+          /> */}
+          <select name="state" id="state" value={userDetails?.state || ""} onChange={(e)=>{handleStateChange(e),handleEditForm(e,"state")}}>
+            {Object.keys(StateCitiesData)?.map((state,index)=>(
+            <option key={index} value={state}>{state}</option>
+          ))}
+          </select>
         </div>
         <div className="flex flex-col gap-2">
           <label htmlFor="city" className="text-gray-500 text-sm">
             City
           </label>
-          <input
+          {/* <input
             id="city"
             required
             type="text"
@@ -238,7 +324,13 @@ const AddProfile = () => {
             className="border border-gray-200 rounded"
             value={userDetails?.city || ''}
             onChange={(e) => handleEditForm(e, 'city')}
-          />
+          /> */}
+          <select name="city" id="city" value={userDetails?.city || ""} onChange={(e)=>handleEditForm(e,"city")}>
+          <option value="" defaultChecked>Select City</option>
+            {StateCitiesData[selectedState]?.map((city,index)=>(
+              <option key={index} value={city}>{city}</option>
+            ))}
+          </select>
         </div>
         <div className="flex flex-col gap-2">
           <label htmlFor="address" className="text-gray-500 text-sm">
@@ -256,7 +348,7 @@ const AddProfile = () => {
         </div>
         <div className="flex flex-col gap-2">
           <label htmlFor="pincode" className="text-gray-500 text-sm">
-            Pincode
+            Pincode*
           </label>
           <input
             id="pincode"
@@ -309,6 +401,8 @@ const AddProfile = () => {
               type="text"
               placeholder="PAN/GST/Aadhar No"
               name="doc_number"
+              value={userDetails?.doc_number || ""}
+              onChange={(e)=>handleEditForm(e,"doc_number")}
               className="border border-gray-200 rounded"
             />
           </div>
@@ -346,9 +440,8 @@ const AddProfile = () => {
               id="document"
               type="file"
               accept="image/*"
-              name="doc_file"
               className="hidden"
-              onChange={handleDoctImage}
+              onChange={(e)=>handlePicChange(e,"doctFront")}
             />
           </div>
         </div>
@@ -384,9 +477,8 @@ const AddProfile = () => {
                 id="documentAadhar"
                 type="file"
                 accept="image/*"
-                name="doc_file_back"
                 className="hidden"
-                onChange={handleAadharImage}
+                onChange={(e)=>handlePicChange(e,"doctBack")}
               />
             </div>
           </div>

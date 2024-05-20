@@ -30,6 +30,8 @@ const images = [
 const VehicleDetails = () => {
     const {id} = useParams();
     const [vehicleData, setVehicleData] = useState({})
+    const location = useLocation();
+
     useEffect(()=> {
         axiosInstance.get(`api/vehicles/id/${id}`)
         .then(response => {
@@ -95,7 +97,7 @@ const VehicleDetails = () => {
                                         <p className='font-bold text-sm'><span className='font-semibold text-slate-600'>Posted: </span>{displayDate}</p>
                                     </div>
                             </div>
-                            <Contactseller data={vehicleData}/>
+                            <Contactseller data={vehicleData} route={location?.pathname}/>
                     </div>
             </section>
             <section className='xl:w-3/5 border-[1px] border-slate-400 sm:mt-8 mt-4 p-4 rounded-md overflow-x-scroll'>

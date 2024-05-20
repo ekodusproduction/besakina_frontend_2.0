@@ -36,6 +36,7 @@ const EducationDetails = () => {
     const [showContactDetails,setShowContactDetails] = useState(false);
     const [ contactDetails,setContactDetails]= useState([]);
     const navigate = useNavigate();
+    const location = useLocation();
     useEffect(()=> {
         axiosInstance.get(`api/education/id/${id}`)
         .then(response => {
@@ -141,7 +142,7 @@ const EducationDetails = () => {
                                     
                                     {contactDetails?.mobile && <p className='py-4 font-medium text-lg'>Phone number: {contactDetails?.mobile} </p>}
                             </div> */}
-                            <Contactseller data={educationData}/>
+                            <Contactseller data={educationData} route={location?.pathname}/>
                     </div>
             </section>
             <section className='xl:w-3/5 border-[1px] border-slate-400 sm:mt-8 mt-4 p-4 rounded-md overflow-x-scroll'>

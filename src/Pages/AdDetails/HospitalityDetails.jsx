@@ -29,7 +29,9 @@ const images = [
 
 const HospitalityDetails = () => {
     const {id} = useParams();
-    const [hospitalityData, setHospitalityData] = useState({})
+    const [hospitalityData, setHospitalityData] = useState({});
+    const location = useLocation();
+
     useEffect(()=> {
         axiosInstance.get(`api/hospitality/id/${id}`)
         .then(response => {
@@ -114,7 +116,7 @@ const HospitalityDetails = () => {
                                     </div>
                                     <p className='py-2 text-sm sm:text-base text-slate-700'>Our priority is to find your dream home</p>
                             </div> */}
-                            <Contactseller data={hospitalityData}/>
+                            <Contactseller data={hospitalityData} route={location?.pathname}/>
                     </div>
             </section>
             <section className='xl:w-3/5 border-[1px] border-slate-400 sm:mt-8 mt-4 p-4 rounded-md overflow-x-scroll'>

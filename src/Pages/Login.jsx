@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from "react";
 import Button from "../Components/Button/Button";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import axiosInstance from "../api/axiosInstance";
 import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
 import { useLogin } from "../hooks/useLogin";
+import toast from "react-hot-toast";
 
 export const isLoggedIn = () => {
   return localStorage.getItem("token") != null ? true : false;
@@ -19,6 +20,9 @@ const Login = () => {
   const [otp, setOtp] = useState(null);
   const { isLoggedIn, setIsLoggedIn } = useLogin();
   const navigate = useNavigate();
+  const location = useLocation();
+  const route = location?.state?.route;
+
 
   const onNumberChangeHandler = (e) => {
     setUserData((prev) => ({
@@ -67,10 +71,14 @@ const Login = () => {
         }
       )
       .then((response) => {
-        console.log(response);
+        toast.success('Welcome to BesaKina!')
         localStorage.setItem("token", response.data.token);
         setIsLoggedIn(true);
-        navigate("/");
+        if(route){
+          navigate(route)
+        }else{
+          navigate("/");
+        }
       })
       .catch((err) => {
         console.log(err);

@@ -39,6 +39,7 @@ import BusinessEditForm from './Pages/EditDetails/BusinessEditForm'
 import Wishlist from './Pages/Wishlist'
 import ListingCategories from './Pages/ListingCategories'
 import { DataProvider } from './contexts/DataContext'
+import { Toaster } from 'react-hot-toast'
 
 
 const App = () => {
@@ -81,9 +82,10 @@ const App = () => {
             <Route path='setup-profile' element={<div className='w-full px-56'><AddProfile/></div>}/>
             {/* <Route path='wishlist' element={<Wishlist/>}/> */}
             <Route path='listing-categories' element={<ListingCategories/>}/>
-
         </Route>
+
     </Routes>
+    <Toaster />
     </DataProvider>
     
     </>

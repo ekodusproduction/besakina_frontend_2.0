@@ -116,7 +116,6 @@ const PropertiesAdForm = () => {
 
   return (
    <>
-     
             <section className='bg-white'>
                 <div>
                     <BackButton path={(-1)} style={"absolute pt-3 pl-12"}/>
