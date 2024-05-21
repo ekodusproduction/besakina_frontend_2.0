@@ -2,7 +2,6 @@ import React,{useState} from 'react'
 import { CiUser } from "react-icons/ci";
 import { CiBookmark } from "react-icons/ci";
 import { IoBagAddOutline } from "react-icons/io5";
-import { IoKeyOutline } from "react-icons/io5";
 import { CiTrash } from "react-icons/ci";
 import Button from '../Components/Button/Button'
 import { Link, useLocation } from 'react-router-dom';
