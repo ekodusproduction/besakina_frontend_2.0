@@ -7,6 +7,7 @@ import Swal from 'sweetalert2';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { StateCitiesData } from '../../data/Indian_Cities_In_States';
 import toast from 'react-hot-toast';
+import { formatAadhaarNumber } from '../../utils/fornatter';
 
 const AddProfile = () => {
   const [plans, setPlans] = useState([]);
@@ -17,6 +18,7 @@ const AddProfile = () => {
   const [doctImage, setDoctImage] = useState(null);
   const [aadharImage, setAadharImage] = useState(null);
   const [selectedState, setSelectedState] = useState("");
+  const [selectedDoct,setSelectedDoct] = useState("pan");
   const location = useLocation();
   const [userDetails, setUserDetails] = useState({
     fullname: '',
@@ -68,6 +70,7 @@ const AddProfile = () => {
   }, []);
 
   const docTypehandler = (e) => {
+    setSelectedDoct(e.target.value);
     if (e.target.value == 'aadhar') {
       setIsAadhar(true);
     } else {
@@ -185,9 +188,15 @@ const AddProfile = () => {
 
   const handleEditForm = (e, fieldName) => {
     const value = e.target.value;
+    let formattedValue = value;
+
+    if (selectedDoct === "aadhar") {
+      formattedValue = formatAadhaarNumber(value);
+    }
+
     setUserDetails((prevState) => ({
       ...prevState,
-      [fieldName]: value,
+      [fieldName]: formattedValue,
     }));
   };
 useEffect(()=>{
@@ -394,13 +403,14 @@ useEffect(()=>{
           </div>
           <div className="flex flex-col gap-2">
             <label htmlFor="doc_no" className="text-gray-500 text-sm">
-              PAN/GST/Aadhar No
+              {selectedDoct == "pan" ? "Pan Number: " : selectedDoct =="gst" ? "GST Number: " : selectedDoct =="aadhar" && "Aadhar Number: "}
             </label>
             <input
               id="doc_no"
               type="text"
-              placeholder="PAN/GST/Aadhar No"
+              placeholder={selectedDoct == "aadhar" ? "XXXX XXXX XXXX XXXX" : selectedDoct == "pan" ? "Pan Card Number": selectedDoct =="gst" && "GST Number"}
               name="doc_number"
+              maxLength={selectedDoct == "aadhar" ? 14 : selectedDoct == "pan" ? 10 : selectedDoct == "gst" && 15}
               value={userDetails?.doc_number || ""}
               onChange={(e)=>handleEditForm(e,"doc_number")}
               className="border border-gray-200 rounded"

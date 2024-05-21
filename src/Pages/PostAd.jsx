@@ -14,7 +14,7 @@ import toast from 'react-hot-toast'
 const PostAd = () => {
   const token = localStorage.getItem('token');
   const [userData,setUserData] = useState([]);
-  const [profileCompleted,setProfileCompleted] = useState(false);
+  const [profileCompleted,setProfileCompleted] = useState(true);
   const navigate = useNavigate();
 
     useEffect(() => {
@@ -39,7 +39,6 @@ const PostAd = () => {
                     icon: '⚠️',
                   });
             }
-            // emessage
           });
       }, []);
       

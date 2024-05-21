@@ -30,7 +30,8 @@ const images = [
 
 const VehicleDetails = () => {
     const {id} = useParams();
-    const [vehicleData, setVehicleData] = useState({})
+    const [vehicleData, setVehicleData] = useState({});
+  const [selectedState, setSelectedState] = useState('');
     const location = useLocation();
 
     useEffect(()=> {

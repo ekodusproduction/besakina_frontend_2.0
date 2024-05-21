@@ -113,11 +113,6 @@ export const formFields = [
     required:true
   },
   {
-    title:"City",
-    name:"city",
-    required:true
-  },
-  {
     title:"State",
     name:"state",
     required:true

@@ -6,12 +6,13 @@ import { useNavigate } from 'react-router-dom';
 
 const Banner = () => {
     const navigate = useNavigate();
+    
   return (
     
    <>
     <section className='flex flex-col lg:flex-row items-center justify-center px-2 sm:px-4 lg:px-12 gap-2 md:gap-8 max-w-[1500px] mb-8'>
         <div className='w-5/5 lg:w-3/5 flex-2 '>
-                <Splide aria-label="Banner" >
+                <Splide aria-label="Banner">
                 <SplideSlide>
                     <div className='relative'>
                                 <img src="/assets/Banner/carousel_banner.png" className='w-[100%]'    alt="Image 1"/>
@@ -27,7 +28,7 @@ const Banner = () => {
                     </SplideSlide>
                     <SplideSlide>
                             <div className='relative'>
-                                <img src="/assets/Banner/S.M. Medicals.png" className='w-[100%] rounded-3xl'    alt="Image 1"/>
+                                <img src="/assets/Banner/S.M. Medicals.png" className='w-[100%] rounded-3xl' alt="Image 1"/>
                                 {/* <div className='absolute top-[50%] left-[2rem] translate-y-[-50%]'>
                                     <h2 className='text-white font-bold sm:text-4xl md:text-5xl lg:text-4xl text-xl primaryheader'>Let us help you <br /> Find, Buy & Sell your <br /> Products and services</h2>
                                     <p className='text-white text-xs xsm:text-sm pt-2 sm:pt-4'>Most loved and trusted classified ad listing <br /> website. Browse thousand of items near you.</p>
@@ -41,7 +42,7 @@ const Banner = () => {
                     
                     <SplideSlide>
                     <div className='relative'>
-                                <img src="/assets/Banner/Divine Optical Web Banner.jpg" className='w-[100%]'    alt="Image 1"/>
+                                <img src="/assets/Banner/Divine Optical Web Banner.jpg" className='w-[100%] rounded-3xl' alt="Image 1"/>
                                 {/* <div className='absolute top-[50%] left-[2rem] translate-y-[-50%]'>
                                     <h2 className='text-white font-bold sm:text-4xl text-xl primaryheader'>Let us help you <br /> Find, Buy & Sell your <br /> Products and services</h2>
                                     <p className='text-white text-xs xsm:text-sm pt-2 sm:pt-4'>Most loved and trusted classified ad listing <br /> website. Browse thousand of items near you.</p>

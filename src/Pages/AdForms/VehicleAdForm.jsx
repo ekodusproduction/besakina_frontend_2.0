@@ -9,6 +9,7 @@ import Swal from 'sweetalert2';
 import { useNavigate, useParams } from 'react-router-dom';
 import { VehicleData } from '../../data/VehicleData';
 import BackButton from '../../Components/BackButton/BackButton';
+import { StateCitiesData } from '../../data/Indian_Cities_In_States';
 
 const VehicleAdForm = () => {
   const [selectedImages, setSelectedImages] = useState([]);
@@ -19,6 +20,7 @@ const VehicleAdForm = () => {
   const [submitting, setSubmitting] = useState(false);
   const token = localStorage.getItem('token');
   const [second_hand, setSecondHand] = useState(0);
+  const [selectedState, setSelectedState] = useState('');
   const navigate = useNavigate();
 
   const imageHandler = (e, index) => {
@@ -148,6 +150,11 @@ const VehicleAdForm = () => {
     newSelectedImages.splice(index, 1);
     setImage(newImages);
     setSelectedImages(newSelectedImages);
+  };
+
+  const handleStateChange = (event) => {
+    const selectedState = event.target.value;
+    setSelectedState(selectedState);
   };
 
   return (
@@ -416,29 +423,41 @@ const VehicleAdForm = () => {
                     />
                   </div>
                 </div>
-                <div>
-                  <p className="mb-2 font-semibold text-gray-700">City*</p>
-                  <div className="flex gap-2">
-                    <input
-                      type="text"
-                      name="city"
-                      required
-                      className="w-[85vw] md:w-[50vw] border-[1px] border-gray-400 py-2 rounded-md"
-                    />
-                  </div>
-                </div>
-
+                <div className="flex items-center gap-5">
                 <div>
                   <p className="mb-2 font-semibold text-gray-700">State*</p>
-                  <div className="flex gap-2">
-                    <input
-                      type="text"
-                      name="state"
-                      required
-                      className="w-[85vw] md:w-[50vw] border-[1px] border-gray-400 py-2 rounded-md"
-                    />
-                  </div>
+                  {/* <div className="flex gap-2">
+                  <input
+                    type="text"
+                    className="w-[90vw] sm:w-[50vw] border-[1px] border-gray-400 py-2 rounded-md"
+                  />
+                </div> */}
+                  <select
+                    name="state"
+                    id="state"
+                    onChange={(e) => handleStateChange(e)}
+                  >
+                    {Object.keys(StateCitiesData)?.map((state, index) => (
+                      <option key={index} value={state}>
+                        {state}
+                      </option>
+                    ))}
+                  </select>
                 </div>
+                <div>
+                  <p className="mb-2 font-semibold text-gray-700">City*</p>
+                  <select name="city" id="city">
+                    <option value="" defaultChecked>
+                      Select City
+                    </option>
+                    {StateCitiesData[selectedState]?.map((city, index) => (
+                      <option key={index} value={city}>
+                        {city}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+              </div>
                 <div>
                   <p className="mb-2 font-semibold text-gray-700">Pincode*</p>
                   <div className="flex gap-2">
@@ -746,29 +765,35 @@ const VehicleAdForm = () => {
                     />
                   </div>
                 </div>
-                <div>
-                  <p className="mb-2 font-semibold text-gray-700">City*</p>
-                  <div className="flex gap-2">
-                    <input
-                      type="text"
-                      name="city"
-                      required
-                      className="w-[85vw] md:w-[50vw] border-[1px] border-gray-400 py-2 rounded-md"
-                    />
-                  </div>
-                </div>
-
+                <div className="flex items-center gap-5">
                 <div>
                   <p className="mb-2 font-semibold text-gray-700">State*</p>
-                  <div className="flex gap-2">
-                    <input
-                      type="text"
-                      name="state"
-                      required
-                      className="w-[85vw] md:w-[50vw] border-[1px] border-gray-400 py-2 rounded-md"
-                    />
-                  </div>
+                  <select
+                    name="state"
+                    id="state"
+                    onChange={(e) => handleStateChange(e)}
+                  >
+                    {Object.keys(StateCitiesData)?.map((state, index) => (
+                      <option key={index} value={state}>
+                        {state}
+                      </option>
+                    ))}
+                  </select>
                 </div>
+                <div>
+                  <p className="mb-2 font-semibold text-gray-700">City*</p>
+                  <select name="city" id="city">
+                    <option value="" defaultChecked>
+                      Select City
+                    </option>
+                    {StateCitiesData[selectedState]?.map((city, index) => (
+                      <option key={index} value={city}>
+                        {city}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+              </div>
                 <div>
                   <p className="mb-2 font-semibold text-gray-700">Pincode*</p>
                   <div className="flex gap-2">
