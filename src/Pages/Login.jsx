@@ -31,6 +31,12 @@ const Login = () => {
     }));
   };
   const submitNumberHandler = () => {
+    if(userData?.mobile < 1){
+      toast.error("Please enter number number")
+      return;
+    }else if(userData?.mobile?.length < 10){
+      toast.error("Please enter 10 digit mobile number");
+    }
     axiosInstance
       .post(
         "api/users/sendotp",
@@ -48,16 +54,20 @@ const Login = () => {
       })
       .catch((err) => {
         console.log(err);
+        toast.error(err?.response?.data?.message)
       });
   };
 
   const onOtpChangeHandler = (e) => {
-    setUserData((prev) => ({
-      ...prev,
-      otp: e.target.value,
-    }));
+    setOtp(e.target.value)
   };
 
+  const handleKeyDown = (e,handler)=>{
+    if(e.key ==="Enter"){
+      handler();
+    }
+  }
+ 
   const loginHandler = () => {
     const otpNumber = Number(userData.otp);
     axiosInstance
@@ -82,11 +92,7 @@ const Login = () => {
       })
       .catch((err) => {
         console.log(err);
-        Swal.fire({
-          icon: "error",
-          title: "Oops...",
-          text: err.response.data.message,
-        });
+        toast.error(err.response.data.message)
       });
   };
 
@@ -100,17 +106,19 @@ const Login = () => {
           <div className="flex flex-col gap-4 justify-center items-center  ">
             <p className="font-semibold">Enter your Phone Number</p>
             <input
+              id="phone"
               type="phone"
               maxLength="10"
               required
               onChange={onNumberChangeHandler}
+              onKeyDown={(e)=>handleKeyDown(e,submitNumberHandler)}
               className="w-[320px] h-[40px] border-[1px] border-gray-300 rounded-md pl-2"
               placeholder="Enter mobile number"
             />
             <Button
               clickHandler={submitNumberHandler}
               category={"primarybtn"}
-              classItems={"w-full"}
+              classItems={"w-56 rounded-xl"}
             >
               Continue
             </Button>
@@ -125,17 +133,20 @@ const Login = () => {
           <div className="flex flex-col gap-4 justify-center items-center  ">
             <p className="font-semibold">Enter OTP</p>
             <input
+              id="number"
               type="number"
               required
               value={otp}
-              onChange={(e) => setOtp(e.target.value)}
+              onChange={onOtpChangeHandler}
+              max={4}
+              onKeyDown={(e)=>handleKeyDown(e,loginHandler)}
               className="w-[320px] h-[40px] border-[1px] border-gray-300 rounded-md pl-2"
               placeholder="Enter OTP here"
             />
             <Button
               clickHandler={loginHandler}
               category={"primarybtn"}
-              classItems={"w-full"}
+              classItems={"w-56 rounded-xl"}
             >
               Continue
             </Button>

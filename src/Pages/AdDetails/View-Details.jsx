@@ -242,14 +242,14 @@ const ViewDetails = ({ data, route, category }) => {
                       </>
                     )}
                     {data?.registration_year && (
-                      <>
-                        <p className="w-1/4 text-sm text-slate-500">
+                      <div className='flex items-center gap-4'>
+                        <p className="text-sm text-slate-500">
                           Registration Year
                         </p>
-                        <p className="w-1/4 text-sm text-slate-700">
+                        <p className="text-sm text-slate-700">
                           {data?.registration_year}
                         </p>
-                      </>
+                      </div>
                     )}
                   </div>
                 </div>
