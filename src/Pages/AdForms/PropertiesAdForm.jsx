@@ -561,6 +561,7 @@ const PropertiesAdForm = () => {
                   <input
                     type="text"
                     name="title"
+                    required
                     className="w-[90vw] sm:w-[50vw] border-[1px] border-gray-400 py-2 rounded-md"
                   />
                 </div>
@@ -572,6 +573,7 @@ const PropertiesAdForm = () => {
                 <div className="flex gap-2">
                   <input
                     type="text"
+                    required
                     name="super_builtup_area"
                     className="w-[90vw] sm:w-[50vw] border-[1px] border-gray-400 py-2 rounded-md"
                   />
@@ -582,6 +584,7 @@ const PropertiesAdForm = () => {
                 <div className="flex gap-2">
                   <input
                     type="text"
+                    required
                     name="carpet_area"
                     className="w-[90vw] sm:w-[50vw] border-[1px] border-gray-400 py-2 rounded-md"
                   />
@@ -600,6 +603,7 @@ const PropertiesAdForm = () => {
                 <div className="flex gap-2">
                   <input
                     type="number"
+                    required
                     name="total_floors"
                     className="w-[90vw] sm:w-[50vw] border-[1px] border-gray-400 py-2 rounded-md"
                   />
@@ -611,6 +615,7 @@ const PropertiesAdForm = () => {
                   <input
                     type="text"
                     name="floor_no"
+                    required
                     className="w-[90vw] sm:w-[50vw] border-[1px] border-gray-400 py-2 rounded-md"
                   />
                 </div>
@@ -633,6 +638,7 @@ const PropertiesAdForm = () => {
                     type="text"
                     name="description"
                     rows={3}
+                    required
                     className="w-[90vw] sm:w-[50vw] border-[1px] border-gray-400 py-2 rounded-md resize-none"
                   />
                 </div>
@@ -713,6 +719,7 @@ const PropertiesAdForm = () => {
                   <input
                     type="text"
                     name="house_no"
+                    required
                     className="w-[90vw] sm:w-[50vw] border-[1px] border-gray-400 py-2 rounded-md"
                   />
                 </div>
@@ -723,6 +730,7 @@ const PropertiesAdForm = () => {
                   <input
                     type="text"
                     name="street"
+                    required
                     className="w-[90vw] sm:w-[50vw] border-[1px] border-gray-400 py-2 rounded-md"
                   />
                 </div>
@@ -743,6 +751,7 @@ const PropertiesAdForm = () => {
                   <input
                     type="text"
                     name="landmark"
+                    required
                     className="w-[90vw] sm:w-[50vw] border-[1px] border-gray-400 py-2 rounded-md"
                   />
                 </div>
@@ -759,6 +768,7 @@ const PropertiesAdForm = () => {
                   <select
                     name="state"
                     id="state"
+                    required
                     onChange={(e) => handleStateChange(e)}
                   >
                     {Object.keys(StateCitiesData)?.map((state, index) => (
@@ -788,6 +798,7 @@ const PropertiesAdForm = () => {
                   <input
                     type="text"
                     name="pincode"
+                    required
                     className="w-[90vw] sm:w-[50vw] border-[1px] border-gray-400 py-2 rounded-md"
                   />
                 </div>
@@ -799,6 +810,7 @@ const PropertiesAdForm = () => {
                   <input
                     type="text"
                     name="price"
+                    required
                     className="w-[90vw] sm:w-[50vw] border-[1px] border-gray-400 py-2 rounded-md"
                   />
                 </div>

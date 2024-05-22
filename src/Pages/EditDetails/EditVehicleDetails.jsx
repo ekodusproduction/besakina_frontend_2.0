@@ -823,6 +823,7 @@ const EditVehicleDetails = () => {
                       value={vehicleData?.registration_year}
                       onChange={(e) => handleEditForm(e, 'registration_year')}
                       type="text"
+                      required
                       className="w-[85vw] md:w-[50vw] border-[1px] pl-2 border-gray-400 py-2 rounded-md"
                     />
                   </div>
@@ -837,6 +838,7 @@ const EditVehicleDetails = () => {
                       value={vehicleData?.kilometer_driven}
                       onChange={(e) => handleEditForm(e, 'kilometer_driven')}
                       type="text"
+                      required
                       className="w-[85vw] md:w-[50vw] pl-2 border-[1px] border-gray-400 py-2 rounded-md"
                     />
                   </div>

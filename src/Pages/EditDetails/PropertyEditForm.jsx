@@ -146,7 +146,7 @@ const PropertyEditForm = () => {
     };
 
     axiosInstance
-      .delete(`api/property/images/delete/id/${id}`, {
+      .delete(`api/property/image/delete/id/${id}`, {
         data: body,
         headers: {
           Authorization: `Bearer ${token}`,
