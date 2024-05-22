@@ -16,7 +16,8 @@ const HospitalityAdForm = () => {
     const token = localStorage.getItem('token')
     const [image, setImage] = useState([]);
     const [submitting, setSubmitting] = useState(false);
-  const [selectedState, setSelectedState] = useState('');
+  const initialSelectedState = Object.keys(StateCitiesData)[0];
+  const [selectedState, setSelectedState] = useState(initialSelectedState);
 
     const navigate = useNavigate();
 

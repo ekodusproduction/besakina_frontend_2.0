@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Navbar from '../../Components/Navbar/Navbar';
 import Footer from '../../Components/Footer/Footer';
 import { FaCamera } from 'react-icons/fa';
@@ -14,7 +14,8 @@ const PropertiesAdForm = () => {
   const [selectedImages, setSelectedImages] = useState([]);
   const [image, setImage] = useState([]);
   const [submitting, setSubmitting] = useState(false);
-  const [selectedState, setSelectedState] = useState('');
+  const initialSelectedState = Object.keys(StateCitiesData)[0];
+  const [selectedState, setSelectedState] = useState(initialSelectedState);
 
   const token = localStorage.getItem('token');
   const navigate = useNavigate();
