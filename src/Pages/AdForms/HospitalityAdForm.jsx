@@ -183,7 +183,7 @@ const HospitalityAdForm = () => {
                             <div>
                                 <p className='mb-2 font-semibold text-gray-700'>Describe what you are selling*</p>
                                 <div className='flex gap-2'>
-                                    <textarea name='description' title='description' type="text" className='w-[85vw] md:w-[50vw] pl-2 border-[1px] border-gray-400 py-2 rounded-md resize-none' />
+                                    <textarea name='description' title='description' type="text" rows={3} className='w-[85vw] md:w-[50vw] pl-2 border-[1px] border-gray-400 py-2 rounded-md resize-none' />
                                 </div>
                             </div>
                             <div>

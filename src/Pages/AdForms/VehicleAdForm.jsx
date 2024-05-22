@@ -396,6 +396,7 @@ const VehicleAdForm = () => {
                       name="description"
                       type="text"
                       required
+                      rows={3}
                       className="w-[85vw] md:w-[50vw] pl-2 border-[1px] border-gray-400 py-2 rounded-md resize-none"
                     />
                   </div>
@@ -738,6 +739,7 @@ const VehicleAdForm = () => {
                       name="description"
                       type="text"
                       required
+                      rows={3}
                       className="w-[85vw] md:w-[50vw] pl-2 border-[1px] border-gray-400 py-2 rounded-md resize-none"
                     />
                   </div>

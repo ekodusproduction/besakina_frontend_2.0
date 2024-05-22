@@ -497,7 +497,7 @@ useEffect(()=>{
 
       <div className="flex flex-col gap-2 my-8">
         <label htmlFor="about" className="text-gray-500 text-sm">
-          About <span className='text-xs'>(Maximum 255 Characters)</span>
+          About
         </label>
         <textarea
           placeholder="Describe about yourself/company"
@@ -505,7 +505,6 @@ useEffect(()=>{
           id="about"
           cols="20"
           rows="5"
-          maxLength={255}
           className=" p-2 border border-gray-200 rounded"
           value={userDetails?.about}
           onChange={(e) => handleEditForm(e, 'about')}

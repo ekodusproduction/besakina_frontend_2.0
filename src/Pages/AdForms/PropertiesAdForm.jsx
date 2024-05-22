@@ -632,6 +632,7 @@ const PropertiesAdForm = () => {
                   <textarea
                     type="text"
                     name="description"
+                    rows={3}
                     className="w-[90vw] sm:w-[50vw] border-[1px] border-gray-400 py-2 rounded-md resize-none"
                   />
                 </div>
