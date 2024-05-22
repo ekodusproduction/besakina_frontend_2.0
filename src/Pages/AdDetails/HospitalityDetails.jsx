@@ -144,7 +144,7 @@ const HospitalityDetails = () => {
     // </div>
     // }
     // </>
-    <ViewDetails data={hospitalityData} route={location?.pathname} category={"hospital"}/>
+    <ViewDetails data={hospitalityData} route={location?.pathname} category={"hospitality"}/>
 
   )
 }
