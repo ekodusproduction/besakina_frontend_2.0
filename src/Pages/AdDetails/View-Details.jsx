@@ -286,7 +286,7 @@ const ViewDetails = ({ data, route, category }) => {
                 </div>
               </section>
             )}
-            {category == "hospitality"}
+            {category == "hospitality" &&
             <section className='xl:w-3/5 border-[1px] border-slate-400 sm:mt-8 mt-4 p-4 rounded-md overflow-x-scroll capitalize'>
                 <h2 className='font-bold mb-4'>Details</h2>
                 <div className='flex flex-col gap-2 min-w-[600px]'>
@@ -301,7 +301,7 @@ const ViewDetails = ({ data, route, category }) => {
                         </div>
                     </div>
                 </div>
-            </section>
+            </section>}
             {/* doctor */}
             {category == 'doctor' && (
               <section className="xl:w-3/5 border-[1px] border-slate-400 sm:mt-8 mt-4 p-4 rounded-md overflow-x-scroll capitalize">
@@ -350,7 +350,7 @@ const ViewDetails = ({ data, route, category }) => {
                     {data?.type && (
                       <div className="flex items-center gap-2">
                         <p className="text-sm text-slate-500">Type:</p>
-                        <p className="text-sm text-slate-700">{data?.type}</p>
+                        <p className="text-sm text-slate-700">{convertString(data?.type)}</p>
                       </div>
                     )}
                   </div>
