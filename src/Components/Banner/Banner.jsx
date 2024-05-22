@@ -9,7 +9,7 @@ const Banner = () => {
     const options = {
         type         : 'loop',
         autoplay     : true,
-        interval: 3000,
+        interval: 2000,
         pauseOnHover : false,
         resetProgress: false,
       };

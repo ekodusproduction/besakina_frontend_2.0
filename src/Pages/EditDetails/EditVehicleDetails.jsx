@@ -426,12 +426,11 @@ const EditVehicleDetails = () => {
 
                   <div>
                     <p className="mb-2 font-semibold text-gray-700">
-                      Manufacture Year*
+                      Manufacture Year
                     </p>
                     <div className="flex gap-2">
                       <input
                         name="registration_year"
-                        required
                         value={vehicleData?.registration_year}
                         onChange={(e) => handleEditForm(e, 'registration_year')}
                         type="text"
@@ -816,13 +815,13 @@ const EditVehicleDetails = () => {
 
                 <div>
                   <p className="mb-2 font-semibold text-gray-700">
-                    Registration Year*
+                    Registration Year
                   </p>
                   <div className="flex gap-2">
                     <input
                       name="registration_year"
-                      required
                       value={vehicleData?.registration_year}
+                      onChange={(e) => handleEditForm(e, 'registration_year')}
                       type="text"
                       className="w-[85vw] md:w-[50vw] border-[1px] pl-2 border-gray-400 py-2 rounded-md"
                     />
@@ -830,13 +829,13 @@ const EditVehicleDetails = () => {
                 </div>
                 <div>
                   <p className="mb-2 font-semibold text-gray-700">
-                    Kilometer Driven*
+                    Kilometer Driven
                   </p>
                   <div className="flex gap-2">
                     <input
                       name="kilometer_driven"
                       value={vehicleData?.kilometer_driven}
-                      required
+                      onChange={(e) => handleEditForm(e, 'kilometer_driven')}
                       type="text"
                       className="w-[85vw] md:w-[50vw] pl-2 border-[1px] border-gray-400 py-2 rounded-md"
                     />
@@ -850,6 +849,7 @@ const EditVehicleDetails = () => {
                       name="title"
                       type="text"
                       value={vehicleData?.title}
+                      onChange={(e) => handleEditForm(e, 'title')}
                       required
                       className="w-[85vw] md:w-[50vw] pl-2 border-[1px] border-gray-400 py-2 rounded-md"
                     />
@@ -864,6 +864,7 @@ const EditVehicleDetails = () => {
                       name="description"
                       type="text"
                       value={vehicleData?.description}
+                      onChange={(e) => handleEditForm(e, 'description')}
                       required
                       className="w-[85vw] md:w-[50vw] pl-2 border-[1px] border-gray-400 py-2 rounded-md"
                     />
@@ -877,6 +878,7 @@ const EditVehicleDetails = () => {
                       type="text"
                       name="street"
                       value={vehicleData?.street}
+                      onChange={(e) => handleEditForm(e, 'street')}
                       required
                       className="w-[85vw] md:w-[50vw] border-[1px] border-gray-400 py-2 rounded-md"
                     />
@@ -889,36 +891,51 @@ const EditVehicleDetails = () => {
                       type="text"
                       name="locality"
                       value={vehicleData?.locality}
+                      onChange={(e) => handleEditForm(e, 'locality')}
                       required
                       className="w-[85vw] md:w-[50vw] border-[1px] border-gray-400 py-2 rounded-md"
                     />
                   </div>
+                </div>
+                <div className="flex items-center gap-5">
+                <div>
+                  <p className="mb-2 font-semibold text-gray-700">State*</p>
+                  <select
+                    name="state"
+                    id="state"
+                    value={selectedState}
+                    onChange={(e) => setSelectedState(e.target.value)}
+                  >
+                    {Object.keys(StateCitiesData)?.map((state, index) => (
+                      <option key={index} value={state}>
+                        {state}
+                      </option>
+                    ))}
+                  </select>
                 </div>
                 <div>
                   <p className="mb-2 font-semibold text-gray-700">City*</p>
-                  <div className="flex gap-2">
-                    <input
-                      type="text"
-                      name="city"
-                      value={vehicleData?.city}
-                      required
-                      className="w-[85vw] md:w-[50vw] border-[1px] border-gray-400 py-2 rounded-md"
-                    />
-                  </div>
+                  <select
+                    name="city"
+                    id="city"
+                    value={selectedCity}
+                    onChange={(e) => setSelectedCity(e.target.value)}
+                  >
+                    <option value="" defaultChecked>
+                      Select City
+                    </option>
+                    {StateCitiesData[selectedState]?.map((city, index) => (
+                      <option
+                        key={index}
+                        value={city}
+                        className="cursor-pointer"
+                      >
+                        {city}
+                      </option>
+                    ))}
+                  </select>
                 </div>
-
-                <div>
-                  <p className="mb-2 font-semibold text-gray-700">State*</p>
-                  <div className="flex gap-2">
-                    <input
-                      type="text"
-                      name="state"
-                      value={vehicleData?.state}
-                      required
-                      className="w-[85vw] md:w-[50vw] border-[1px] border-gray-400 py-2 rounded-md"
-                    />
-                  </div>
-                </div>
+              </div>
                 <div>
                   <p className="mb-2 font-semibold text-gray-700">Pincode*</p>
                   <div className="flex gap-2">
@@ -926,7 +943,7 @@ const EditVehicleDetails = () => {
                       type="text"
                       name="pincode"
                       value={vehicleData?.pincode}
-                      required
+                      onChange={(e) => handleEditForm(e, 'pincode')}
                       className="w-[85vw] md:w-[50vw] border-[1px] border-gray-400 py-2 rounded-md"
                     />
                   </div>
@@ -939,6 +956,7 @@ const EditVehicleDetails = () => {
                       name="price"
                       type="text"
                       value={vehicleData?.price}
+                      onChange={(e) => handleEditForm(e, 'price')}
                       required
                       className="w-[85vw] md:w-[50vw] pl-2 border-[1px] border-gray-400 py-2 rounded-md"
                     />
