@@ -280,7 +280,7 @@ const PropertiesAdForm = () => {
                   </div>
                 </div>
               </div>
-              {/* <div>
+              <div>
                                 <p className='mb-2 font-semibold text-gray-700'>Bathroom*</p>
                                 <div className='flex flex-wrap gap-2 text-gray-700'>
                                     <div className='border-[1px] border-gray-400 rounded-sm'>
@@ -301,7 +301,7 @@ const PropertiesAdForm = () => {
                                     </div>
 
                                 </div>
-                            </div> */}
+                            </div>
               <div>
                 <p className="mb-2 font-semibold text-gray-700">Furnishing*</p>
                 <div className="flex flex-wrap gap-2 text-gray-700">
