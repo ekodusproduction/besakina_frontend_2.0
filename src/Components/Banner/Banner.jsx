@@ -6,13 +6,20 @@ import { useNavigate } from 'react-router-dom';
 
 const Banner = () => {
     const navigate = useNavigate();
+    const options = {
+        type         : 'loop',
+        autoplay     : true,
+        interval: 3000,
+        pauseOnHover : false,
+        resetProgress: false,
+      };
     
   return (
     
    <>
     <section className='flex flex-col lg:flex-row items-center justify-center px-2 sm:px-4 lg:px-12 gap-2 md:gap-8 max-w-[1500px] mb-8'>
         <div className='w-5/5 lg:w-3/5 flex-2 '>
-                <Splide aria-label="Banner">
+                <Splide aria-label="Banner" options={options}>
                 <SplideSlide>
                     <div className='relative'>
                                 <img src="/assets/Banner/carousel_banner.png" className='w-[100%]'    alt="Image 1"/>

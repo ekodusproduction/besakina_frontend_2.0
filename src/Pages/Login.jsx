@@ -54,7 +54,7 @@ const Login = () => {
       })
       .catch((err) => {
         console.log(err);
-        toast.error(err?.response?.data?.message)
+        toast.error(err?.response?.data?.message ? err?.response?.data?.message : "Something went wrong please try again" )
       });
   };
 

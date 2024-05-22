@@ -25,7 +25,7 @@ const ProductCard = ({data,link}) => {
                         <div>
                             <FaLocationDot/>
                         </div>
-                        <p className='font-semibold text-xs xl:text-sm capitalize'>{`${data?.city} ${data?.state}`}</p>
+                        <p className='font-semibold text-xs xl:text-sm capitalize'>{`${data?.city}, ${data?.state}`}</p>
                     </div>
                 </div>
                 <div className='flex justify-between items-center'>
