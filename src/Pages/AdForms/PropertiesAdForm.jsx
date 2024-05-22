@@ -634,12 +634,19 @@ const PropertiesAdForm = () => {
                   />
                 </div>
               </div>
-              {/* <div>
-                                <p className='mb-2 font-semibold text-gray-700'>Maintainance*</p>
-                                <div className='flex gap-2'>
-                                    <input type="text" name='maintainance' className='w-[50vw] border-[1px] border-gray-400 py-2 rounded-md' />
-                                </div>
-                            </div> */}
+              <div>
+                <p className="mb-2 font-semibold text-gray-700">
+                  Maintainance*
+                </p>
+                <div className="flex gap-2">
+                  <input
+                    type="text"
+                    name="maintainance"
+                    required
+                    className="w-[50vw] border-[1px] border-gray-400 py-2 rounded-md"
+                  />
+                </div>
+              </div>
               <div>
                 <p className="mb-2 font-semibold text-gray-700">
                   Total Floors*
