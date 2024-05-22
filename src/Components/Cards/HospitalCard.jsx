@@ -16,7 +16,7 @@ const HospitalCard = ({data,link}) => {
             <div className='w-[100%] p-2 flex flex-col gap-2'>
                 <div>
                     <h2 className='font-bold xl:text-lg capitalize'> {data?.price}</h2>
-                    <p className='text-xs xl:text-sm capitalize'>{data?.title?.slice(0,40)}...</p>
+                    <p className='text-xs xl:text-sm capitalize'>{data?.title?.slice(0,30)}...</p>
                 </div>
                 <div>
                     <div className='flex items-center gap-[3px]'>

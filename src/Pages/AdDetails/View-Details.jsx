@@ -95,7 +95,7 @@ const ViewDetails = ({ data, route, category }) => {
               <div className="xl:w-2/5 border-[1px] border-slate-400 sm:px-6 py-6 px-2 h-[100%] rounded-md ">
                 <div className="pb-4 border-b-[1px] border-slate-300 ">
                   <div className="flex justify-between ">
-                    <h3 className="font-bold sm:text-3xl text-2xl mb-2">
+                    <h3 className="font-bold sm:text-3xl text-2xl mb-2 capitalize">
                       {data?.title}
                     </h3>
 
@@ -266,7 +266,7 @@ const ViewDetails = ({ data, route, category }) => {
                     <p className="w-1/4 text-sm text-slate-700">{data?.type}</p>
                     <p className="w-1/4 text-sm text-slate-500">Domain</p>
                     <p className="w-1/4 text-sm text-slate-700">
-                      {data?.domain}
+                      {convertString(data?.domain)}
                     </p>
                   </div>
                   <div className="flex justify-between">
