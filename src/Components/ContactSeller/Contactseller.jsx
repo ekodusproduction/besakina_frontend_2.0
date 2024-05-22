@@ -91,7 +91,7 @@ const Contactseller = ({ data,route }) => {
           <p className="text-sm font-bold">Verified</p>
         </div>
       )}
-      <p className="py-2 text-sm sm:text-base text-slate-700">
+      <p className="py-2 text-sm sm:text-base text-slate-700 capitalize">
         {data?.user?.about}
       </p>
       <Button

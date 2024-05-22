@@ -5,6 +5,7 @@ import axiosInstance, { baseURL } from '../../api/axiosInstance';
 import Button from '../../Components/Button/Button';
 import Swal from 'sweetalert2';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
+import { StateCitiesData } from '../../data/Indian_Cities_In_States';
 
 const HealthEditForm = () => {
   const location = useLocation();
@@ -20,6 +21,8 @@ const HealthEditForm = () => {
   const [doctorsImage, setDoctorsImage] = useState([]);
   const [hospitalsImage, setHospitalsImage] = useState([]);
   const [submitting, setSubmitting] = useState(false);
+  const [selectedState, setSelectedState] = useState('');
+  const [selectedCity, setSelectedCity] = useState('');
   const navigate = useNavigate();
   const { id } = useParams();
 
@@ -30,8 +33,10 @@ const HealthEditForm = () => {
       .get(`api/doctors/id/${id}`)
       .then((response) => {
         console.log('doctors', response);
-        const data = response.data.data.advertisement;
+        const data = response.data.data;
         setDoctorDetails(data);
+        setSelectedState(data?.state);
+        setSelectedCity(data?.city);
       })
       .catch((error) => {
         console.error(error);
@@ -585,31 +590,45 @@ const HealthEditForm = () => {
                     />
                   </div>
                 </div>
-                <div>
-                  <p className="mb-2 font-semibold text-gray-700">City*</p>
-                  <div className="flex gap-2">
-                    <input
-                      type="text"
-                      name="city"
-                      value={doctorsDetails?.city}
-                      onChange={(e) => handleEditForm(e, 'city')}
-                      className="w-[85vw] md:w-[50vw] border-[1px] border-gray-400 py-2 rounded-md"
-                    />
-                  </div>
-                </div>
-
+                <div className="flex items-center gap-5">
                 <div>
                   <p className="mb-2 font-semibold text-gray-700">State*</p>
-                  <div className="flex gap-2">
-                    <input
-                      type="text"
-                      name="state"
-                      value={doctorsDetails?.state}
-                      onChange={(e) => handleEditForm(e, 'state')}
-                      className="w-[85vw] md:w-[50vw] border-[1px] border-gray-400 py-2 rounded-md"
-                    />
-                  </div>
+                  <select
+                    name="state"
+                    id="state"
+                    value={selectedState}
+                    onChange={(e) => setSelectedState(e.target.value)}
+                  >
+                    {Object.keys(StateCitiesData)?.map((state, index) => (
+                      <option key={index} value={state}>
+                        {state}
+                      </option>
+                    ))}
+                  </select>
                 </div>
+                <div>
+                  <p className="mb-2 font-semibold text-gray-700">City*</p>
+                  <select
+                    name="city"
+                    id="city"
+                    value={selectedCity}
+                    onChange={(e) => setSelectedCity(e.target.value)}
+                  >
+                    <option value="" defaultChecked>
+                      Select City
+                    </option>
+                    {StateCitiesData[selectedState]?.map((city, index) => (
+                      <option
+                        key={index}
+                        value={city}
+                        className="cursor-pointer"
+                      >
+                        {city}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+              </div>
                 <div>
                   <p className="mb-2 font-semibold text-gray-700">Pincode*</p>
                   <div className="flex gap-2">

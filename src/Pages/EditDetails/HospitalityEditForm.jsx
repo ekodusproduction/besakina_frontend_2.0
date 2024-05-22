@@ -7,6 +7,7 @@ import Button from '../../Components/Button/Button';
 import axiosInstance, { baseURL } from '../../api/axiosInstance';
 import Swal from 'sweetalert2';
 import { useNavigate, useParams } from 'react-router-dom';
+import { StateCitiesData } from '../../data/Indian_Cities_In_States';
 
 const HospitalityEditForm = () => {
   const [selectedImages, setSelectedImages] = useState([]);
@@ -16,6 +17,8 @@ const HospitalityEditForm = () => {
   const navigate = useNavigate();
   const { id } = useParams();
   const [hospitalityData, setHospitalityData] = useState({});
+  const [selectedState, setSelectedState] = useState('');
+  const [selectedCity, setSelectedCity] = useState('');
 
   useEffect(() => {
     axiosInstance
@@ -24,6 +27,8 @@ const HospitalityEditForm = () => {
         console.log(response);
         const data = response.data.data;
         setHospitalityData(data);
+        setSelectedState(data?.state);
+        setSelectedCity(data?.city);
       })
       .catch((error) => {
         console.error(error);
@@ -339,29 +344,43 @@ const HospitalityEditForm = () => {
                   />
                 </div>
               </div>
-              <div>
-                <p className="mb-2 font-semibold text-gray-700">City*</p>
-                <div className="flex gap-2">
-                  <input
-                    type="text"
-                    name="city"
-                    value={hospitalityData?.city}
-                    onChange={(e) => handleEditForm(e, 'city')}
-                    className="w-[85vw] md:w-[50vw] border-[1px] border-gray-400 py-2 rounded-md"
-                  />
-                </div>
-              </div>
-
-              <div>
-                <p className="mb-2 font-semibold text-gray-700">State*</p>
-                <div className="flex gap-2">
-                  <input
-                    type="text"
+              <div className="flex items-center gap-5">
+                <div>
+                  <p className="mb-2 font-semibold text-gray-700">State*</p>
+                  <select
                     name="state"
-                    value={hospitalityData?.state}
-                    onChange={(e) => handleEditForm(e, 'state')}
-                    className="w-[85vw] md:w-[50vw] border-[1px] border-gray-400 py-2 rounded-md"
-                  />
+                    id="state"
+                    value={selectedState}
+                    onChange={(e) => setSelectedState(e.target.value)}
+                  >
+                    {Object.keys(StateCitiesData)?.map((state, index) => (
+                      <option key={index} value={state}>
+                        {state}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+                <div>
+                  <p className="mb-2 font-semibold text-gray-700">City*</p>
+                  <select
+                    name="city"
+                    id="city"
+                    value={selectedCity}
+                    onChange={(e) => setSelectedCity(e.target.value)}
+                  >
+                    <option value="" defaultChecked>
+                      Select City
+                    </option>
+                    {StateCitiesData[selectedState]?.map((city, index) => (
+                      <option
+                        key={index}
+                        value={city}
+                        className="cursor-pointer"
+                      >
+                        {city}
+                      </option>
+                    ))}
+                  </select>
                 </div>
               </div>
               <div>

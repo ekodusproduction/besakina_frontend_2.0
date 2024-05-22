@@ -7,11 +7,14 @@ import Button from '../../Components/Button/Button';
 import axiosInstance, { baseURL } from '../../api/axiosInstance';
 import Swal from 'sweetalert2';
 import { useNavigate, useParams } from 'react-router-dom';
+import { StateCitiesData } from '../../data/Indian_Cities_In_States';
 
 const EducationEditForm = () => {
   const [selectedImages, setSelectedImages] = useState([]);
   const [image, setImage] = useState([]);
   const [submitting, setSubmitting] = useState(false);
+  const [selectedState, setSelectedState] = useState('');
+  const [selectedCity, setSelectedCity] = useState('');
   const token = localStorage.getItem('token');
   const navigate = useNavigate();
   const { id } = useParams();
@@ -24,6 +27,8 @@ const EducationEditForm = () => {
         console.log(response);
         const data = response.data.data;
         setEducationData(data);
+        setSelectedState(data?.state);
+        setSelectedCity(data?.city);
       })
       .catch((error) => {
         console.error(error);
@@ -47,6 +52,11 @@ const EducationEditForm = () => {
     }));
   };
 
+  const handleStateChange = (event) => {
+    const selectedState = event.target.value;
+    setSelectedState(selectedState);
+  };
+  
   const imageHandler = (e) => {
     if (selectedImages?.length >= 20) {
       Swal.fire({
@@ -459,33 +469,42 @@ const EducationEditForm = () => {
                   />
                 </div>
               </div>
-              <div>
-                <p className="mb-2 font-semibold text-gray-700">City*</p>
-                <div className="flex gap-2">
-                  <input
-                    type="text"
-                    name="city"
-                    value={educationData?.city}
-                    onChange={(e) => handleEditForm(e, 'city')}
-                    required
-                    className="w-[90vw] sm:w-[50vw] border-[1px] border-gray-400 py-2 rounded-md"
-                  />
-                </div>
-              </div>
-
-              <div>
-                <p className="mb-2 font-semibold text-gray-700">State*</p>
-                <div className="flex gap-2">
-                  <input
-                    type="text"
-                    name="state"
-                    value={educationData?.state}
-                    onChange={(e) => handleEditForm(e, 'state')}
-                    required
-                    className="w-[90vw] sm:w-[50vw] border-[1px] border-gray-400 py-2 rounded-md"
-                  />
-                </div>
-              </div>
+              <div className="flex items-center gap-5">
+                      <div>
+                        <p className="mb-2 font-semibold text-gray-700">
+                          State*
+                        </p>
+                        <select
+                          name="state"
+                          id="state"
+                          value={selectedState}
+                          onChange={(e) => handleStateChange(e)}
+                        >
+                          {Object.keys(StateCitiesData)?.map((state, index) => (
+                            <option key={index} value={state}>
+                              {state}
+                            </option>
+                          ))}
+                        </select>
+                      </div>
+                      <div>
+                        <p className="mb-2 font-semibold text-gray-700">
+                          City*
+                        </p>
+                        <select name="city" id="city" value={selectedCity} onChange={(e)=>setSelectedCity(e.target.value)}>
+                          <option value="" defaultChecked>
+                            Select City
+                          </option>
+                          {StateCitiesData[selectedState]?.map(
+                            (city, index) => (
+                              <option key={index} value={city} className='cursor-pointer'>
+                                {city}
+                              </option>
+                            )
+                          )}
+                        </select>
+                      </div>
+                    </div>
               <div>
                 <p className="mb-2 font-semibold text-gray-700">Pincode*</p>
                 <div className="flex gap-2">
@@ -507,7 +526,7 @@ const EducationEditForm = () => {
                     name="price"
                     type="text"
                     value={educationData?.price}
-                    onChange={(e) => handleEditForm(e, 'state')}
+                    onChange={(e) => handleEditForm(e, 'price')}
                     required
                     className="w-[90vw] sm:w-[50vw] pl-2 border-[1px] border-gray-400 py-2 rounded-md"
                     onkeypress="return event.charCode != 45"

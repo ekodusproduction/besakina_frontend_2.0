@@ -428,10 +428,10 @@ const HealthAdForm = () => {
                     Describe about yourself*
                   </p>
                   <div className="flex gap-2">
-                    <input
+                    <textarea
                       name="description"
                       type="text"
-                      className="w-[85vw] md:w-[50vw] pl-2 border-[1px] border-gray-400 py-2 rounded-md"
+                      className="w-[85vw] md:w-[50vw] pl-2 border-[1px] border-gray-400 py-2 rounded-md resize-none"
                     />
                   </div>
                 </div>
@@ -686,10 +686,10 @@ const HealthAdForm = () => {
                     Write some description
                   </p>
                   <div className="flex gap-2">
-                    <input
+                    <textarea
                       name="description"
                       type="text"
-                      className="w-[85vw] md:w-[50vw] pl-2 border-[1px] border-gray-400 py-2 rounded-md"
+                      className="w-[85vw] md:w-[50vw] pl-2 border-[1px] border-gray-400 py-2 rounded-md resize-none"
                     />
                   </div>
                 </div>

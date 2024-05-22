@@ -2,11 +2,12 @@ import React from 'react'
 import { FaLocationDot } from "react-icons/fa6";
 import { MdVerified } from "react-icons/md";
 import { Link } from 'react-router-dom';
-import { baseURL } from '../../api/axiosInstance';
 import dayjs from 'dayjs';
+import { formatINR } from '../../utils/fornatter';
 
 
 const ProductCard = ({data,link}) => {
+
    
   return (
     <Link to={`${link}/${data?.id}`} >
@@ -17,7 +18,7 @@ const ProductCard = ({data,link}) => {
             <div className='w-[100%] p-2 flex flex-col gap-2'>
                 <div>
                     <p className='xl:text-base capitalize font-bold'>{data?.title?.slice(0,30)}...</p>
-                    <h2 className='text-base capitalize'> {'expertise' in data ? data?.name:'₹'+ data?.price}</h2>
+                    <h2 className='text-sm capitalize'> {'expertise' in data ? data?.name : "Starting from " + formatINR(data?.price)}</h2>
                 </div>
                 <div>
                     <div className='flex items-center gap-[3px]'>

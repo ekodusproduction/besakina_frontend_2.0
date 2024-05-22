@@ -241,7 +241,7 @@ const EducationAdForm = () => {
                   {Select_Domain?.map((item, index) => (
                     <div
                       key={index}
-                      className="border-[1px] border-gray-400 rounded-sm cursor-pointer"
+                      className="border-[1px] border-gray-400 rounded-sm"
                     >
                       {/* <div id="science" onClick={handleCheckChange} value="science" className={`${selectedOptions.includes('science') ? "bg-blue-500 text-white":""} w-20 h-7 flex items-center justify-center select-none`}>Science</div> */}
                       <input
@@ -256,7 +256,7 @@ const EducationAdForm = () => {
 
                       <label
                         for={item.value}
-                        className="px-4 py-[2px] cursor-pointer capitalize"
+                        className="px-4 py-[2px] capitalize"
                       >
                         {item.label}
                       </label>
@@ -273,12 +273,6 @@ const EducationAdForm = () => {
                         <p className="mb-2 font-semibold text-gray-700">
                           State*
                         </p>
-                        {/* <div className="flex gap-2">
-                  <input
-                    type="text"
-                    className="w-[90vw] sm:w-[50vw] border-[1px] border-gray-400 py-2 rounded-md"
-                  />
-                </div> */}
                         <select
                           name="state"
                           id="state"
@@ -327,7 +321,7 @@ const EducationAdForm = () => {
                           type={item.type ? item.type : 'text'}
                           value={fillData[item.name]}
                           onChange={(e) => handleEditForm(e, item.name)}
-                          className="w-[90vw] sm:w-[50vw] border-[1px] pl-2 border-gray-400 py-2 rounded-md cursor-pointer"
+                          className="w-[90vw] sm:w-[50vw] border-[1px] pl-2 border-gray-400 py-2 rounded-md"
                         />
                       </div>
                     </>

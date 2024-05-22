@@ -183,7 +183,7 @@ const HospitalityAdForm = () => {
                             <div>
                                 <p className='mb-2 font-semibold text-gray-700'>Describe what you are selling*</p>
                                 <div className='flex gap-2'>
-                                    <input name='description' title='description' type="text" className='w-[85vw] md:w-[50vw] pl-2 border-[1px] border-gray-400 py-2 rounded-md' />
+                                    <textarea name='description' title='description' type="text" className='w-[85vw] md:w-[50vw] pl-2 border-[1px] border-gray-400 py-2 rounded-md resize-none' />
                                 </div>
                             </div>
                             <div>
@@ -198,13 +198,6 @@ const HospitalityAdForm = () => {
                                     <input type="text" name='locality' className='w-[85vw] md:w-[50vw] border-[1px] border-gray-400 py-2 rounded-md' />
                                 </div>
                             </div>
-                            <div>
-                                <p className='mb-2 font-semibold text-gray-700'>City*</p>
-                                <div className='flex gap-2'>
-                                    <input type="text" name='city' className='w-[85vw] md:w-[50vw] border-[1px] border-gray-400 py-2 rounded-md' />
-                                </div>
-                            </div>
-                            
                             <div className="flex items-center gap-5">
                 <div>
                   <p className="mb-2 font-semibold text-gray-700">State*</p>

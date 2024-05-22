@@ -368,7 +368,7 @@ const ViewDetails = ({ data, route, category }) => {
             )}
             <section className="xl:w-3/5 border-[1px] border-slate-400 sm:mt-8 mt-4 p-4 rounded-md capitalize">
               <h2 className="font-bold mb-4">Overview</h2>
-              <p className="text-sm">{data?.description}</p>
+              <p className="text-sm capitalize">{data?.description}</p>
             </section>
           </div>
         </div>

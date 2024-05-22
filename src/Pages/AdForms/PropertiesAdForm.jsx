@@ -599,7 +599,7 @@ const PropertiesAdForm = () => {
                 </p>
                 <div className="flex gap-2">
                   <input
-                    type="text"
+                    type="number"
                     name="total_floors"
                     className="w-[90vw] sm:w-[50vw] border-[1px] border-gray-400 py-2 rounded-md"
                   />
@@ -619,8 +619,9 @@ const PropertiesAdForm = () => {
                 <p className="mb-2 font-semibold text-gray-700">Total Rooms*</p>
                 <div className="flex gap-2">
                   <input
-                    type="text"
+                    type="number"
                     name="total_rooms"
+                    required
                     className="w-[90vw] sm:w-[50vw] border-[1px] border-gray-400 py-2 rounded-md"
                   />
                 </div>
@@ -628,10 +629,10 @@ const PropertiesAdForm = () => {
               <div>
                 <p className="mb-2 font-semibold text-gray-700">Description*</p>
                 <div>
-                  <input
+                  <textarea
                     type="text"
                     name="description"
-                    className="w-[90vw] sm:w-[50vw] border-[1px] border-gray-400 py-2 rounded-md"
+                    className="w-[90vw] sm:w-[50vw] border-[1px] border-gray-400 py-2 rounded-md resize-none"
                   />
                 </div>
               </div>
