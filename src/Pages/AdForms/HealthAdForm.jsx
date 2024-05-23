@@ -7,6 +7,7 @@ import Swal from 'sweetalert2';
 import { useNavigate } from 'react-router-dom';
 import BackButton from '../../Components/BackButton/BackButton';
 import { StateCitiesData } from '../../data/Indian_Cities_In_States';
+import { ExpertiseData, HospitalData } from '../../data/heathFormData';
 
 const HealthAdForm = () => {
   const [selectedForm, setSelectedForm] = useState('doctors');
@@ -293,102 +294,23 @@ const HealthAdForm = () => {
                     Select Expertise*
                   </p>
                   <div className="flex flex-wrap gap-2 text-gray-700">
-                    <div className="border-[1px] border-gray-400 rounded-sm">
-                      <input
-                        type="radio"
-                        id="child"
-                        name="expertise"
-                        value="child"
-                        className="hidden"
-                      />
-                      <label for="child" className="px-4 py-2">
-                        Child
-                      </label>
-                    </div>
-                    <div className="border-[1px] border-gray-400 rounded-sm">
-                      <input
-                        type="radio"
-                        id="gastro_intestine"
-                        name="expertise"
-                        value="gastro intestine"
-                        className="hidden"
-                      />
-                      <label for="gastro_intestine" className="px-4 py-2">
-                        Gastro intestine
-                      </label>
-                    </div>
-                    <div className="border-[1px] border-gray-400 rounded-sm">
-                      <input
-                        type="radio"
-                        id="cadiology"
-                        name="expertise"
-                        value="cadiology"
-                        className="hidden"
-                      />
-                      <label for="cadiology" className="px-4 py-2">
-                        Cadiology
-                      </label>
-                    </div>
-                    <div className="border-[1px] border-gray-400 rounded-sm">
-                      <input
-                        type="radio"
-                        id="opthopaedic"
-                        name="expertise"
-                        value="opthopaedic"
-                        className="hidden"
-                      />
-                      <label for="opthopaedic" className="px-4 py-2">
-                        Opthopaedic
-                      </label>
-                    </div>
-                    <div className="border-[1px] border-gray-400 rounded-sm">
-                      <input
-                        type="radio"
-                        id="gynecology"
-                        name="expertise"
-                        value="gynecology"
-                        className="hidden"
-                      />
-                      <label for="gynecology" className="px-4 py-2">
-                        Gynecology
-                      </label>
-                    </div>
-                    <div className="border-[1px] border-gray-400 rounded-sm">
-                      <input
-                        type="radio"
-                        id="emergency_medicine"
-                        name="expertise"
-                        value="emergency medicine"
-                        className="hidden"
-                      />
-                      <label for="emergency_medicine" className="px-4 py-2">
-                        Emergency Medicine
-                      </label>
-                    </div>
-                    <div className="border-[1px] border-gray-400 rounded-sm">
-                      <input
-                        type="radio"
-                        id="physician"
-                        name="expertise"
-                        value="physician"
-                        className="hidden"
-                      />
-                      <label for="physician" className="px-4 py-2">
-                        Physician
-                      </label>
-                    </div>
-                    <div className="border-[1px] border-gray-400 rounded-sm">
-                      <input
-                        type="radio"
-                        id="others"
-                        name="expertise"
-                        value="others"
-                        className="hidden"
-                      />
-                      <label for="others" className="px-4 py-2">
-                        Others
-                      </label>
-                    </div>
+                    {ExpertiseData?.map((item, index) => (
+                      <div
+                        key={index}
+                        className="border-[1px] border-gray-400 rounded-sm"
+                      >
+                        <input
+                          type="radio"
+                          id={item.value}
+                          name="expertise"
+                          value={item.value}
+                          className="hidden"
+                        />
+                        <label for={item.value} className="px-4 py-2">
+                          {item.label}
+                        </label>
+                      </div>
+                    ))}
                   </div>
                 </div>
 
@@ -584,81 +506,26 @@ const HealthAdForm = () => {
                     Select Type*
                   </p>
                   <div className="flex flex-wrap gap-2 text-gray-700">
-                    <div className="border-[1px] border-gray-400 rounded-sm">
-                      <input
-                        type="radio"
-                        id="hospital"
-                        name="type"
-                        value="hospital"
-                        className="hidden"
-                      />
-                      <label
-                        for="hospital"
-                        className="px-4 py-[2px] cursor-pointer"
+                    {HospitalData?.map((item, index) => (
+                      <div
+                        key={index}
+                        className="border-[1px] border-gray-400 rounded-sm"
                       >
-                        Hospital
-                      </label>
-                    </div>
-                    <div className="border-[1px] border-gray-400 rounded-sm">
-                      <input
-                        type="radio"
-                        id="clinic"
-                        name="type"
-                        value="clinic"
-                        className="hidden"
-                      />
-                      <label
-                        for="clinic"
-                        className="px-4 py-[2px] cursor-pointer"
-                      >
-                        Clinic
-                      </label>
-                    </div>
-                    <div className="border-[1px] border-gray-400 rounded-sm">
-                      <input
-                        type="radio"
-                        id="laboratory"
-                        name="type"
-                        value="laboratory"
-                        className="hidden"
-                      />
-                      <label
-                        for="laboratory"
-                        className="px-4 py-[2px] cursor-pointer"
-                      >
-                        Laboratory
-                      </label>
-                    </div>
-                    <div className="border-[1px] border-gray-400 rounded-sm">
-                      <input
-                        type="radio"
-                        id="nursing_home"
-                        name="type"
-                        value="nursing_home"
-                        className="hidden"
-                      />
-                      <label
-                        for="nursing_home"
-                        className="px-4 py-[2px] cursor-pointer"
-                      >
-                        Nursing Home
-                      </label>
-                    </div>
-                    <div className="border-[1px] border-gray-400 rounded-sm">
-                      <input
-                        type="radio"
-                        id="care_giving_service"
-                        name="type"
-                        value="care_giving_home"
-                        className="hidden"
-                      />
-                      <label
-                        htmlFor="care_giving_service"
-                        className="px-4 py-[2px] cursor-pointer"
-                      >
-                        Care Giving Service
-                      </label>
-                    </div>
+                        <input
+                          type="radio"
+                          id={item.value}
+                          name="type"
+                          value={item.value}
+                          className="hidden"
+                        />
+                        <label
+                          for={item.value}
+                          className="px-4 py-[2px] cursor-pointer"
+                        >
+                          {item.label}
+                        </label>
+                      </div>
+                    ))}
                   </div>
                 </div>
 
