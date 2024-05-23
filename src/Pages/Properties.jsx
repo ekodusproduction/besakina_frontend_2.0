@@ -54,7 +54,13 @@ const Properties = () => {
   const handleFilterPropertyType=(event)=>{
     setSelectedPropertyType(event.target.value)
   }
-
+  const options = {
+    type         : 'loop',
+    autoplay     : true,
+    interval: 2000,
+    pauseOnHover : false,
+    resetProgress: false,
+  };
   return (
     <>
        
@@ -66,13 +72,13 @@ const Properties = () => {
                 <a href="" className='font-semibold'>Properties</a>
             </div>
             <div>
-                <Splide aria-label="Banner" >
+                <Splide aria-label="Banner" options={options}>
                     <SplideSlide>
-                        <img src="/assets/Banner/properties_banner.png" className='w-[100%]'    alt="Image 1"/>
+                        <img src="/assets/Banner/real-estate-banner.png" className='w-[100%] rounded-xl' alt="Image 1"/>
                     </SplideSlide>
-                    <SplideSlide>
-                        <img src="/assets/Banner/properties_banner.png" className='w-[100%]'    alt="Image 1"/>
-                    </SplideSlide>
+                    {/* <SplideSlide>
+                        <img src="/assets/Banner/properties_banner.png" className='w-[100%]' alt="Image 1"/>
+                    </SplideSlide> */}
                 </Splide>
             </div>
             <div className='py-4 flex flex-col gap-4'>

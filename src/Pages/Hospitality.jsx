@@ -58,11 +58,11 @@ const Hospitality = () => {
             <div>
                 <Splide aria-label="Banner" >
                     <SplideSlide>
-                        <img src="/assets/Banner/properties_banner.png" className='w-[100%]'    alt="Image 1"/>
+                        <img src="/assets/Banner/hospitality.jpg" className='w-[100%] rounded-xl' alt="Image 1"/>
                     </SplideSlide>
-                    <SplideSlide>
+                    {/* <SplideSlide>
                         <img src="/assets/Banner/properties_banner.png" className='w-[100%]'    alt="Image 1"/>
-                    </SplideSlide>
+                    </SplideSlide> */}
                 </Splide>
             </div>
             <div className='py-4 flex flex-col gap-4'>

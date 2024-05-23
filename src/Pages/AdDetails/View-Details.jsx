@@ -215,7 +215,7 @@ const ViewDetails = ({ data, route, category }) => {
                   <div className="flex justify-between pr-12">
                     {data?.type && (
                       <div className='flex items-center gap-2'>
-                        <p className="text-slate-500 text-sm">Type:</p>
+                        <p className="text-slate-500 text-sm"> Vehicle Type:</p>
                         <p className="text-sm text-slate-700">
                           {data?.type}
                         </p>
@@ -230,17 +230,17 @@ const ViewDetails = ({ data, route, category }) => {
                       </div>
                     )}
                   </div>
-                  <div className="flex justify-between">
-                    {data?.kilometer_driven && (
-                      <>
+                  <div className="flex items-center gap-96">
+                    {/* {data?.kilometer_driven && (
+                      <div className='flex items-center gap-2'>
                         <p className="text-sm text-slate-500">
                           Kilometer Driven:
                         </p>
                         <p className="text-sm text-slate-700">
                           {data?.kilometer_driven}
                         </p>
-                      </>
-                    )}
+                      </div>
+                    )} */}
                     {data?.registration_year && (
                       <div className='flex items-center gap-4'>
                         <p className="text-sm text-slate-500">
@@ -371,9 +371,9 @@ const ViewDetails = ({ data, route, category }) => {
                 </div>
               </section>
             )}
-            <section className="xl:w-3/5 border-[1px] border-slate-400 sm:mt-8 mt-4 p-4 rounded-md capitalize">
+            <section className="xl:w-3/5 border-[1px] border-slate-400 sm:mt-8 mt-4 p-4 rounded-md">
               <h2 className="font-bold mb-4">Overview</h2>
-              <p className="text-sm capitalize">{data?.description}</p>
+              <p className="text-sm">{data?.description}</p>
             </section>
           </div>
         </div>
