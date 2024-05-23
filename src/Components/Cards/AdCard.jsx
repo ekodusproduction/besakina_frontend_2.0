@@ -9,6 +9,7 @@ import dayjs from "dayjs";
 import { FaRegEdit } from "react-icons/fa";
 import { MdOutlineDeleteOutline } from "react-icons/md";
 import Swal from "sweetalert2";
+import toast from "react-hot-toast";
 
 const AdCard = ({ data, link , refresh}) => {
   const token = localStorage.getItem("token");
@@ -91,11 +92,7 @@ const AdCard = ({ data, link , refresh}) => {
           },
         })
         .then((response) => {
-          Swal.fire({
-            title: "Delete",
-            text: response?.data?.message,
-            icon: "success"
-          });
+          toast.success(response?.data?.message);
           refreshOnce();
         })
         .catch((err) => {

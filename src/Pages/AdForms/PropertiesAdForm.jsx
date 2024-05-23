@@ -9,6 +9,17 @@ import Swal from 'sweetalert2';
 import { useNavigate } from 'react-router-dom';
 import BackButton from '../../Components/BackButton/BackButton';
 import { StateCitiesData } from '../../data/Indian_Cities_In_States';
+import {
+  BathroomData,
+  BedroomsData,
+  Category,
+  ConstructionData,
+  FurnishingData,
+  ListedByData,
+  ParkingData,
+  TypesData,
+} from '../../data/propertyFormData';
+import toast from 'react-hot-toast';
 
 const PropertiesAdForm = () => {
   const [selectedImages, setSelectedImages] = useState([]);
@@ -104,22 +115,14 @@ const PropertiesAdForm = () => {
       )
       .then((response) => {
         console.log(response);
-        Swal.fire({
-          title: 'Success',
-          text: 'The form was successfully submitted',
-          icon: 'success',
-        });
+        toast.success(response?.data?.message)
         setSubmitting(false);
         navigate('/');
       })
       .catch((err) => {
         console.log('hiiiii', err?.response?.data?.message);
         setSubmitting(false);
-        Swal.fire({
-          title: err?.response?.data?.message,
-          // text: err?.response?.data?.message,
-          icon: 'warning',
-        });
+        toast.error(err?.response?.data?.message);
         if (err?.response?.data?.message === 'User Profile Incomplete') {
           navigate('/setup-profile');
         }
@@ -152,251 +155,113 @@ const PropertiesAdForm = () => {
             >
               <h3 className="mb-2 font-semibold text-xl">Add Some Details</h3>
               <div>
+                <p className="mb-2 font-semibold text-gray-700">Category*</p>
+                <select name="category">
+                  {Category?.map((item, index) => (
+                    <option key={index} value={item.value}>
+                      {item.label}
+                    </option>
+                  ))}
+                </select>
+              </div>
+              <div>
                 <p className="mb-2 font-semibold text-gray-700">Type*</p>
                 <div className="flex flex-wrap gap-2 text-gray-700">
-                  <div className="border-[1px] border-gray-400 rounded-sm">
-                    <input
-                      type="radio"
-                      id="apartments"
-                      name="type"
-                      value="apartments"
-                      className="hidden"
-                    />
-                    <label
-                      for="apartments"
-                      className="px-4 py-[2px] cursor-pointer"
-                    >
-                      Apartments
-                    </label>
-                  </div>
-                  <div className="border-[1px] border-gray-400 rounded-sm">
-                    <input
-                      type="radio"
-                      id="builder_floors"
-                      name="type"
-                      value="builder_floors"
-                      className="hidden"
-                    />
-                    <label
-                      for="builder_floors"
-                      className="px-4 py-[2px] cursor-pointer"
-                    >
-                      Builder Floors
-                    </label>
-                  </div>
-                  <div className="border-[1px] border-gray-400 rounded-sm">
-                    <input
-                      type="radio"
-                      id="farm_houses"
-                      name="type"
-                      value="farm_houses"
-                      className="hidden"
-                    />
-                    <label
-                      for="farm_houses"
-                      className="px-4 py-[2px] cursor-pointer"
-                    >
-                      Farm Houses
-                    </label>
-                  </div>
-                  <div className="border-[1px] border-gray-400 rounded-sm">
-                    <input
-                      type="radio"
-                      id="houses_villas"
-                      name="type"
-                      value="houses_villas"
-                      className="hidden"
-                    />
-                    <label
-                      for="houses_villas"
-                      className="px-4 py-[2px] cursor-pointer"
-                    >
-                      Houses & Villas
-                    </label>
-                  </div>
+                  {TypesData?.map((item, index) => (
+                    <div className="border-[1px] border-gray-400 rounded-sm">
+                      <input
+                        type="radio"
+                        id={item?.value}
+                        name="type"
+                        value={item?.value}
+                        className="hidden"
+                      />
+                      <label
+                        for={item?.value}
+                        className="px-4 py-[2px] cursor-pointer"
+                      >
+                        {item?.label}
+                      </label>
+                    </div>
+                  ))}
                 </div>
               </div>
               <div>
                 <p className="mb-2 font-semibold text-gray-700">Bedrooms*</p>
                 <div className="flex flex-wrap gap-2 text-gray-700">
-                  <div className="border-[1px] border-gray-400 rounded-sm">
-                    <input
-                      type="radio"
-                      id="bedroom_no_1"
-                      name="bedrooms"
-                      value="1"
-                      className="hidden"
-                    />
-                    <label
-                      for="bedroom_no_1"
-                      className="px-4 py-[2px] cursor-pointer"
+                  {BedroomsData?.map((item, index) => (
+                    <div
+                      key={index}
+                      className="border-[1px] border-gray-400 rounded-sm"
                     >
-                      1
-                    </label>
-                  </div>
-                  <div className="border-[1px] border-gray-400 rounded-sm">
-                    <input
-                      type="radio"
-                      id="bedroom_no_2"
-                      name="bedrooms"
-                      value="2"
-                      className="hidden"
-                    />
-                    <label
-                      for="bedroom_no_2"
-                      className="px-4 py-[2px] cursor-pointer"
-                    >
-                      2
-                    </label>
-                  </div>
-                  <div className="border-[1px] border-gray-400 rounded-sm">
-                    <input
-                      type="radio"
-                      id="bedroom_no_3"
-                      name="bedrooms"
-                      value="3"
-                      className="hidden"
-                    />
-                    <label
-                      for="bedroom_no_3"
-                      className="px-4 py-[2px] cursor-pointer"
-                    >
-                      3
-                    </label>
-                  </div>
-                  <div className="border-[1px] border-gray-400 rounded-sm">
-                    <input
-                      type="radio"
-                      id="bedroom_no_4"
-                      name="bedrooms"
-                      value="4"
-                      className="hidden"
-                    />
-                    <label
-                      for="bedroom_no_4"
-                      className="px-4 py-[2px] cursor-pointer"
-                    >
-                      4
-                    </label>
-                  </div>
+                      <input
+                        type="radio"
+                        id={item.id}
+                        name="bedrooms"
+                        value={item.label}
+                        className="hidden"
+                      />
+                      <label
+                        for={item.id}
+                        className="px-4 py-[2px] cursor-pointer"
+                      >
+                        {item.label}
+                      </label>
+                    </div>
+                  ))}
                 </div>
               </div>
               <div>
                 <p className="mb-2 font-semibold text-gray-700">Bathroom*</p>
                 <div className="flex flex-wrap gap-2 text-gray-700">
-                  <div className="border-[1px] border-gray-400 rounded-sm">
-                    <input
-                      type="radio"
-                      id="bathroom_no_1"
-                      name="bathrooms"
-                      value="1"
-                      className="hidden"
-                    />
-                    <label
-                      for="bathroom_no_1"
-                      className="px-4 py-[2px] cursor-pointer"
+                  {BathroomData?.map((item, index) => (
+                    <div
+                      key={index}
+                      className="border-[1px] border-gray-400 rounded-sm"
                     >
-                      1
-                    </label>
-                  </div>
-                  <div className="border-[1px] border-gray-400 rounded-sm">
-                    <input
-                      type="radio"
-                      id="bathroom_no_2"
-                      name="bathrooms"
-                      value="2"
-                      className="hidden"
-                    />
-                    <label
-                      for="bathroom_no_2"
-                      className="px-4 py-[2px] cursor-pointer"
-                    >
-                      2
-                    </label>
-                  </div>
-                  <div className="border-[1px] border-gray-400 rounded-sm">
-                    <input
-                      type="radio"
-                      id="bathroom_no_3"
-                      name="bathrooms"
-                      value="3"
-                      className="hidden"
-                    />
-                    <label
-                      for="bathroom_no_3"
-                      className="px-4 py-[2px] cursor-pointer"
-                    >
-                      3
-                    </label>
-                  </div>
-                  <div className="border-[1px] border-gray-400 rounded-sm">
-                    <input
-                      type="radio"
-                      id="bathroom_no_4"
-                      name="bathrooms"
-                      value="4"
-                      className="hidden"
-                    />
-                    <label
-                      for="bathroom_no_4"
-                      className="px-4 py-[2px] cursor-pointer"
-                    >
-                      4
-                    </label>
-                  </div>
+                      <input
+                        type="radio"
+                        id={item.id}
+                        name="bathrooms"
+                        value={item.label}
+                        className="hidden"
+                      />
+                      <label
+                        for={item.id}
+                        className="px-4 py-[2px] cursor-pointer"
+                      >
+                        {item.label}
+                      </label>
+                    </div>
+                  ))}
                 </div>
               </div>
               <div>
                 <p className="mb-2 font-semibold text-gray-700">Furnishing*</p>
                 <div className="flex flex-wrap gap-2 text-gray-700">
-                  <div className="border-[1px] border-gray-400 rounded-sm">
-                    <input
-                      type="radio"
-                      id="furnished"
-                      name="furnishing"
-                      value="furnished"
-                      className="hidden"
-                    />
-                    <label
-                      for="furnished"
-                      className="px-4 py-[2px] cursor-pointer"
+                  {FurnishingData?.map((item, index) => (
+                    <div
+                      key={index}
+                      className="border-[1px] border-gray-400 rounded-sm"
                     >
-                      Furnished
-                    </label>
-                  </div>
-                  <div className="border-[1px] border-gray-400 rounded-sm">
-                    <input
-                      type="radio"
-                      id="semifurnished"
-                      name="furnishing"
-                      value="semifurnished"
-                      className="hidden"
-                    />
-                    <label
-                      for="semifurnished"
-                      className="px-4 py-[2px] cursor-pointer"
-                    >
-                      Semi-furnished
-                    </label>
-                  </div>
-                  <div className="border-[1px] border-gray-400 rounded-sm">
-                    <input
-                      type="radio"
-                      id="unfurnished"
-                      name="furnishing"
-                      value="unfurnished"
-                      className="hidden"
-                    />
-                    <label
-                      for="unfurnished"
-                      className="px-4 py-[2px] cursor-pointer"
-                    >
-                      Unfurnished
-                    </label>
-                  </div>
+                      <input
+                        type="radio"
+                        id={item.value}
+                        name="furnishing"
+                        value={item.value}
+                        className="hidden"
+                      />
+                      <label
+                        for={item.value}
+                        className="px-4 py-[2px] cursor-pointer"
+                      >
+                        {item.label}
+                      </label>
+                    </div>
+                  ))}
                 </div>
               </div>
-              <div>
+              {/* <div>
                 <p className="mb-2 font-semibold text-gray-700">Categories*</p>
                 <div className="flex flex-wrap gap-2 text-gray-700">
                   <div className="border-[1px] border-gray-400 rounded-sm">
@@ -499,104 +364,76 @@ const PropertiesAdForm = () => {
                     </label>
                   </div>
                 </div>
-              </div>
+              </div> */}
               <div>
                 <p className="mb-2 font-semibold text-gray-700">
                   Construction Status*
                 </p>
                 <div className="flex flex-wrap gap-2 text-gray-700">
-                  <div className="border-[1px] border-gray-400 rounded-sm">
+                  {ConstructionData?.map((item, index) => (
+                    <div
+                      key={index}
+                      className="border-[1px] border-gray-400 rounded-sm"
+                    >
+                      <input
+                        type="radio"
+                        id={item.value}
+                        name="construction_status"
+                        value={item.value}
+                        className="hidden"
+                      />
+                      <label
+                        for={item.value}
+                        className="px-4 py-[2px] cursor-pointer"
+                      >
+                        {item.label}
+                      </label>
+                    </div>
+                  ))}
+                </div>
+              </div>
+              <div>
+                <p className="mb-2 font-semibold text-gray-700">Car Parking</p>
+                <div className="flex flex-wrap gap-2 text-gray-700">
+                {ParkingData?.map((item,index)=>(
+                  <div key={index} className="border-[1px] border-gray-400 rounded-sm">
                     <input
                       type="radio"
-                      id="new_launch"
-                      name="construction_status"
-                      value="new_launch"
+                      id={item.id}
+                      name="car_parking"
+                      value={item.label}
                       className="hidden"
                     />
-                    <label
-                      for="new_launch"
-                      className="px-4 py-[2px] cursor-pointer"
-                    >
-                      New launch
+                    <label for={item.id} className="px-4 py-[2px]">
+                    {item.label}
                     </label>
                   </div>
-                  <div className="border-[1px] border-gray-400 rounded-sm">
-                    <input
-                      type="radio"
-                      id="under_construction"
-                      name="construction_status"
-                      value="under_construction"
-                      className="hidden"
-                    />
-                    <label
-                      for="under_construction"
-                      className="px-4 py-[2px] cursor-pointer"
-                    >
-                      Under construction
-                    </label>
-                  </div>
-                  <div className="border-[1px] border-gray-400 rounded-sm">
-                    <input
-                      type="radio"
-                      id="ready_to_move"
-                      name="construction_status"
-                      value="ready_to_move"
-                      className="hidden"
-                    />
-                    <label
-                      for="ready_to_move"
-                      className="px-4 py-[2px] cursor-pointer"
-                    >
-                      Ready to move
-                    </label>
-                  </div>
+                ))}
                 </div>
               </div>
               <div>
                 <p className="mb-2 font-semibold text-gray-700">Listed By</p>
                 <div className="flex flex-wrap gap-2 text-gray-700">
-                  <div className="border-[1px] border-gray-400 rounded-sm">
-                    <input
-                      type="radio"
-                      id="builder"
-                      name="listed_by"
-                      value="builder"
-                      className="hidden"
-                    />
-                    <label
-                      for="builder"
-                      className="px-4 py-[2px] cursor-pointer"
+                  {ListedByData?.map((item, index) => (
+                    <div
+                      key={index}
+                      className="border-[1px] border-gray-400 rounded-sm"
                     >
-                      Builder
-                    </label>
-                  </div>
-                  <div className="border-[1px] border-gray-400 rounded-sm">
-                    <input
-                      type="radio"
-                      id="dealer"
-                      name="listed_by"
-                      value="dealer"
-                      className="hidden"
-                    />
-                    <label
-                      for="dealer"
-                      className="px-4 py-[2px] cursor-pointer"
-                    >
-                      Dealer
-                    </label>
-                  </div>
-                  <div className="border-[1px] border-gray-400 rounded-sm">
-                    <input
-                      type="radio"
-                      id="owner"
-                      name="listed_by"
-                      value="owner"
-                      className="hidden"
-                    />
-                    <label for="owner" className="px-4 py-[2px] cursor-pointer">
-                      Owner
-                    </label>
-                  </div>
+                      <input
+                        type="radio"
+                        id={item.value}
+                        name="listed_by"
+                        value={item.value}
+                        className="hidden"
+                      />
+                      <label
+                        for={item.value}
+                        className="px-4 py-[2px] cursor-pointer"
+                      >
+                        {item.label}
+                      </label>
+                    </div>
+                  ))}
                 </div>
               </div>
               <div>
@@ -636,12 +473,12 @@ const PropertiesAdForm = () => {
               </div>
               <div>
                 <p className="mb-2 font-semibold text-gray-700">
-                  Maintainance*
+                  Maintenance(monthly)*
                 </p>
                 <div className="flex gap-2">
                   <input
                     type="text"
-                    name="maintainance"
+                    name="maintenance"
                     required
                     className="w-[50vw] border-[1px] border-gray-400 py-2 rounded-md"
                   />
@@ -694,74 +531,7 @@ const PropertiesAdForm = () => {
                   />
                 </div>
               </div>
-              <div>
-                <p className="mb-2 font-semibold text-gray-700">Car Parking</p>
-                <div className="flex flex-wrap gap-2 text-gray-700">
-                  <div className="border-[1px] border-gray-400 rounded-sm">
-                    <input
-                      type="radio"
-                      id="car_parking_no_0"
-                      name="car_parking"
-                      value="0"
-                      className="hidden"
-                    />
-                    <label for="car_parking_no_0" className="px-4 py-[2px]">
-                      0
-                    </label>
-                  </div>
-                  <div className="border-[1px] border-gray-400 rounded-sm">
-                    <input
-                      type="radio"
-                      id="car_parking_no_1"
-                      name="car_parking"
-                      value="1"
-                      className="hidden"
-                    />
-                    <label for="car_parking_no_1" className="px-4 py-[2px]">
-                      1
-                    </label>
-                  </div>
-                  <div className="border-[1px] border-gray-400 rounded-sm">
-                    <input
-                      type="radio"
-                      id="car_parking_no_2"
-                      name="car_parking"
-                      value="2"
-                      className="hidden"
-                    />
-                    <label for="car_parking_no_2" className="px-4 py-[2px]">
-                      2
-                    </label>
-                  </div>
-                  <div className="border-[1px] border-gray-400 rounded-sm">
-                    <input
-                      type="radio"
-                      id="car_parking_no_3"
-                      name="car_parking"
-                      value="3"
-                      className="hidden"
-                    />
-                    <label for="car_parking_no_3" className="px-4 py-[2px]">
-                      3
-                    </label>
-                  </div>
-                  <div className="border-[1px] border-gray-400 rounded-sm">
-                    <input
-                      type="radio"
-                      id="car_parking_no_3_plus"
-                      name="car_parking"
-                      value="4"
-                      className="hidden"
-                    />
-                    <label
-                      for="car_parking_no_3_plus"
-                      className="px-4 py-[2px]"
-                    >
-                      3+
-                    </label>
-                  </div>
-                </div>
-              </div>
+
               <div>
                 <p className="mb-2 font-semibold text-gray-700">
                   House Number*

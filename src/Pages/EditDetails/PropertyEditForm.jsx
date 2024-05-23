@@ -8,6 +8,16 @@ import axiosInstance, { baseURL } from '../../api/axiosInstance';
 import Swal from 'sweetalert2';
 import { useNavigate, useParams } from 'react-router-dom';
 import { StateCitiesData } from '../../data/Indian_Cities_In_States';
+import {
+  BathroomData,
+  BedroomsData,
+  Category,
+  ConstructionData,
+  FurnishingData,
+  ListedByData,
+  ParkingData,
+  TypesData,
+} from '../../data/propertyFormData';
 
 const PropertyEditForm = () => {
   const [selectedImages, setSelectedImages] = useState([]);
@@ -193,395 +203,125 @@ const PropertyEditForm = () => {
             >
               <h3 className="mb-2 font-semibold text-xl">Add Some Details</h3>
               <div>
+                <p className="mb-2 font-semibold text-gray-700">Category*</p>
+                <select
+                  name="category"
+                  value={propertyData?.category}
+                  onChange={(e) => handleEditForm(e, 'category')}
+                >
+                  {Category?.map((item, index) => (
+                    <option key={index} value={item.value}>
+                      {item.label}
+                    </option>
+                  ))}
+                </select>
+              </div>
+              <div>
                 <p className="mb-2 font-semibold text-gray-700">Type*</p>
                 <div className="flex flex-wrap gap-2 text-gray-700">
-                  <div className="border-[1px] border-gray-400 rounded-sm">
-                    <input
-                      type="radio"
-                      id="apartments"
-                      checked={propertyData?.type === 'apartments'}
-                      onChange={(e) => handleEditForm(e, 'type')}
-                      name="type"
-                      value="apartments"
-                      className="hidden"
-                    />
-                    <label
-                      for="apartments"
-                      className="px-4 py-[2px] cursor-pointer"
+                  {TypesData?.map((item, index) => (
+                    <div
+                      key={index}
+                      className="border-[1px] border-gray-400 rounded-sm"
                     >
-                      Apartments
-                    </label>
-                  </div>
-                  <div className="border-[1px] border-gray-400 rounded-sm">
-                    <input
-                      type="radio"
-                      id="builder_floor"
-                      checked={propertyData?.type == 'builder_floors'}
-                      onChange={(e) => handleEditForm(e, 'type')}
-                      name="type"
-                      value="builder_floor"
-                      className="hidden"
-                    />
-                    <label
-                      for="builder_floor"
-                      className="px-4 py-[2px] cursor-pointer"
-                    >
-                      Builder Floors
-                    </label>
-                  </div>
-                  <div className="border-[1px] border-gray-400 rounded-sm">
-                    <input
-                      type="radio"
-                      id="farm_houses"
-                      name="type"
-                      checked={propertyData?.type == 'farm_houses'}
-                      onChange={(e) => handleEditForm(e, 'type')}
-                      value="farm_houses"
-                      className="hidden"
-                    />
-                    <label
-                      for="farm_houses"
-                      className="px-4 py-[2px] cursor-pointer"
-                    >
-                      Farm Houses
-                    </label>
-                  </div>
-                  <div className="border-[1px] border-gray-400 rounded-sm">
-                    <input
-                      type="radio"
-                      id="houses_villas"
-                      name="type"
-                      checked={propertyData?.type == 'houses_villas'}
-                      onChange={(e) => handleEditForm(e, 'type')}
-                      value="houses_villas"
-                      className="hidden"
-                    />
-                    <label
-                      for="houses_villas"
-                      className="px-4 py-[2px] cursor-pointer"
-                    >
-                      Houses & Villas
-                    </label>
-                  </div>
+                      <input
+                        type="radio"
+                        id={item.value}
+                        checked={propertyData?.type === item.value}
+                        onChange={(e) => handleEditForm(e, 'type')}
+                        name="type"
+                        value={item.value}
+                        className="hidden"
+                      />
+                      <label
+                        for={item.value}
+                        className="px-4 py-[2px] cursor-pointer"
+                      >
+                        {item.label}
+                      </label>
+                    </div>
+                  ))}
                 </div>
               </div>
               <div>
                 <p className="mb-2 font-semibold text-gray-700">Bedrooms*</p>
                 <div className="flex flex-wrap gap-2 text-gray-700">
-                  <div className="border-[1px] border-gray-400 rounded-sm">
-                    <input
-                      type="radio"
-                      id="bedroom_no_1"
-                      name="bedrooms"
-                      checked={propertyData?.bedrooms == 1}
-                      onChange={(e) => handleEditForm(e, 'bedrooms')}
-                      value="1"
-                      className="hidden"
-                    />
-                    <label
-                      for="bedroom_no_1"
-                      className="px-4 py-[2px] cursor-pointer"
+                  {BedroomsData?.map((item, index) => (
+                    <div
+                      key={index}
+                      className="border-[1px] border-gray-400 rounded-sm"
                     >
-                      1
-                    </label>
-                  </div>
-                  <div className="border-[1px] border-gray-400 rounded-sm">
-                    <input
-                      type="radio"
-                      id="bedroom_no_2"
-                      name="bedrooms"
-                      checked={propertyData?.bedrooms == 2}
-                      onChange={(e) => handleEditForm(e, 'bedrooms')}
-                      value="2"
-                      className="hidden"
-                    />
-                    <label
-                      for="bedroom_no_2"
-                      className="px-4 py-[2px] cursor-pointer"
-                    >
-                      2
-                    </label>
-                  </div>
-                  <div className="border-[1px] border-gray-400 rounded-sm">
-                    <input
-                      type="radio"
-                      id="bedroom_no_3"
-                      name="bedrooms"
-                      checked={propertyData?.bedrooms == 3}
-                      onChange={(e) => handleEditForm(e, 'bedrooms')}
-                      value="3"
-                      className="hidden"
-                    />
-                    <label
-                      for="bedroom_no_3"
-                      className="px-4 py-[2px] cursor-pointer"
-                    >
-                      3
-                    </label>
-                  </div>
-                  <div className="border-[1px] border-gray-400 rounded-sm">
-                    <input
-                      type="radio"
-                      id="bedroom_no_4"
-                      name="bedrooms"
-                      checked={propertyData?.bedrooms == 4}
-                      onChange={(e) => handleEditForm(e, 'bedrooms')}
-                      value="4"
-                      className="hidden"
-                    />
-                    <label
-                      for="bedroom_no_4"
-                      className="px-4 py-[2px] cursor-pointer"
-                    >
-                      4
-                    </label>
-                  </div>
+                      <input
+                        type="radio"
+                        id={item.id}
+                        name="bedrooms"
+                        checked={propertyData?.bedrooms == item.label}
+                        onChange={(e) => handleEditForm(e, 'bedrooms')}
+                        value={item.label}
+                        className="hidden"
+                      />
+                      <label
+                        for={item.id}
+                        className="px-4 py-[2px] cursor-pointer"
+                      >
+                        {item.label}
+                      </label>
+                    </div>
+                  ))}
                 </div>
               </div>
               <div>
                 <p className="mb-2 font-semibold text-gray-700">Bathroom*</p>
                 <div className="flex flex-wrap gap-2 text-gray-700">
-                  <div className="border-[1px] border-gray-400 rounded-sm">
-                    <input
-                      type="radio"
-                      id="bathroom_no_1"
-                      name="bathrooms"
-                      checked={propertyData?.bathrooms == 1}
-                      onChange={(e) => handleEditForm(e, 'bathrooms')}
-                      value="1"
-                      className="hidden"
-                    />
-                    <label
-                      for="bathroom_no_1"
-                      className="px-4 py-[2px] cursor-pointer"
+                  {BathroomData?.map((item, index) => (
+                    <div
+                      key={index}
+                      className="border-[1px] border-gray-400 rounded-sm"
                     >
-                      1
-                    </label>
-                  </div>
-                  <div className="border-[1px] border-gray-400 rounded-sm">
-                    <input
-                      type="radio"
-                      id="bathroom_no_2"
-                      name="bathrooms"
-                      checked={propertyData?.bathrooms == 2}
-                      onChange={(e) => handleEditForm(e, 'bathrooms')}
-                      value="2"
-                      className="hidden"
-                    />
-                    <label
-                      for="bathroom_no_2"
-                      className="px-4 py-[2px] cursor-pointer"
-                    >
-                      2
-                    </label>
-                  </div>
-                  <div className="border-[1px] border-gray-400 rounded-sm">
-                    <input
-                      type="radio"
-                      id="bathroom_no_3"
-                      name="bathrooms"
-                      checked={propertyData?.bathrooms == 3}
-                      onChange={(e) => handleEditForm(e, 'bathrooms')}
-                      value="3"
-                      className="hidden"
-                    />
-                    <label
-                      for="bathroom_no_3"
-                      className="px-4 py-[2px] cursor-pointer"
-                    >
-                      3
-                    </label>
-                  </div>
-                  <div className="border-[1px] border-gray-400 rounded-sm">
-                    <input
-                      type="radio"
-                      id="bathroom_no_4"
-                      name="bathrooms"
-                      checked={propertyData?.bathrooms == 4}
-                      onChange={(e) => handleEditForm(e, 'bathrooms')}
-                      value="4"
-                      className="hidden"
-                    />
-                    <label
-                      for="bathroom_no_4"
-                      className="px-4 py-[2px] cursor-pointer"
-                    >
-                      4
-                    </label>
-                  </div>
+                      <input
+                        type="radio"
+                        id={item.id}
+                        name="bathrooms"
+                        checked={propertyData?.bathrooms == item.label}
+                        onChange={(e) => handleEditForm(e, 'bathrooms')}
+                        value={item.label}
+                        className="hidden"
+                      />
+                      <label
+                        for={item.id}
+                        className="px-4 py-[2px] cursor-pointer"
+                      >
+                        {item.label}
+                      </label>
+                    </div>
+                  ))}
                 </div>
               </div>
               <div>
                 <p className="mb-2 font-semibold text-gray-700">Furnishing*</p>
                 <div className="flex flex-wrap gap-2 text-gray-700">
-                  <div className="border-[1px] border-gray-400 rounded-sm">
-                    <input
-                      type="radio"
-                      id="furnished"
-                      name="furnishing"
-                      checked={propertyData?.furnishing == 'furnished'}
-                      onChange={(e) => handleEditForm(e, 'furnishing')}
-                      value="furnished"
-                      className="hidden"
-                    />
-                    <label
-                      for="furnished"
-                      className="px-4 py-[2px] cursor-pointer"
+                  {FurnishingData?.map((item, index) => (
+                    <div
+                      key={index}
+                      className="border-[1px] border-gray-400 rounded-sm"
                     >
-                      Furnished
-                    </label>
-                  </div>
-                  <div className="border-[1px] border-gray-400 rounded-sm">
-                    <input
-                      type="radio"
-                      id="semifurnished"
-                      name="furnishing"
-                      checked={propertyData?.furnishing == 'semifurnished'}
-                      onChange={(e) => handleEditForm(e, 'furnishing')}
-                      value="semifurnished"
-                      className="hidden"
-                    />
-                    <label
-                      for="semifurnished"
-                      className="px-4 py-[2px] cursor-pointer"
-                    >
-                      Semi-furnished
-                    </label>
-                  </div>
-                  <div className="border-[1px] border-gray-400 rounded-sm">
-                    <input
-                      type="radio"
-                      id="unfurnished"
-                      name="furnishing"
-                      checked={propertyData?.furnishing == 'unfurnished'}
-                      onChange={(e) => handleEditForm(e, 'furnishing')}
-                      value="unfurnished"
-                      className="hidden"
-                    />
-                    <label
-                      for="unfurnished"
-                      className="px-4 py-[2px] cursor-pointer"
-                    >
-                      Unfurnished
-                    </label>
-                  </div>
-                </div>
-              </div>
-              <div>
-                <p className="mb-2 font-semibold text-gray-700">Categories*</p>
-                <div className="flex flex-wrap gap-2 text-gray-700">
-                  <div className="border-[1px] border-gray-400 rounded-sm">
-                    <input
-                      type="radio"
-                      id="1BHK"
-                      name="category"
-                      value="1BHK"
-                      checked={propertyData?.category == '1BHK'}
-                      onChange={(e) => handleEditForm(e, 'category')}
-                      className="hidden"
-                    />
-                    <label for="1BHK" className="px-4 py-[2px] cursor-pointer">
-                      1BHK
-                    </label>
-                  </div>
-                  <div className="border-[1px] border-gray-400 rounded-sm">
-                    <input
-                      type="radio"
-                      id="2BHK"
-                      name="category"
-                      value="2BHK"
-                      checked={propertyData?.category == '2BHK'}
-                      onChange={(e) => handleEditForm(e, 'category')}
-                      className="hidden"
-                    />
-                    <label for="2BHK" className="px-4 py-[2px] cursor-pointer">
-                      2BHK
-                    </label>
-                  </div>
-                  <div className="border-[1px] border-gray-400 rounded-sm">
-                    <input
-                      type="radio"
-                      id="3BHK"
-                      name="category"
-                      value="3BHK"
-                      checked={propertyData?.category == '3BHK'}
-                      onChange={(e) => handleEditForm(e, 'category')}
-                      className="hidden"
-                    />
-                    <label for="3BHK" className="px-4 py-[2px] cursor-pointer">
-                      3BHK
-                    </label>
-                  </div>
-                  <div className="border-[1px] border-gray-400 rounded-sm">
-                    <input
-                      type="radio"
-                      id="4BHK"
-                      name="category"
-                      value="4BHK"
-                      checked={propertyData?.category == '4BHK'}
-                      onChange={(e) => handleEditForm(e, 'category')}
-                      className="hidden"
-                    />
-                    <label for="4BHK" className="px-4 py-[2px] cursor-pointer">
-                      4BHK
-                    </label>
-                  </div>
-                  <div className="border-[1px] border-gray-400 rounded-sm">
-                    <input
-                      type="radio"
-                      id="5BHK"
-                      name="category"
-                      checked={propertyData?.category == '5BHK'}
-                      onChange={(e) => handleEditForm(e, 'category')}
-                      value="5BHK"
-                      className="hidden"
-                    />
-                    <label for="5BHK" className="px-4 py-[2px] cursor-pointer">
-                      5BHK
-                    </label>
-                  </div>
-                  <div className="border-[1px] border-gray-400 rounded-sm">
-                    <input
-                      type="radio"
-                      id="1RK"
-                      name="category"
-                      checked={propertyData?.category == '1RK'}
-                      onChange={(e) => handleEditForm(e, 'category')}
-                      value="1RK"
-                      className="hidden"
-                    />
-                    <label for="1RK" className="px-4 py-[2px] cursor-pointer">
-                      1RK
-                    </label>
-                  </div>
-                  <div className="border-[1px] border-gray-400 rounded-sm">
-                    <input
-                      type="radio"
-                      id="HOUSE"
-                      name="category"
-                      checked={propertyData?.category == 'HOUSE'}
-                      onChange={(e) => handleEditForm(e, 'category')}
-                      value="HOUSE"
-                      className="hidden"
-                    />
-                    <label for="HOUSE" className="px-4 py-[2px] cursor-pointer">
-                      HOUSE
-                    </label>
-                  </div>
-                  <div className="border-[1px] border-gray-400 rounded-sm">
-                    <input
-                      type="radio"
-                      id="VILLA"
-                      name="category"
-                      checked={propertyData?.category == 'VILLA'}
-                      onChange={(e) => handleEditForm(e, 'category')}
-                      value="VILLA"
-                      className="hidden"
-                    />
-                    <label for="VILLA" className="px-4 py-[2px] cursor-pointer">
-                      VILLA
-                    </label>
-                  </div>
+                      <input
+                        type="radio"
+                        id={item.value}
+                        name="furnishing"
+                        checked={propertyData?.furnishing == item.value}
+                        onChange={(e) => handleEditForm(e, 'furnishing')}
+                        value={item.value}
+                        className="hidden"
+                      />
+                      <label
+                        for={item.value}
+                        className="px-4 py-[2px] cursor-pointer"
+                      >
+                        {item.label}
+                      </label>
+                    </div>
+                  ))}
                 </div>
               </div>
               <div>
@@ -589,117 +329,56 @@ const PropertyEditForm = () => {
                   Construction Status*
                 </p>
                 <div className="flex flex-wrap gap-2 text-gray-700">
-                  <div className="border-[1px] border-gray-400 rounded-sm">
-                    <input
-                      type="radio"
-                      id="new_launch"
-                      name="construction_status"
-                      checked={
-                        propertyData?.construction_status == 'new_launch'
-                      }
-                      onChange={(e) => handleEditForm(e, 'construction_status')}
-                      value="new_launch"
-                      className="hidden"
-                    />
-                    <label
-                      for="new_launch"
-                      className="px-4 py-[2px] cursor-pointer"
+                  {ConstructionData?.map((item, index) => (
+                    <div
+                      key={index}
+                      className="border-[1px] border-gray-400 rounded-sm"
                     >
-                      New launch
-                    </label>
-                  </div>
-                  <div className="border-[1px] border-gray-400 rounded-sm">
-                    <input
-                      type="radio"
-                      id="under_construction"
-                      name="construction_status"
-                      hecked={
-                        propertyData?.construction_status ==
-                        'under_construction'
-                      }
-                      onChange={(e) => handleEditForm(e, 'construction_status')}
-                      value="under_construction"
-                      className="hidden"
-                    />
-                    <label
-                      for="under_construction"
-                      className="px-4 py-[2px] cursor-pointer"
-                    >
-                      Under construction
-                    </label>
-                  </div>
-                  <div className="border-[1px] border-gray-400 rounded-sm">
-                    <input
-                      type="radio"
-                      id="ready_to_move"
-                      name="construction_status"
-                      hecked={
-                        propertyData?.construction_status == 'ready_to_move'
-                      }
-                      onChange={(e) => handleEditForm(e, 'construction_status')}
-                      value="ready_to_move"
-                      className="hidden"
-                    />
-                    <label
-                      for="ready_to_move"
-                      className="px-4 py-[2px] cursor-pointer"
-                    >
-                      Ready to move
-                    </label>
-                  </div>
+                      <input
+                        type="radio"
+                        id={item.value}
+                        name="construction_status"
+                        checked={
+                          propertyData?.construction_status == item.value
+                        }
+                        onChange={(e) =>
+                          handleEditForm(e, 'construction_status')
+                        }
+                        value={item.value}
+                        className="hidden"
+                      />
+                      <label
+                        for={item.value}
+                        className="px-4 py-[2px] cursor-pointer"
+                      >
+                        {item.label}
+                      </label>
+                    </div>
+                  ))}
                 </div>
               </div>
               <div>
                 <p className="mb-2 font-semibold text-gray-700">Listed By</p>
                 <div className="flex flex-wrap gap-2 text-gray-700">
-                  <div className="border-[1px] border-gray-400 rounded-sm">
+                  {ListedByData?.map((item,index)=>(
+                  <div key={index} className="border-[1px] border-gray-400 rounded-sm">
                     <input
                       type="radio"
-                      id="builder"
+                      id={item.value}
                       name="listed_by"
-                      checked={propertyData?.listed_by == 'builder'}
+                      checked={propertyData?.listed_by == item.value}
                       onChange={(e) => handleEditForm(e, 'listed_by')}
-                      value="builder"
+                      value={item.value}
                       className="hidden"
                     />
                     <label
-                      for="builder"
+                      for={item.value}
                       className="px-4 py-[2px] cursor-pointer"
                     >
-                      Builder
+                      {item.label}
                     </label>
                   </div>
-                  <div className="border-[1px] border-gray-400 rounded-sm">
-                    <input
-                      type="radio"
-                      id="dealer"
-                      name="listed_by"
-                      checked={propertyData?.listed_by == 'dealer'}
-                      onChange={(e) => handleEditForm(e, 'listed_by')}
-                      value="dealer"
-                      className="hidden"
-                    />
-                    <label
-                      for="dealer"
-                      className="px-4 py-[2px] cursor-pointer"
-                    >
-                      Dealer
-                    </label>
-                  </div>
-                  <div className="border-[1px] border-gray-400 rounded-sm">
-                    <input
-                      type="radio"
-                      id="owner"
-                      name="listed_by"
-                      checked={propertyData?.listed_by == 'owner'}
-                      onChange={(e) => handleEditForm(e, 'listed_by')}
-                      value="owner"
-                      className="hidden"
-                    />
-                    <label for="owner" className="px-4 py-[2px] cursor-pointer">
-                      Owner
-                    </label>
-                  </div>
+                  ))}
                 </div>
               </div>
               <div>
@@ -740,12 +419,20 @@ const PropertyEditForm = () => {
                   />
                 </div>
               </div>
-              {/* <div>
-                                <p className='mb-2 font-semibold text-gray-700'>Maintainance*</p>
-                                <div className='flex gap-2'>
-                                    <input type="text" name='maintainance' className='w-[50vw] border-[1px] border-gray-400 py-2 rounded-md' />
-                                </div>
-                            </div> */}
+              <div>
+                <p className="mb-2 font-semibold text-gray-700">
+                Maintenance*
+                </p>
+                <div className="flex gap-2">
+                  <input
+                    type="text"
+                    name="maintenance"
+                    value={propertyData?.maintenance}
+                    onChange={(e)=>handleEditForm(e,"maintenance")}
+                    className="w-[50vw] border-[1px] border-gray-400 py-2 rounded-md"
+                  />
+                </div>
+              </div>
               <div>
                 <p className="mb-2 font-semibold text-gray-700">
                   Total Floors*
@@ -787,76 +474,22 @@ const PropertyEditForm = () => {
               <div>
                 <p className="mb-2 font-semibold text-gray-700">Car Parking</p>
                 <div className="flex flex-wrap gap-2 text-gray-700">
-                  <div className="border-[1px] border-gray-400 rounded-sm">
+                  {ParkingData?.map((item,index)=>(
+                  <div key={index} className="border-[1px] border-gray-400 rounded-sm">
                     <input
                       type="radio"
-                      id="car_parking_no_0"
+                      id={item.id}
                       name="car_parking"
-                      checked={propertyData?.car_parking == '0'}
+                      checked={propertyData?.car_parking == item.label}
                       onChange={(e) => handleEditForm(e, 'car_parking')}
-                      value="0"
+                      value={item.label}
                       className="hidden"
                     />
-                    <label for="car_parking_no_0" className="px-4 py-[2px]">
-                      0
+                    <label for={item.id} className="px-4 py-[2px]">
+                    {item.label}
                     </label>
                   </div>
-                  <div className="border-[1px] border-gray-400 rounded-sm">
-                    <input
-                      type="radio"
-                      id="car_parking_no_1"
-                      name="car_parking"
-                      checked={propertyData?.car_parking == '1'}
-                      onChange={(e) => handleEditForm(e, 'car_parking')}
-                      value="1"
-                      className="hidden"
-                    />
-                    <label for="car_parking_no_1" className="px-4 py-[2px]">
-                      1
-                    </label>
-                  </div>
-                  <div className="border-[1px] border-gray-400 rounded-sm">
-                    <input
-                      type="radio"
-                      id="car_parking_no_2"
-                      name="car_parking"
-                      checked={propertyData?.car_parking == '2'}
-                      onChange={(e) => handleEditForm(e, 'car_parking')}
-                      value="2"
-                      className="hidden"
-                    />
-                    <label for="car_parking_no_2" className="px-4 py-[2px]">
-                      2
-                    </label>
-                  </div>
-                  <div className="border-[1px] border-gray-400 rounded-sm">
-                    <input
-                      type="radio"
-                      id="car_parking_no_3"
-                      name="car_parking"
-                      checked={propertyData?.car_parking == '3'}
-                      onChange={(e) => handleEditForm(e, 'car_parking')}
-                      value="3"
-                      className="hidden"
-                    />
-                    <label for="car_parking_no_3" className="px-4 py-[2px]">
-                      3
-                    </label>
-                  </div>
-                  <div className="border-[1px] border-gray-400 rounded-sm">
-                    <input
-                      type="radio"
-                      id="car_parking_no_4"
-                      name="car_parking"
-                      checked={propertyData?.car_parking == '4'}
-                      onChange={(e) => handleEditForm(e, 'car_parking')}
-                      value="4"
-                      className="hidden"
-                    />
-                    <label for="car_parking_no_4" className="px-4 py-[2px]">
-                      4
-                    </label>
-                  </div>
+                  ))}
                 </div>
               </div>
               <div>

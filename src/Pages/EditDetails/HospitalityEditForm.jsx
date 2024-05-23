@@ -8,6 +8,7 @@ import axiosInstance, { baseURL } from '../../api/axiosInstance';
 import Swal from 'sweetalert2';
 import { useNavigate, useParams } from 'react-router-dom';
 import { StateCitiesData } from '../../data/Indian_Cities_In_States';
+import { HospitalityTypeData } from '../../data/hospitalityData';
 
 const HospitalityEditForm = () => {
   const [selectedImages, setSelectedImages] = useState([]);
@@ -99,13 +100,14 @@ const HospitalityEditForm = () => {
     for (let i = 0; i < data.length; i++) {
         const { name, value: val } = data[i];
   
-        if (name !== "") {
+        if (name !== "" && name !== "type") {
           value[name] = val;
         }
     }
   
     const body = {
       ...value,
+      type: hospitalityData?.type,
     };
 
     axiosInstance
@@ -200,83 +202,22 @@ const HospitalityEditForm = () => {
               <div>
                 <p className="mb-2 font-semibold text-gray-700">Select Type*</p>
                 <div className="flex flex-wrap gap-2 text-gray-700">
-                  <div className="border-[1px] border-gray-400 rounded-sm">
+                  {HospitalityTypeData?.map((item,index)=>(
+                  <div key={index} className="border-[1px] border-gray-400 rounded-sm">
                     <input
                       type="radio"
-                      id="hotel"
+                      id={item.value}
                       name="type"
-                      checked={hospitalityData?.type === 'hotel'}
-                      value="hotel"
+                      checked={hospitalityData?.type === item.value}
+                      onChange={(e)=>handleEditForm(e,"type")}
+                      value={item.value}
                       className="hidden"
                     />
-                    <label for="hotel" className="px-4 py-[2px] cursor-pointer">
-                      Hotel
+                    <label for={item.value} className="px-4 py-[2px] cursor-pointer">
+                    {item.label}
                     </label>
                   </div>
-                  <div className="border-[1px] border-gray-400 rounded-sm">
-                    <input
-                      type="radio"
-                      id="guest_house"
-                      name="type"
-                      checked={hospitalityData?.type === 'guest_house'}
-                      value="guest_house"
-                      className="hidden"
-                    />
-                    <label
-                      for="guest_house"
-                      className="px-4 py-[2px] cursor-pointer"
-                    >
-                      Guest House
-                    </label>
-                  </div>
-                  <div className="border-[1px] border-gray-400 rounded-sm">
-                    <input
-                      type="radio"
-                      id="homestay"
-                      name="type"
-                      checked={hospitalityData?.type === 'homestay'}
-                      value="homestay"
-                      className="hidden"
-                    />
-                    <label
-                      for="homestay"
-                      className="px-4 py-[2px] cursor-pointer"
-                    >
-                      Homestay
-                    </label>
-                  </div>
-                  <div className="border-[1px] border-gray-400 rounded-sm">
-                    <input
-                      type="radio"
-                      id="resort"
-                      name="type"
-                      checked={hospitalityData?.type === 'resort'}
-                      value="resort"
-                      className="hidden"
-                    />
-                    <label
-                      for="resort"
-                      className="px-4 py-[2px] cursor-pointer"
-                    >
-                      Resort
-                    </label>
-                  </div>
-                  <div className="border-[1px] border-gray-400 rounded-sm">
-                    <input
-                      type="radio"
-                      id="paying_guest"
-                      name="type"
-                      checked={hospitalityData?.type === 'paying_guest'}
-                      value="paying_guest"
-                      className="hidden"
-                    />
-                    <label
-                      for="paying_guest"
-                      className="px-4 py-[2px] cursor-pointer"
-                    >
-                      Paying Guest
-                    </label>
-                  </div>
+                  ))}
                 </div>
               </div>
 

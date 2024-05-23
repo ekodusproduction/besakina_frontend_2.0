@@ -698,12 +698,11 @@ const HealthAdForm = () => {
                 </div>
                 <div>
                   <p className="mb-2 font-semibold text-gray-700">
-                    Registration Fee*
+                    Registration Fee
                   </p>
                   <div className="flex gap-2">
                     <input
                       name="price_registration"
-                      required
                       type="text"
                       className="w-[85vw] md:w-[50vw] pl-2 border-[1px] border-gray-400 py-2 rounded-md"
                     />

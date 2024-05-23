@@ -9,6 +9,7 @@ import Swal from 'sweetalert2';
 import { useNavigate } from 'react-router-dom';
 import BackButton from '../../Components/BackButton/BackButton';
 import { StateCitiesData } from '../../data/Indian_Cities_In_States';
+import { HospitalityTypeData } from '../../data/hospitalityData';
 
 
 const HospitalityAdForm = () => {
@@ -144,27 +145,12 @@ const HospitalityAdForm = () => {
                             <div>
                                 <p className='mb-2 font-semibold text-gray-700'>Select Type*</p>
                                 <div className='flex flex-wrap gap-2 text-gray-700'>
-                                    <div className='border-[1px] border-gray-400 rounded-sm'>
-                                        <input type="radio" id="hotel" name="type" value="hotel" className='hidden'/>
-                                        <label for="hotel" className='px-4 py-[2px] cursor-pointer'>Hotel</label>
+                                {HospitalityTypeData?.map((item,index)=>(
+                                    <div key={index} className='border-[1px] border-gray-400 rounded-sm'>
+                                        <input type="radio" id={item.value} name="type" value={item.value} className='hidden'/>
+                                        <label for={item.value} className='px-4 py-[2px] cursor-pointer'>{item.label}</label>
                                     </div>
-                                    <div className='border-[1px] border-gray-400 rounded-sm'>
-                                        <input type="radio" id="guest_house" name="type" value="guest_house" className='hidden'/>
-                                        <label for="guest_house" className='px-4 py-[2px] cursor-pointer'>Guest House</label>
-                                    </div>
-                                    <div className='border-[1px] border-gray-400 rounded-sm'>
-                                        <input type="radio" id="homestay" name="type" value="homestay" className='hidden'/>
-                                        <label for="homestay" className='px-4 py-[2px] cursor-pointer'>Homestay</label>
-                                    </div>
-                                    <div className='border-[1px] border-gray-400 rounded-sm'>
-                                        <input type="radio" id="resort" name="type" value="resort" className='hidden'/>
-                                        <label for="resort" className='px-4 py-[2px] cursor-pointer'>Resort</label>
-                                    </div>
-                                    <div className='border-[1px] border-gray-400 rounded-sm'>
-                                        <input type="radio" id="paying_guest" name="type" value="paying_guest" className='hidden'/>
-                                        <label for="paying_guest" className='px-4 py-[2px] cursor-pointer'>Paying Guest</label>
-                                    </div>
-
+                                ))}
                                 </div>
                             </div>
                             
