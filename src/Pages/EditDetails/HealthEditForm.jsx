@@ -6,6 +6,8 @@ import Button from '../../Components/Button/Button';
 import Swal from 'sweetalert2';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { StateCitiesData } from '../../data/Indian_Cities_In_States';
+import { ExpertiseData, HospitalData } from '../../data/heathFormData';
+import toast from 'react-hot-toast';
 
 const HealthEditForm = () => {
   const location = useLocation();
@@ -178,7 +180,7 @@ const HealthEditForm = () => {
 
     for (let i = 0; i < data.length; i++) {
       const { name, value: val } = data[i];
-      if (name !== '' && name != 'expertise') {
+      if (name !== '' && name != 'expertise' && name != "type" ) {
         value[name] = val;
       }
     }
@@ -195,23 +197,14 @@ const HealthEditForm = () => {
         },
       })
       .then((response) => {
-        console.log(response);
-        Swal.fire({
-          title: 'Success',
-          text: 'The form was successfully submitted',
-          icon: 'success',
-        });
+        toast.success('The form was successfully submitted');
         setSubmitting(false);
         navigate('/');
       })
       .catch((err) => {
         console.log(err);
         setSubmitting(false);
-        Swal.fire({
-          title: 'Error',
-          text: 'Something went wrong',
-          icon: 'error',
-        });
+        toast.error('Something went wrong')
       });
   };
 
@@ -379,125 +372,33 @@ const HealthEditForm = () => {
                     Select Expertise*
                   </p>
                   <div className="flex flex-wrap gap-2 text-gray-700">
-                    <div className="border-[1px] border-gray-400 rounded-sm">
-                      <input
-                        type="radio"
-                        id="child"
-                        name="expertise"
-                        value="child"
-                        className="hidden"
-                        checked={doctorsDetails?.expertise == 'child'}
-                        onChange={(e) => handleEditForm(e, 'expertise')}
-                      />
-                      <label for="child" className="px-4 py-2">
-                        Child
-                      </label>
-                    </div>
-                    <div className="border-[1px] border-gray-400 rounded-sm">
-                      <input
-                        type="radio"
-                        id="gastro_intestine"
-                        name="expertise"
-                        value="gastro intestine"
-                        className="hidden"
-                        checked={
-                          doctorsDetails?.expertise == 'gastro intestine'
-                        }
-                        onChange={(e) => handleEditForm(e, 'expertise')}
-                      />
-                      <label for="gastro_intestine" className="px-4 py-2">
-                        Gastro intestine
-                      </label>
-                    </div>
-                    <div className="border-[1px] border-gray-400 rounded-sm">
-                      <input
-                        type="radio"
-                        id="cadiology"
-                        name="expertise"
-                        value="cadiology"
-                        className="hidden"
-                        checked={doctorsDetails?.expertise == 'cadiology'}
-                        onChange={(e) => handleEditForm(e, 'expertise')}
-                      />
-                      <label for="cadiology" className="px-4 py-2">
-                        Cadiology
-                      </label>
-                    </div>
-                    <div className="border-[1px] border-gray-400 rounded-sm">
-                      <input
-                        type="radio"
-                        id="opthopaedic"
-                        name="expertise"
-                        value="opthopaedic"
-                        className="hidden"
-                        checked={doctorsDetails?.expertise == 'opthopaedic'}
-                        onChange={(e) => handleEditForm(e, 'expertise')}
-                      />
-                      <label for="opthopaedic" className="px-4 py-2">
-                        Opthopaedic
-                      </label>
-                    </div>
-                    <div className="border-[1px] border-gray-400 rounded-sm">
-                      <input
-                        type="radio"
-                        id="gynecology"
-                        name="expertise"
-                        value="gynecology"
-                        className="hidden"
-                        checked={doctorsDetails?.expertise == 'gynecology'}
-                        onChange={(e) => handleEditForm(e, 'expertise')}
-                      />
-                      <label for="gynecology" className="px-4 py-2">
-                        Gynecology
-                      </label>
-                    </div>
-                    <div className="border-[1px] border-gray-400 rounded-sm">
-                      <input
-                        type="radio"
-                        id="emergency_medicine"
-                        name="expertise"
-                        value="emergency medicine"
-                        className="hidden"
-                        checked={
-                          doctorsDetails?.expertise == 'emergency medicine'
-                        }
-                        onChange={(e) => handleEditForm(e, 'expertise')}
-                      />
-                      <label for="emergency_medicine" className="px-4 py-2">
-                        Emergency Medicine
-                      </label>
-                    </div>
-                    <div className="border-[1px] border-gray-400 rounded-sm">
-                      <input
-                        type="radio"
-                        id="physician"
-                        name="expertise"
-                        value="physician"
-                        className="hidden"
-                        checked={doctorsDetails?.expertise == 'physician'}
-                        onChange={(e) => handleEditForm(e, 'expertise')}
-                      />
-                      <label for="physician" className="px-4 py-2">
-                        Physician
-                      </label>
-                    </div>
-                    <div className="border-[1px] border-gray-400 rounded-sm">
-                      <input
-                        type="radio"
-                        id="others"
-                        name="expertise"
-                        value="others"
-                        className="hidden"
-                        checked={doctorsDetails?.expertise == 'others'}
-                        onChange={(e) => handleEditForm(e, 'expertise')}
-                      />
-                      <label for="others" className="px-4 py-2">
-                        Others
-                      </label>
-                    </div>
+                  {ExpertiseData?.map((item, index) => (
+                      <div
+                        key={index}
+                        className="border-[1px] border-gray-400 rounded-sm"
+                      >
+                        <input
+                          type="radio"
+                          id={item.value}
+                          name="type"
+                          value={item.value}
+                          className="hidden"
+                          checked={
+                            doctorsDetails?.expertise == item.value
+                          }
+                          onChange={(e) => handleEditForm(e, 'expertise')}
+                        />
+                        <label
+                          for={item.value}
+                          className="px-4 py-[2px] cursor-pointer"
+                        >
+                          {item.label}
+                        </label>
+                      </div>
+                    ))}
+                    
                   </div>
                 </div>
-
                 <div>
                   <p className="mb-2 font-semibold text-gray-700">Name*</p>
                   <div className="flex gap-2">
@@ -711,74 +612,25 @@ const HealthEditForm = () => {
                     Select Type*
                   </p>
                   <div className="flex flex-wrap gap-2 text-gray-700">
-                    <div className="border-[1px] border-gray-400 rounded-sm">
+                    {HospitalData?.map((item,index)=>(
+                    <div key={index} className="border-[1px] border-gray-400 rounded-sm">
                       <input
                         type="radio"
-                        id="hospital"
+                        id={item.value}
                         name="type"
-                        checked={hospitalDetails?.type == 'hospital'}
+                        checked={hospitalDetails?.type == item.value}
                         onChange={(e) => handleEditForm(e, 'type')}
-                        value="hospital"
+                        value={item.value}
                         className="hidden"
                       />
                       <label
-                        for="hospital"
+                        for={item.value}
                         className="px-4 py-[2px] cursor-pointer"
                       >
-                        Hospital
+                        {item.label}
                       </label>
                     </div>
-                    <div className="border-[1px] border-gray-400 rounded-sm">
-                      <input
-                        type="radio"
-                        id="clinic"
-                        name="type"
-                        value="clinic"
-                        checked={hospitalDetails?.type == 'clinic'}
-                        onChange={(e) => handleEditForm(e, 'type')}
-                        className="hidden"
-                      />
-                      <label
-                        for="clinic"
-                        className="px-4 py-[2px] cursor-pointer"
-                      >
-                        Clinic
-                      </label>
-                    </div>
-                    <div className="border-[1px] border-gray-400 rounded-sm">
-                      <input
-                        type="radio"
-                        id="laboratory"
-                        name="type"
-                        value="laboratory"
-                        checked={hospitalDetails?.type == 'laboratory'}
-                        onChange={(e) => handleEditForm(e, 'type')}
-                        className="hidden"
-                      />
-                      <label
-                        for="laboratory"
-                        className="px-4 py-[2px] cursor-pointer"
-                      >
-                        Laboratory
-                      </label>
-                    </div>
-                    <div className="border-[1px] border-gray-400 rounded-sm">
-                      <input
-                        type="radio"
-                        id="nursing_home"
-                        name="type"
-                        value="nursing_home"
-                        checked={hospitalDetails?.type == 'nursing_home'}
-                        onChange={(e) => handleEditForm(e, 'type')}
-                        className="hidden"
-                      />
-                      <label
-                        for="nursing_home"
-                        className="px-4 py-[2px] cursor-pointer"
-                      >
-                        Nursing Home
-                      </label>
-                    </div>
+                    ))}
                   </div>
                 </div>
 
