@@ -8,16 +8,22 @@ import { formatDate } from '../../utils/fornatter';
 
 
 const HospitalCard = ({data,link}) => {
+    function convertString(str) {
+        // Replace underscores with spaces
+        return str.replace(/_/g, ' ');
+      }
+    
   return (
-    <Link to={`${link}/${data?.id}`} >
+    <Link to={`${link}/${data?._id}`} >
         <div className='border-[1px] border-slate-400 rounded-md overflow-hidden bg-white'>
             <div className='h-[150px] sm:h-[200px]  '>
                 <img  src={`${data?.images[0]}`} alt='image' className='sm:h-[200px] h-full w-full object-cover'/>
             </div>
             <div className='w-[100%] p-2 flex flex-col gap-2'>
                 <div>
-                    <h2 className='font-bold xl:text-lg capitalize'> {data?.price}</h2>
-                    <p className='text-xs xl:text-sm capitalize'>{data?.title?.slice(0,30)}...</p>
+                    <h2 className='font-bold xl:text-lg capitalize'> {data?.name}</h2>
+                    {/* <p className='text-xs xl:text-sm capitalize'>{data?.title?.slice(0,30)}...</p> */}
+                    <p className='text-xs xl:text-sm capitalize'>{data?.type ? `Category: ` + convertString(data?.type) : data?.title?.slice(0,30) + "..." }</p>
                 </div>
                 <div>
                     <div className='flex items-center gap-[3px]'>

@@ -48,22 +48,22 @@ const FeaturedAds = () => {
     aria-label="Featured Ads">
        {featuredData.map(item => (
             <SplideSlide>
-                {item.category == 'property' && 
+                {item.advType == 'Property' && 
                     <ProductCard data={item} key={item.id} link={'/propertiesdetails'}/>
                 }
-                {item.category == 'vehicles' && 
+                {item.advType == 'Vehicle' && 
                     <ProductCard data={item} key={item.id} link={'/vehicledetails'}/>
                 }
-                {item.category == 'education' && 
+                {item.advType == 'Education' && 
                     <ProductCard data={item} key={item.id} link={'/educationdetails'}/>
                 }
-                {item.category == "hospitality" && 
+                {item.advType == "Hospitality" && 
                     <ProductCard data={item} key={item.id} link={'/hospitalitydetails'}/>
                 }
-                {item?.category == "doctors" &&
+                {item?.advType == "Doctor" &&
                     <ProductCard data={item} key={item.id} link={"/doctordetails"} />
                 }
-                {item?.category == "hospitals" &&
+                {item?.advType == "Hospital" &&
                     <HospitalCard data={item} key={item.id} link={"/hospitaldetails"} />
                 }
                

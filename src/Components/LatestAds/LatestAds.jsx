@@ -35,38 +35,38 @@ const LatestAds = () => {
       <div className="grid xl:grid-cols-4 lg:grid-cols-3 grid-cols-2 gap-2 md:gap-4">
         {latestData?.slice(0, visibleCards).map((item,index) => (
           <div key={index}>
-            {item.category == "property" && (
+            {item.advType == "Property" && (
               <ProductCard
                 data={item}
                 key={item.id}
                 link={"/propertiesdetails"}
               />
             )}
-            {item.category == "vehicles" && (
+            {item.advType == "Vehicle" && (
               <ProductCard data={item} key={item.id} link={"/vehicledetails"} />
             )}
-            {item.category == "education" && (
+            {item.advType == "Education" && (
               <ProductCard
                 data={item}
                 key={item.id}
                 link={"/educationdetails"}
               />
             )}
-            {item.category == "hospitality" && (
+            {item.advType == "Hospitality" && (
               <ProductCard
                 data={item}
                 key={item.id}
                 link={"/hospitalitydetails"}
               />
             )}
-            {item?.category =="doctors" && (
+            {item?.advType =="Doctor" && (
                 <ProductCard
                   data={item}
                   key={item.id}
                   link={"/doctordetails"}
                 />
               )}
-              {item?.category == "hospitals" &&
+              {item?.advType == "Hospital" &&
                     <HospitalCard data={item} key={item.id} link={"/hospitaldetails"} />
                 }
           </div>

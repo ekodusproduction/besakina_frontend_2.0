@@ -10,7 +10,7 @@ const ProductCard = ({data,link}) => {
 
    
   return (
-    <Link to={`${link}/${data?.id}`} >
+    <Link to={`${link}/${data?._id}`} >
         <div className='border-[1px] border-slate-400 rounded-md overflow-hidden bg-white'>
             <div className='h-[150px] sm:h-[200px]  '>
                 <img  src={`${data?.images[0]}`} alt='image' className='sm:h-[200px] h-full w-full object-cover'/>
@@ -18,7 +18,7 @@ const ProductCard = ({data,link}) => {
             <div className='w-[100%] p-2 flex flex-col gap-2'>
                 <div>
                     <p className='xl:text-base capitalize font-bold'>{data?.title?.slice(0,30)}...</p>
-                    <h2 className='text-sm capitalize font-medium'> {'expertise' in data ? data?.name : data?.advType ? `Category: ` + data.advtype : ""}</h2>
+                    <h2 className='text-sm capitalize font-medium'> {'expertise' in data ? data?.name : data?.advType ? `Category: ` + data.advType : ""}</h2>
                 </div>
                 <div>
                     <div className='flex items-center gap-[3px]'>
