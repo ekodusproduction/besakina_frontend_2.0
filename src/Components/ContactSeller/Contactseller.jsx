@@ -95,7 +95,7 @@ const Contactseller = ({ data,route }) => {
         {data?.user?.about}
       </p>
       <Button
-        clickHandler={() => handleContactSeller(data?.user?.id)}
+        clickHandler={() => handleContactSeller(data?.user?._id)}
         category={'primarybtn'}
       >
         Contact Seller
