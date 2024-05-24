@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import Button from '../Button/Button';
 import { FaCamera } from 'react-icons/fa';
-import { FiCamera } from 'react-icons/fi'
+import { FiCamera } from 'react-icons/fi';
+import { RiImageAddLine } from 'react-icons/ri';
+import { MdOutlineCloudUpload } from 'react-icons/md';
 import axiosInstance, { baseURL } from '../../api/axiosInstance';
 import Swal from 'sweetalert2';
 import { useLocation, useNavigate } from 'react-router-dom';
@@ -17,8 +19,9 @@ const AddProfile = () => {
   const [profilePic, setProfilePic] = useState(null);
   const [doctImage, setDoctImage] = useState(null);
   const [aadharImage, setAadharImage] = useState(null);
-  const [selectedState, setSelectedState] = useState("");
-  const [selectedDoct,setSelectedDoct] = useState("pan");
+  const [selectedState, setSelectedState] = useState('');
+  const [selectedDoct, setSelectedDoct] = useState('pan');
+  const [isLoading, setIsLoading] = useState(false);
   const location = useLocation();
   const [userDetails, setUserDetails] = useState({
     fullname: '',
@@ -61,7 +64,7 @@ const AddProfile = () => {
         const userData = response.data.data;
         if (userData) {
           setUserDetails(userData);
-          setSelectedState(userData?.state)
+          setSelectedState(userData?.state);
         }
       })
       .catch((error) => {
@@ -77,7 +80,7 @@ const AddProfile = () => {
       setIsAadhar(false);
     }
   };
- 
+
   const handleDoctImage = (e) => {
     const file = e.target.files[0];
     setDoctImage(URL.createObjectURL(file));
@@ -92,65 +95,63 @@ const AddProfile = () => {
     setSelectedState(selectedState);
   };
 
-  const handlePicChange = (e,fieldName) => {
+  const handlePicChange = (e, fieldName) => {
+    setIsLoading(true);
     const file = e.target.files[0];
     // setProfilePic(URL.createObjectURL(file));
 
-      const formData = new FormData();
-      if(fieldName =="profilePic"){
-      formData.append('profile_pic',file );
-      } else if(fieldName =="doctFront"){
-        formData.append("doc_file",file)
-      } else if(fieldName =="doctBack"){
-        formData.append("doc_file_back",file)
-      }
+    const formData = new FormData();
+    if (fieldName == 'profilePic') {
+      formData.append('profile_pic', file);
+    } else if (fieldName == 'doctFront') {
+      formData.append('doc_file', file);
+    } else if (fieldName == 'doctBack') {
+      formData.append('doc_file_back', file);
+    }
 
-      axiosInstance.post(
-        'api/users/doc',
-        formData,
-        {
-          headers: {
-            'Content-Type': 'multipart/form-data',
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      )
+    axiosInstance
+      .post('api/users/doc', formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+          Authorization: `Bearer ${token}`,
+        },
+      })
       .then((response) => {
         setSubmitting(false);
-        if(fieldName =="profilePic"){
-        setUserDetails((prev) => ({
-          ...prev,
-          profile_pic: response?.data?.data?.profile_pic,
-        }));
-      }
-        else if(fieldName == "doctFront"){
-          setUserDetails((prev)=>({
+        setIsLoading(false);
+        if (fieldName == 'profilePic') {
+          setUserDetails((prev) => ({
             ...prev,
-            doc_file:response?.data?.data?.doc_file,
-        }))}
-        else if(fieldName=="doctBack"){
-          setUserDetails((prev)=>({
+            profile_pic: response?.data?.data?.profile_pic,
+          }));
+        } else if (fieldName == 'doctFront') {
+          setUserDetails((prev) => ({
             ...prev,
-            doc_file_back:response?.data?.data?.doc_file_back,
-          }))
+            doc_file: response?.data?.data?.doc_file,
+          }));
+        } else if (fieldName == 'doctBack') {
+          setUserDetails((prev) => ({
+            ...prev,
+            doc_file_back: response?.data?.data?.doc_file_back,
+          }));
         }
       })
       .catch((err) => {
         setSubmitting(false);
+        setIsLoading(false);
         Swal.fire({
           title: 'Error',
           text: err.response.data.message,
           icon: 'error',
         });
       });
-      // setProfilePic(response);
-      // if (route?.length) {
-      //   navigate(route, { state: { state: "getData" } });
-      // } else {
-      //   navigate('/profile');
-      // }
-  }
-    
+    // setProfilePic(response);
+    // if (route?.length) {
+    //   navigate(route, { state: { state: "getData" } });
+    // } else {
+    //   navigate('/profile');
+    // }
+  };
 
   const profileSubmitHandler = (e) => {
     setSubmitting(true);
@@ -190,7 +191,7 @@ const AddProfile = () => {
     const value = e.target.value;
     let formattedValue = value;
 
-    if (selectedDoct === "aadhar") {
+    if (selectedDoct === 'aadhar') {
       formattedValue = formatAadhaarNumber(value);
     }
 
@@ -199,14 +200,13 @@ const AddProfile = () => {
       [fieldName]: formattedValue,
     }));
   };
-useEffect(()=>{
-  if(route?.length){
-    toast('Please complete your profile to post an ads!', {
-      icon: '⚠️',
-    });
-  }
-},[])
-
+  useEffect(() => {
+    if (route?.length) {
+      toast('Please complete your profile to post an ads!', {
+        icon: '⚠️',
+      });
+    }
+  }, []);
 
   return (
     <form
@@ -241,18 +241,21 @@ useEffect(()=>{
               type="file"
               accept="image/*"
               className="hidden"
-              onChange={(e)=>handlePicChange(e,"profilePic")}
+              onChange={(e) => handlePicChange(e, 'profilePic')}
             />
-            <div className='w-7 h-7 bg-gray-500 flex items-center justify-center border absolute bottom-0 -right-1 rounded-full'>
-          <label
+            <div className="w-7 h-7 bg-gray-500 flex items-center justify-center border absolute bottom-0 -right-1 rounded-full">
+              <label
                 htmlFor="profile"
                 className="cursor-pointer flex justify-center items-center"
               >
-                <FiCamera size={15} color="white" />
+                {isLoading ? (
+                  <MdOutlineCloudUpload color="white" className='animate-bounce' />
+                ) : (
+                  <FiCamera size={15} color="white" />
+                )}
               </label>
-              </div>
+            </div>
           </div>
-
         </div>
         <div className="flex flex-col gap-2">
           <label htmlFor="firstname" className="text-gray-500 text-sm">
@@ -314,10 +317,19 @@ useEffect(()=>{
             value={userDetails?.state || ''}
             onChange={(e) => handleEditForm(e, 'state')}
           /> */}
-          <select name="state" id="state" value={userDetails?.state || ""} onChange={(e)=>{handleStateChange(e),handleEditForm(e,"state")}}>
-            {Object.keys(StateCitiesData)?.map((state,index)=>(
-            <option key={index} value={state}>{state}</option>
-          ))}
+          <select
+            name="state"
+            id="state"
+            value={userDetails?.state || ''}
+            onChange={(e) => {
+              handleStateChange(e), handleEditForm(e, 'state');
+            }}
+          >
+            {Object.keys(StateCitiesData)?.map((state, index) => (
+              <option key={index} value={state}>
+                {state}
+              </option>
+            ))}
           </select>
         </div>
         <div className="flex flex-col gap-2">
@@ -334,10 +346,19 @@ useEffect(()=>{
             value={userDetails?.city || ''}
             onChange={(e) => handleEditForm(e, 'city')}
           /> */}
-          <select name="city" id="city" value={userDetails?.city || ""} onChange={(e)=>handleEditForm(e,"city")}>
-          <option value="" defaultChecked>Select City</option>
-            {StateCitiesData[selectedState]?.map((city,index)=>(
-              <option key={index} value={city}>{city}</option>
+          <select
+            name="city"
+            id="city"
+            value={userDetails?.city || ''}
+            onChange={(e) => handleEditForm(e, 'city')}
+          >
+            <option value="" defaultChecked>
+              Select City
+            </option>
+            {StateCitiesData[selectedState]?.map((city, index) => (
+              <option key={index} value={city}>
+                {city}
+              </option>
             ))}
           </select>
         </div>
@@ -403,16 +424,32 @@ useEffect(()=>{
           </div>
           <div className="flex flex-col gap-2">
             <label htmlFor="doc_no" className="text-gray-500 text-sm">
-              {selectedDoct == "pan" ? "Pan Number: " : selectedDoct =="gst" ? "GST Number: " : selectedDoct =="aadhar" && "Aadhar Number: "}
+              {selectedDoct == 'pan'
+                ? 'Pan Number: '
+                : selectedDoct == 'gst'
+                ? 'GST Number: '
+                : selectedDoct == 'aadhar' && 'Aadhar Number: '}
             </label>
             <input
               id="doc_no"
               type="text"
-              placeholder={selectedDoct == "aadhar" ? "XXXX XXXX XXXX XXXX" : selectedDoct == "pan" ? "Pan Card Number": selectedDoct =="gst" && "GST Number"}
+              placeholder={
+                selectedDoct == 'aadhar'
+                  ? 'XXXX XXXX XXXX XXXX'
+                  : selectedDoct == 'pan'
+                  ? 'Pan Card Number'
+                  : selectedDoct == 'gst' && 'GST Number'
+              }
               name="doc_number"
-              maxLength={selectedDoct == "aadhar" ? 14 : selectedDoct == "pan" ? 10 : selectedDoct == "gst" && 15}
-              value={userDetails?.doc_number || ""}
-              onChange={(e)=>handleEditForm(e,"doc_number")}
+              maxLength={
+                selectedDoct == 'aadhar'
+                  ? 14
+                  : selectedDoct == 'pan'
+                  ? 10
+                  : selectedDoct == 'gst' && 15
+              }
+              value={userDetails?.doc_number || ''}
+              onChange={(e) => handleEditForm(e, 'doc_number')}
               className="border border-gray-200 rounded"
             />
           </div>
@@ -426,7 +463,7 @@ useEffect(()=>{
           <div
             className={`${
               doctImage || (userDetails?.doc_file && 'w-fit h-fit')
-            } border border-gray-400 rounded-md`}
+            } border border-gray-400 rounded-md relative`}
           >
             {doctImage || userDetails?.doc_file?.length ? (
               <img
@@ -436,7 +473,7 @@ useEffect(()=>{
                     : doctImage
                 }
                 alt="doctImage"
-                className="w-full h-full rounded-md object-cover"
+                className="w-[20rem] h-[12rem] rounded-md object-cover"
               />
             ) : (
               <label
@@ -451,8 +488,16 @@ useEffect(()=>{
               type="file"
               accept="image/*"
               className="hidden"
-              onChange={(e)=>handlePicChange(e,"doctFront")}
+              onChange={(e) => handlePicChange(e, 'doctFront')}
             />
+            <div className="w-7 h-7 bg-gray-500 flex items-center justify-center border absolute bottom-0 -right-1 rounded-full">
+              <label
+                htmlFor="document"
+                className="cursor-pointer flex justify-center items-center"
+              >
+                <RiImageAddLine size={15} color="white" />
+              </label>
+            </div>
           </div>
         </div>
         {isAadhar && (
@@ -463,7 +508,7 @@ useEffect(()=>{
             <div
               className={`${
                 aadharImage && 'w-fit h-fit'
-              } border border-gray-400 rounded-md`}
+              } border border-gray-400 rounded-md relative`}
             >
               {aadharImage || userDetails?.doc_file_back ? (
                 <img
@@ -473,7 +518,7 @@ useEffect(()=>{
                       : aadharImage
                   }
                   alt="aadharImage"
-                  className="w-full h-full rounded-md object-cover"
+                  className="w-[20rem] h-[12rem] rounded-md object-cover"
                 />
               ) : (
                 <label
@@ -488,8 +533,16 @@ useEffect(()=>{
                 type="file"
                 accept="image/*"
                 className="hidden"
-                onChange={(e)=>handlePicChange(e,"doctBack")}
+                onChange={(e) => handlePicChange(e, 'doctBack')}
               />
+              <div className="w-7 h-7 bg-gray-500 flex items-center justify-center border absolute bottom-0 -right-1 rounded-full">
+                <label
+                  htmlFor="documentAadhar"
+                  className="cursor-pointer flex justify-center items-center"
+                >
+                  <RiImageAddLine size={15} color="white" />
+                </label>
+              </div>
             </div>
           </div>
         )}

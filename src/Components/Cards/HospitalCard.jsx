@@ -32,7 +32,7 @@ const HospitalCard = ({data,link}) => {
                         <MdVerified/>
                         <p className='text-sm font-bold'>Verified</p>
                     </div>
-                    <p className='text-xs font-bold'>{formatDate(data?.createdAt)}</p>
+                    <p className='text-xs font-bold'>{formatDate(data?.created_at)}</p>
                 </div>
             </div>
         </div>
