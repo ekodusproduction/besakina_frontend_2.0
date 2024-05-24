@@ -154,6 +154,14 @@ const AddProfile = () => {
   };
 
   const profileSubmitHandler = (e) => {
+    e.preventDefault();
+    if (!profilePic) {
+      // toast.error("Please upload your profile picture!");
+      toast('Please upload your profile picture!', {
+        icon: '😥',
+      });
+      return;
+    }
     setSubmitting(true);
     e.preventDefault();
     const data = new FormData(e.target);
@@ -249,7 +257,10 @@ const AddProfile = () => {
                 className="cursor-pointer flex justify-center items-center"
               >
                 {isLoading ? (
-                  <MdOutlineCloudUpload color="white" className='animate-bounce' />
+                  <MdOutlineCloudUpload
+                    color="white"
+                    className="animate-bounce"
+                  />
                 ) : (
                   <FiCamera size={15} color="white" />
                 )}
@@ -490,14 +501,16 @@ const AddProfile = () => {
               className="hidden"
               onChange={(e) => handlePicChange(e, 'doctFront')}
             />
-            <div className="w-7 h-7 bg-gray-500 flex items-center justify-center border absolute bottom-0 -right-1 rounded-full">
-              <label
-                htmlFor="document"
-                className="cursor-pointer flex justify-center items-center"
-              >
-                <RiImageAddLine size={15} color="white" />
-              </label>
-            </div>
+            {userDetails?.doc_file && (
+              <div className="w-7 h-7 bg-gray-500 flex items-center justify-center border absolute bottom-0 -right-1 rounded-full">
+                <label
+                  htmlFor="document"
+                  className="cursor-pointer flex justify-center items-center"
+                >
+                  <RiImageAddLine size={15} color="white" />
+                </label>
+              </div>
+            )}
           </div>
         </div>
         {isAadhar && (
@@ -535,14 +548,16 @@ const AddProfile = () => {
                 className="hidden"
                 onChange={(e) => handlePicChange(e, 'doctBack')}
               />
-              <div className="w-7 h-7 bg-gray-500 flex items-center justify-center border absolute bottom-0 -right-1 rounded-full">
-                <label
-                  htmlFor="documentAadhar"
-                  className="cursor-pointer flex justify-center items-center"
-                >
-                  <RiImageAddLine size={15} color="white" />
-                </label>
-              </div>
+              {userDetails?.doc_file_back && (
+                <div className="w-7 h-7 bg-gray-500 flex items-center justify-center border absolute bottom-0 -right-1 rounded-full">
+                  <label
+                    htmlFor="documentAadhar"
+                    className="cursor-pointer flex justify-center items-center"
+                  >
+                    <RiImageAddLine size={15} color="white" />
+                  </label>
+                </div>
+              )}
             </div>
           </div>
         )}
