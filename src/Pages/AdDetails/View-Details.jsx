@@ -104,7 +104,6 @@ const ViewDetails = ({ data, route, category }) => {
                                         </button> */}
                   </div>
                   <p className="text-lg font-semibold mb-2">
-                    {data?.price && `Starting from ${formatINR(data?.price)}`}{' '}
                     {data?.name && category !="hospitality" && data?.name}
                   </p>
 

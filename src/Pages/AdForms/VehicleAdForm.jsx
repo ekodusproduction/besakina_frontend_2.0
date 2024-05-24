@@ -7,7 +7,7 @@ import Button from '../../Components/Button/Button';
 import axiosInstance from '../../api/axiosInstance';
 import Swal from 'sweetalert2';
 import { useNavigate, useParams } from 'react-router-dom';
-import { VehicleData } from '../../data/VehicleData';
+import { Fueldata, VehicleData, Vehicletype } from '../../data/VehicleData';
 import BackButton from '../../Components/BackButton/BackButton';
 import { StateCitiesData } from '../../data/Indian_Cities_In_States';
 
@@ -139,9 +139,9 @@ const VehicleAdForm = () => {
           // text: err?.response?.data?.message,
           icon: 'warning',
         });
-        if (err?.response?.data?.message === "User Profile Incomplete") {
-          navigate("/setup-profile");
-      }
+        if (err?.response?.data?.message === 'User Profile Incomplete') {
+          navigate('/setup-profile');
+        }
       });
   };
   const handleDeleteImage = (index) => {
@@ -162,7 +162,7 @@ const VehicleAdForm = () => {
     <>
       <section className="bg-white">
         <div>
-        <BackButton path={(-1)} style={"absolute pt-3 pl-12"}/>
+          <BackButton path={-1} style={'absolute pt-3 pl-12'} />
           <p className="text-center py-4 font-semibold text-xl border-b-[1px] border-gray-300">
             POST YOUR AD
           </p>
@@ -201,67 +201,27 @@ const VehicleAdForm = () => {
                     Vehicle Type*
                   </p>
                   <div className="flex flex-wrap gap-2 text-gray-700">
-                    <div className="border-[1px] border-gray-400 rounded-sm">
-                      <input
-                        type="radio"
-                        id="car"
-                        name="type"
-                        value="car"
-                        className="hidden"
-                        onChange={handleTypeChange}
-                      />
-                      <label for="car" className="px-4 py-[2px] cursor-pointer">
-                        Car
-                      </label>
-                    </div>
-                    <div className="border-[1px] border-gray-400 rounded-sm">
-                      <input
-                        type="radio"
-                        id="motorcycle"
-                        name="type"
-                        value="motorcycle"
-                        className="hidden"
-                        onChange={handleTypeChange}
-                      />
-                      <label
-                        for="motorcycle"
-                        className="px-4 py-[2px] cursor-pointer"
+                    {Vehicletype?.map((item, index) => (
+                      <div
+                        key={index}
+                        className="border-[1px] border-gray-400 rounded-sm"
                       >
-                        Motorcycle
-                      </label>
-                    </div>
-                    <div className="border-[1px] border-gray-400 rounded-sm">
-                      <input
-                        type="radio"
-                        id="scooter"
-                        name="type"
-                        value="scooter"
-                        onChange={handleTypeChange}
-                        className="hidden"
-                      />
-                      <label
-                        for="scooter"
-                        className="px-4 py-[2px] cursor-pointer"
-                      >
-                        Scooter
-                      </label>
-                    </div>
-                    {/* <div className="border-[1px] border-gray-400 rounded-sm">
-                      <input
-                        type="radio"
-                        id="bicycle"
-                        name="type"
-                        value="bicycle"
-                        onChange={handleTypeChange}
-                        className="hidden"
-                      />
-                      <label
-                        for="bicycle"
-                        className="px-4 py-[2px] cursor-pointer"
-                      >
-                        Bicycle
-                      </label>
-                    </div> */}
+                        <input
+                          type="radio"
+                          id={item.value}
+                          name="type"
+                          value={item.value}
+                          className="hidden"
+                          onChange={handleTypeChange}
+                        />
+                        <label
+                          for={item.value}
+                          className="px-4 py-[2px] cursor-pointer"
+                        >
+                          {item.label}
+                        </label>
+                      </div>
+                    ))}
                   </div>
                 </div>
                 <div>
@@ -271,8 +231,8 @@ const VehicleAdForm = () => {
                   <div className="flex gap-2 text-gray-700">
                     <select
                       name="brand"
-                                          id=""
-                                          disabled={selectedType?.length ===0}
+                      id=""
+                      disabled={selectedType?.length === 0}
                       value={selectedBrand}
                       onChange={handleBrandChange}
                       required
@@ -328,7 +288,7 @@ const VehicleAdForm = () => {
                     />
                   </div>
                 </div>
-                {selectedType == "car" &&
+                {selectedType == 'car' && (
                   <div>
                     <p className="mb-2 font-semibold text-gray-700">
                       Transmission (auto/manual)
@@ -345,7 +305,7 @@ const VehicleAdForm = () => {
                       </select>
                     </div>
                   </div>
-                }
+                )}
                 <div>
                   <p className="mb-2 font-semibold text-gray-700">Fuel</p>
                   <div className="flex gap-2 text-gray-700">
@@ -354,12 +314,9 @@ const VehicleAdForm = () => {
                       id=""
                       className="border-[1px]  border-gray-400 rounded-sm w-[150px]"
                     >
-                      <option value="petrol">Petrol</option>
-                      <option value="diesel">Diesel</option>
-                      <option value="electric">Electric</option>
-                      <option value="hybrid">Hybrid</option>
-                      <option value="cng">CNG</option>
-                      <option value="lpg">LPG</option>
+                      {Fueldata?.map((item, index) => (
+                        <option key={index} value={item.value}>{item.label}</option>
+                      ))}
                     </select>
                   </div>
                 </div>
@@ -426,40 +383,40 @@ const VehicleAdForm = () => {
                   </div>
                 </div>
                 <div className="flex items-center gap-5">
-                <div>
-                  <p className="mb-2 font-semibold text-gray-700">State*</p>
-                  {/* <div className="flex gap-2">
+                  <div>
+                    <p className="mb-2 font-semibold text-gray-700">State*</p>
+                    {/* <div className="flex gap-2">
                   <input
                     type="text"
                     className="w-[90vw] sm:w-[50vw] border-[1px] border-gray-400 py-2 rounded-md"
                   />
                 </div> */}
-                  <select
-                    name="state"
-                    id="state"
-                    onChange={(e) => handleStateChange(e)}
-                  >
-                    {Object.keys(StateCitiesData)?.map((state, index) => (
-                      <option key={index} value={state}>
-                        {state}
+                    <select
+                      name="state"
+                      id="state"
+                      onChange={(e) => handleStateChange(e)}
+                    >
+                      {Object.keys(StateCitiesData)?.map((state, index) => (
+                        <option key={index} value={state}>
+                          {state}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+                  <div>
+                    <p className="mb-2 font-semibold text-gray-700">City*</p>
+                    <select name="city" id="city">
+                      <option value="" defaultChecked>
+                        Select City
                       </option>
-                    ))}
-                  </select>
+                      {StateCitiesData[selectedState]?.map((city, index) => (
+                        <option key={index} value={city}>
+                          {city}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
                 </div>
-                <div>
-                  <p className="mb-2 font-semibold text-gray-700">City*</p>
-                  <select name="city" id="city">
-                    <option value="" defaultChecked>
-                      Select City
-                    </option>
-                    {StateCitiesData[selectedState]?.map((city, index) => (
-                      <option key={index} value={city}>
-                        {city}
-                      </option>
-                    ))}
-                  </select>
-                </div>
-              </div>
                 <div>
                   <p className="mb-2 font-semibold text-gray-700">Pincode*</p>
                   <div className="flex gap-2">
@@ -623,19 +580,30 @@ const VehicleAdForm = () => {
                     <select
                       name="brand"
                       id=""
-                                          required
-                                          disabled={selectedType?.length ===0}
+                      required
+                      disabled={selectedType?.length === 0}
                       className="border-[1px]  border-gray-400 rounded-sm w-[150px]"
-                                      >
-                                          {selectedType &&
-                                              VehicleData?.find((vehicle) => vehicle?.label?.toLocaleLowerCase() == selectedType?.toLocaleLowerCase())?.models?.map((model, index) => (
-                                                  <option key={index} value={model}>{model}</option>
-                                          ))}
+                    >
+                      {selectedType &&
+                        VehicleData?.find(
+                          (vehicle) =>
+                            vehicle?.label?.toLocaleLowerCase() ==
+                            selectedType?.toLocaleLowerCase()
+                        )?.models?.map((model, index) => (
+                          <option key={index} value={model}>
+                            {model}
+                          </option>
+                        ))}
                       <option value="Other">Other</option>
                     </select>
-                                  {selectedBrand ==="Other" &&(
-                                      <input type='text' value={otherBrand} onChange={handleOtherBrandChange} placeholder='Enter Brand'/>
-                                  )}
+                    {selectedBrand === 'Other' && (
+                      <input
+                        type="text"
+                        value={otherBrand}
+                        onChange={handleOtherBrandChange}
+                        placeholder="Enter Brand"
+                      />
+                    )}
                   </div>
                 </div>
                 <div>
@@ -658,7 +626,7 @@ const VehicleAdForm = () => {
                     />
                   </div>
                 </div>
-                {selectedType == "car" &&
+                {selectedType == 'car' && (
                   <div>
                     <p className="mb-2 font-semibold text-gray-700">
                       Transmission (auto/manual)
@@ -676,7 +644,7 @@ const VehicleAdForm = () => {
                       </div>
                     </div>
                   </div>
-                }
+                )}
                 <div>
                   <p className="mb-2 font-semibold text-gray-700">Fuel</p>
                   <div className="flex gap-2 text-gray-700">
@@ -771,34 +739,34 @@ const VehicleAdForm = () => {
                   </div>
                 </div>
                 <div className="flex items-center gap-5">
-                <div>
-                  <p className="mb-2 font-semibold text-gray-700">State*</p>
-                  <select
-                    name="state"
-                    id="state"
-                    onChange={(e) => handleStateChange(e)}
-                  >
-                    {Object.keys(StateCitiesData)?.map((state, index) => (
-                      <option key={index} value={state}>
-                        {state}
+                  <div>
+                    <p className="mb-2 font-semibold text-gray-700">State*</p>
+                    <select
+                      name="state"
+                      id="state"
+                      onChange={(e) => handleStateChange(e)}
+                    >
+                      {Object.keys(StateCitiesData)?.map((state, index) => (
+                        <option key={index} value={state}>
+                          {state}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+                  <div>
+                    <p className="mb-2 font-semibold text-gray-700">City*</p>
+                    <select name="city" id="city">
+                      <option value="" defaultChecked>
+                        Select City
                       </option>
-                    ))}
-                  </select>
+                      {StateCitiesData[selectedState]?.map((city, index) => (
+                        <option key={index} value={city}>
+                          {city}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
                 </div>
-                <div>
-                  <p className="mb-2 font-semibold text-gray-700">City*</p>
-                  <select name="city" id="city">
-                    <option value="" defaultChecked>
-                      Select City
-                    </option>
-                    {StateCitiesData[selectedState]?.map((city, index) => (
-                      <option key={index} value={city}>
-                        {city}
-                      </option>
-                    ))}
-                  </select>
-                </div>
-              </div>
                 <div>
                   <p className="mb-2 font-semibold text-gray-700">Pincode*</p>
                   <div className="flex gap-2">

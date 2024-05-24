@@ -7,7 +7,7 @@ import Button from '../../Components/Button/Button';
 import axiosInstance, { baseURL } from '../../api/axiosInstance';
 import Swal from 'sweetalert2';
 import { useNavigate, useParams } from 'react-router-dom';
-import { VehicleData } from '../../data/VehicleData';
+import { Fueldata, VehicleData, Vehicletype } from '../../data/VehicleData';
 import { StateCitiesData } from '../../data/Indian_Cities_In_States';
 
 const EditVehicleDetails = () => {
@@ -234,79 +234,30 @@ const EditVehicleDetails = () => {
                     Vehicle Type*
                   </p>
                   <div className="flex flex-wrap gap-2 text-gray-700">
-                    <div className="border-[1px] border-gray-400 rounded-sm">
-                      <input
-                        type="radio"
-                        id="car"
-                        name="type"
-                        value="car"
-                        className="hidden"
-                        checked={vehicleData?.type === 'car'}
-                        onChange={(e) => {
-                          handleVehicleTypeChange(e), handleTypeChange(e);
-                        }}
-                      />
-                      <label for="car" className="px-4 py-[2px] cursor-pointer">
-                        Car
-                      </label>
-                    </div>
-                    <div className="border-[1px] border-gray-400 rounded-sm">
-                      <input
-                        type="radio"
-                        id="motorcycle"
-                        name="type"
-                        value="motorcycle"
-                        className="hidden"
-                        onChange={(e) => {
-                          handleVehicleTypeChange(e), handleTypeChange(e);
-                        }}
-                        checked={vehicleData?.type === 'motorcycle'}
-                      />
-                      <label
-                        for="motorcycle"
-                        className="px-4 py-[2px] cursor-pointer"
+                    {Vehicletype?.map((item, index) => (
+                      <div
+                        key={index}
+                        className="border-[1px] border-gray-400 rounded-sm"
                       >
-                        Motorcycle
-                      </label>
-                    </div>
-                    <div className="border-[1px] border-gray-400 rounded-sm">
-                      <input
-                        type="radio"
-                        id="scooter"
-                        name="type"
-                        value="scooter"
-                        className="hidden"
-                        onChange={(e) => {
-                          handleVehicleTypeChange(e), handleTypeChange(e);
-                        }}
-                        checked={vehicleData?.type === 'scooter'}
-                      />
-                      <label
-                        for="scooter"
-                        className="px-4 py-[2px] cursor-pointer"
-                      >
-                        Scooter
-                      </label>
-                    </div>
-                    <div className="border-[1px] border-gray-400 rounded-sm">
-                      <input
-                        type="radio"
-                        id="bicycle"
-                        name="type"
-                        value="bicycle"
-                        className="hidden"
-                        onChange={(e) => {
-                          handleVehicleTypeChange(e), handleTypeChange(e);
-                        }}
-                        checked={vehicleData?.type === 'bicycle'}
-                      />
-                      <label
-                        for="bicycle"
-                        className="px-4 py-[2px] cursor-pointer"
-                      >
-                        Bicycle
-                      </label>
-                    </div>
+                        <input
+                          type="radio"
+                          id={item.value}
+                          name="type"
+                          value={item.value}
+                          className="hidden"
+                          checked={vehicleData?.type === item.value}
+                          onChange={(e) => {
+                            handleVehicleTypeChange(e), handleTypeChange(e);
+                          }}
+                        />
+                        <label
+                          for={item.value}
+                          className="px-4 py-[2px] cursor-pointer"
+                        >
+                          {item.label}
+                        </label>
+                      </div>
+                    ))}
                   </div>
                 </div>
 
@@ -316,7 +267,7 @@ const EditVehicleDetails = () => {
                   onSubmit={formSubmitHandler}
                 >
                   <div>
-                    <p className="mb-2 font-semibold text-gray-700">
+                    <p className="mb-2 font-semibold text-gray-700 pt-3">
                       Select Brand*
                     </p>
                     <div className="flex gap-2 text-gray-700">
@@ -329,14 +280,6 @@ const EditVehicleDetails = () => {
                         onChange={handleBrandChange}
                         className="border-[1px]  border-gray-400 rounded-sm w-[150px]"
                       >
-                        {/* <option value="BMW">BMW</option>
-                        <option value="Ford">Ford</option>
-                        <option value="Fiat">Fiat</option>
-                        <option value="Honda">Honda</option>
-                        <option value="Hyundai">Hyundai</option>
-                        <option value="Jeep">Jeep</option>
-                        <option value="Mercedes">Mercedes</option>
-                        <option value="Toyota">Toyota</option> */}
                         {selectedType &&
                           VehicleData?.find(
                             (vehicle) =>
@@ -414,12 +357,11 @@ const EditVehicleDetails = () => {
                         onChange={(e) => handleEditForm(e, 'fuel')}
                         className="border-[1px]  border-gray-400 rounded-sm w-[150px]"
                       >
-                        <option value="petrol">Petrol</option>
-                        <option value="diesel">Diesel</option>
-                        <option value="electric">Electric</option>
-                        <option value="hybrid">Hybrid</option>
-                        <option value="cng">CNG</option>
-                        <option value="lpg">LPG</option>
+                        {Fueldata?.map((item, index) => (
+                          <option key={index} value={item.value}>
+                            {item.label}
+                          </option>
+                        ))}
                       </select>
                     </div>
                   </div>
@@ -499,44 +441,44 @@ const EditVehicleDetails = () => {
                     </div>
                   </div>
                   <div className="flex items-center gap-5">
-                <div>
-                  <p className="mb-2 font-semibold text-gray-700">State*</p>
-                  <select
-                    name="state"
-                    id="state"
-                    value={selectedState}
-                    onChange={(e) => setSelectedState(e.target.value)}
-                  >
-                    {Object.keys(StateCitiesData)?.map((state, index) => (
-                      <option key={index} value={state}>
-                        {state}
-                      </option>
-                    ))}
-                  </select>
-                </div>
-                <div>
-                  <p className="mb-2 font-semibold text-gray-700">City*</p>
-                  <select
-                    name="city"
-                    id="city"
-                    value={selectedCity}
-                    onChange={(e) => setSelectedCity(e.target.value)}
-                  >
-                    <option value="" defaultChecked>
-                      Select City
-                    </option>
-                    {StateCitiesData[selectedState]?.map((city, index) => (
-                      <option
-                        key={index}
-                        value={city}
-                        className="cursor-pointer"
+                    <div>
+                      <p className="mb-2 font-semibold text-gray-700">State*</p>
+                      <select
+                        name="state"
+                        id="state"
+                        value={selectedState}
+                        onChange={(e) => setSelectedState(e.target.value)}
                       >
-                        {city}
-                      </option>
-                    ))}
-                  </select>
-                </div>
-              </div>
+                        {Object.keys(StateCitiesData)?.map((state, index) => (
+                          <option key={index} value={state}>
+                            {state}
+                          </option>
+                        ))}
+                      </select>
+                    </div>
+                    <div>
+                      <p className="mb-2 font-semibold text-gray-700">City*</p>
+                      <select
+                        name="city"
+                        id="city"
+                        value={selectedCity}
+                        onChange={(e) => setSelectedCity(e.target.value)}
+                      >
+                        <option value="" defaultChecked>
+                          Select City
+                        </option>
+                        {StateCitiesData[selectedState]?.map((city, index) => (
+                          <option
+                            key={index}
+                            value={city}
+                            className="cursor-pointer"
+                          >
+                            {city}
+                          </option>
+                        ))}
+                      </select>
+                    </div>
+                  </div>
                   <div>
                     <p className="mb-2 font-semibold text-gray-700">Pincode*</p>
                     <div className="flex gap-2">
@@ -663,67 +605,21 @@ const EditVehicleDetails = () => {
                     Vehicle Type*
                   </p>
                   <div className="flex flex-wrap gap-2 text-gray-700">
-                    <div className="border-[1px] border-gray-400 rounded-sm">
+                    {Vehicletype?.map((item,index)=>(
+                    <div key={index} className="border-[1px] border-gray-400 rounded-sm">
                       <input
                         type="radio"
-                        id="car"
+                        id={item.value}
                         name="type"
-                        value="car"
+                        value={item.value}
                         className="hidden"
-                        checked={vehicleData?.type === 'car'}
+                        checked={vehicleData?.type === item.value}
                       />
-                      <label for="car" className="px-4 py-[2px] cursor-pointer">
-                        Car
+                      <label for={item.value} className="px-4 py-[2px] cursor-pointer">
+                      {item.label}
                       </label>
                     </div>
-                    <div className="border-[1px] border-gray-400 rounded-sm">
-                      <input
-                        type="radio"
-                        id="motorcycle"
-                        name="type"
-                        value="motorcycle"
-                        className="hidden"
-                        checked={vehicleData?.type === 'motorcycle'}
-                      />
-                      <label
-                        for="motorcycle"
-                        className="px-4 py-[2px] cursor-pointer"
-                      >
-                        Motorcycle
-                      </label>
-                    </div>
-                    <div className="border-[1px] border-gray-400 rounded-sm">
-                      <input
-                        type="radio"
-                        id="scooter"
-                        name="type"
-                        value="scooter"
-                        className="hidden"
-                        checked={vehicleData?.type === 'scooter'}
-                      />
-                      <label
-                        for="scooter"
-                        className="px-4 py-[2px] cursor-pointer"
-                      >
-                        Scooter
-                      </label>
-                    </div>
-                    <div className="border-[1px] border-gray-400 rounded-sm">
-                      <input
-                        type="radio"
-                        id="bicycle"
-                        name="type"
-                        value="bicycle"
-                        className="hidden"
-                        checked={vehicleData?.type === 'bicycle'}
-                      />
-                      <label
-                        for="bicycle"
-                        className="px-4 py-[2px] cursor-pointer"
-                      >
-                        Bicycle
-                      </label>
-                    </div>
+                    ))}
                   </div>
                 </div>
                 <div>
@@ -734,20 +630,32 @@ const EditVehicleDetails = () => {
                     <select
                       name="brand"
                       id=""
-                      value={vehicleData?.brand}
+                      disabled={selectedType?.length === 0}
+                      value={selectedBrand}
+                      onChange={handleBrandChange}
                       required
                       className="border-[1px]  border-gray-400 rounded-sm w-[150px]"
                     >
-                      <option value="BMW">BMW</option>
-                      <option value="Ford">Ford</option>
-                      <option value="Fiat">Fiat</option>
-                      <option value="Honda">Honda</option>
-                      <option value="Hyundai">Hyundai</option>
-                      <option value="Jeep">Jeep</option>
-                      <option value="Mercedes">Mercedes</option>
-                      <option value="Toyota">Toyota</option>
+                      {selectedType &&
+                        VehicleData?.find(
+                          (vehicle) =>
+                            vehicle.label.toLowerCase() ==
+                            selectedType.toLowerCase()
+                        )?.models?.map((model, index) => (
+                          <option key={index} value={model}>
+                            {model}
+                          </option>
+                        ))}
                       <option value="Other">Other</option>
                     </select>
+                    {selectedBrand === 'Other' && (
+                      <input
+                        type="text"
+                        value={otherBrand}
+                        onChange={handleOtherBrandChange}
+                        placeholder="Enter brand"
+                      />
+                    )}
                   </div>
                 </div>
                 <div>
@@ -757,6 +665,7 @@ const EditVehicleDetails = () => {
                       name="model"
                       required
                       value={vehicleData?.model}
+                      onChange={(e)=>handleEditForm(e,"model")}
                       type="text"
                       className="w-[85vw] md:w-[50vw] border-[1px] pl-2 border-gray-400 py-2 rounded-md"
                     />
@@ -769,6 +678,7 @@ const EditVehicleDetails = () => {
                       name="variant"
                       required
                       value={vehicleData?.variant}
+                      onChange={(e)=>handleEditForm(e,"variant")}
                       type="text"
                       className="w-[85vw] md:w-[50vw] border-[1px] pl-2 border-gray-400 py-2 rounded-md"
                     />
@@ -800,15 +710,15 @@ const EditVehicleDetails = () => {
                       name="fuel"
                       id=""
                       value={vehicleData?.fuel}
+                      onChange={(e) => handleEditForm(e, 'fuel')}
                       required
                       className="border-[1px]  border-gray-400 rounded-sm w-[150px]"
                     >
-                      <option value="petrol">Petrol</option>
-                      <option value="diesel">Diesel</option>
-                      <option value="electric">Electric</option>
-                      <option value="hybrid">Hybrid</option>
-                      <option value="cng">CNG</option>
-                      <option value="lpg">LPG</option>
+                      {Fueldata?.map((item, index) => (
+                        <option key={index} value={item.value}>
+                          {item.label}
+                        </option>
+                      ))}
                     </select>
                   </div>
                 </div>
@@ -900,44 +810,44 @@ const EditVehicleDetails = () => {
                   </div>
                 </div>
                 <div className="flex items-center gap-5">
-                <div>
-                  <p className="mb-2 font-semibold text-gray-700">State*</p>
-                  <select
-                    name="state"
-                    id="state"
-                    value={selectedState}
-                    onChange={(e) => setSelectedState(e.target.value)}
-                  >
-                    {Object.keys(StateCitiesData)?.map((state, index) => (
-                      <option key={index} value={state}>
-                        {state}
+                  <div>
+                    <p className="mb-2 font-semibold text-gray-700">State*</p>
+                    <select
+                      name="state"
+                      id="state"
+                      value={selectedState}
+                      onChange={(e) => setSelectedState(e.target.value)}
+                    >
+                      {Object.keys(StateCitiesData)?.map((state, index) => (
+                        <option key={index} value={state}>
+                          {state}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+                  <div>
+                    <p className="mb-2 font-semibold text-gray-700">City*</p>
+                    <select
+                      name="city"
+                      id="city"
+                      value={selectedCity}
+                      onChange={(e) => setSelectedCity(e.target.value)}
+                    >
+                      <option value="" defaultChecked>
+                        Select City
                       </option>
-                    ))}
-                  </select>
+                      {StateCitiesData[selectedState]?.map((city, index) => (
+                        <option
+                          key={index}
+                          value={city}
+                          className="cursor-pointer"
+                        >
+                          {city}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
                 </div>
-                <div>
-                  <p className="mb-2 font-semibold text-gray-700">City*</p>
-                  <select
-                    name="city"
-                    id="city"
-                    value={selectedCity}
-                    onChange={(e) => setSelectedCity(e.target.value)}
-                  >
-                    <option value="" defaultChecked>
-                      Select City
-                    </option>
-                    {StateCitiesData[selectedState]?.map((city, index) => (
-                      <option
-                        key={index}
-                        value={city}
-                        className="cursor-pointer"
-                      >
-                        {city}
-                      </option>
-                    ))}
-                  </select>
-                </div>
-              </div>
                 <div>
                   <p className="mb-2 font-semibold text-gray-700">Pincode*</p>
                   <div className="flex gap-2">

@@ -3,7 +3,7 @@ import { FaLocationDot } from "react-icons/fa6";
 import { MdVerified } from "react-icons/md";
 import { Link } from 'react-router-dom';
 import dayjs from 'dayjs';
-import { formatINR } from '../../utils/fornatter';
+import { formatDate } from '../../utils/fornatter';
 
 
 const ProductCard = ({data,link}) => {
@@ -18,7 +18,7 @@ const ProductCard = ({data,link}) => {
             <div className='w-[100%] p-2 flex flex-col gap-2'>
                 <div>
                     <p className='xl:text-base capitalize font-bold'>{data?.title?.slice(0,30)}...</p>
-                    <h2 className='text-sm capitalize'> {'expertise' in data ? data?.name : "Starting from " + formatINR(data?.price)}</h2>
+                    <h2 className='text-sm capitalize font-medium'> {'expertise' in data ? data?.name : data?.advType ? `Category: ` + data.advtype : ""}</h2>
                 </div>
                 <div>
                     <div className='flex items-center gap-[3px]'>
@@ -33,7 +33,7 @@ const ProductCard = ({data,link}) => {
                         <MdVerified/>
                         <p className='text-sm font-bold'>Verified</p>
                     </div>
-                    <p className='text-xs font-bold'>{dayjs(data?.created_at).format("DD/MM/YYYY")}</p>
+                    <p className='text-xs font-bold'>{formatDate(data?.createdAt)}</p>
                 </div>
             </div>
         </div>

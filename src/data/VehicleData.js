@@ -1,7 +1,7 @@
 export const VehicleData = [
   {
     label: 'Car',
-    value: '1',
+    value: 'car',
     models: [
       'BMW',
       'Ford',
@@ -17,12 +17,12 @@ export const VehicleData = [
       'Renault',
       'Volkswagen',
       'Audi',
-      'All brands'
+      'All Brands',
     ],
   },
   {
     label: 'MotorCycle',
-    value: '2',
+    value: 'motorcycle',
     models: [
       'Bajaj',
       'Hero',
@@ -34,13 +34,17 @@ export const VehicleData = [
       'KTM',
       'Harley-Davidson',
       'Kawasaki',
-      'All brands'
+      'All Brands',
     ],
   },
-  { label: 'Scooter', value: '3', models: ['Honda', 'TVS', 'Suzuki', 'Yamaha'] },
   {
-    label: 'Bicycle',
-    value: '4',
+    label: 'Scooty',
+    value: 'scooty',
+    models: ['Honda', 'TVS', 'Suzuki', 'Yamaha'],
+  },
+  {
+    label: 'Bike',
+    value: 'bike',
     models: [
       'Bajaj',
       'Hero',
@@ -52,7 +56,23 @@ export const VehicleData = [
       'KTM',
       'Harley-Davidson',
       'Kawasaki',
-      'All brands'
+      'All Brands',
     ],
   },
+];
+
+export const Vehicletype = [
+  {label: 'Car', value: 'car'},
+  {label: 'MotorCycle', value: 'motorcycle'},
+  {label: 'Scooty', value: 'scooty'},
+  {label: 'Bike', value: 'bike'},
+];
+
+export const Fueldata = [
+  {label: 'Petrol', value: 'petrol'},
+  {label: 'Diesel', value: 'diesel'},
+  {label: 'CNG', value: 'cng'},
+  {label: 'LPG', value: 'lpg'},
+  {label: 'Electric', value: 'electric'},
+  {label: 'Hybrid', value: 'hybrid'},
 ];

@@ -4,6 +4,7 @@ import { MdVerified } from "react-icons/md";
 import { Link } from 'react-router-dom';
 import { baseURL } from '../../api/axiosInstance';
 import dayjs from 'dayjs';
+import { formatDate } from '../../utils/fornatter';
 
 
 const HospitalCard = ({data,link}) => {
@@ -31,7 +32,7 @@ const HospitalCard = ({data,link}) => {
                         <MdVerified/>
                         <p className='text-sm font-bold'>Verified</p>
                     </div>
-                    <p className='text-xs font-bold'>{dayjs(data?.createdAt).format("DD/MM/YYYY")}</p>
+                    <p className='text-xs font-bold'>{formatDate(data?.createdAt)}</p>
                 </div>
             </div>
         </div>

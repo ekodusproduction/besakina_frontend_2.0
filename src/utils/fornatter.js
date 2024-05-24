@@ -1,4 +1,7 @@
 
+import dayjs from 'dayjs';
+import relativeTime from 'dayjs/plugin/relativeTime';
+
 export function formatINR(amount) {
     if (typeof amount !== 'number') {
       amount = parseFloat(amount);
@@ -19,4 +22,24 @@ export function formatINR(amount) {
     return formatted;
   };
   
+
+
+dayjs.extend(relativeTime);
+
+export function formatDate(createdAt) {
+  const date = dayjs(createdAt);
+  const now = dayjs();
+  const diffInDays = now.diff(date, 'day');
+
+  if (diffInDays === 0) {
+    return 'Today';
+  } else if (diffInDays === 1) {
+    return '1 day ago';
+  } else if (diffInDays === 2) {
+    return '2 days ago';
+  } else {
+    return date.format('DD/MM/YYYY');
+  }
+}
+
   
