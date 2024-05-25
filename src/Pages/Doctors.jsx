@@ -193,9 +193,9 @@ const Doctors = () => {
             Home
           </Link>
           <p> {">"} </p>
-          <a href="" className="font-semibold">
+          <Link className="font-semibold">
             Healthcare
-          </a>
+          </Link>
         </div>
         <div>
           <Splide aria-label="Banner">
