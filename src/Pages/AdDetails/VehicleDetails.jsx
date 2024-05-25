@@ -35,7 +35,7 @@ const VehicleDetails = () => {
     const location = useLocation();
 
     useEffect(()=> {
-        axiosInstance.get(`api/vehicles/id/${id}`)
+        axiosInstance.get(`api/vehicle/id/${id}`)
         .then(response => {
             const data = response.data.data;
             console.log(data)
@@ -54,8 +54,6 @@ const VehicleDetails = () => {
           console.error(error);
         });
       },[id])
-
-     console.log(vehicleData)
 
      const postedDate = dayjs(vehicleData?.created_at);
      const today = dayjs();

@@ -6,7 +6,7 @@ import '../../styles/style.css';
 import Button from '../../Components/Button/Button';
 import axiosInstance, { baseURL } from '../../api/axiosInstance';
 import Swal from 'sweetalert2';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { Fueldata, VehicleData, Vehicletype } from '../../data/VehicleData';
 import { StateCitiesData } from '../../data/Indian_Cities_In_States';
 
@@ -24,10 +24,12 @@ const EditVehicleDetails = () => {
   const [vehicleData, setVehicleData] = useState({});
   const [selectedState, setSelectedState] = useState('');
   const [selectedCity, setSelectedCity] = useState('');
+  const location = useLocation();
+  const category = location?.state?.category;
 
   const getVehicleDetails = () => {
     axiosInstance
-      .get(`api/vehicles/id/${id}`)
+      .get(`api/${category}/id/${id}`)
       .then((response) => {
         const data = response?.data?.data;
         setVehicleData(data);
@@ -74,7 +76,7 @@ const EditVehicleDetails = () => {
     formData.append('image', file);
 
     axiosInstance
-      .post(`api/vehicles/images/id/${id}`, formData, {
+      .post(`api/${category}/images/id/${id}`, formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
           Authorization: `Bearer ${token}`,
@@ -105,7 +107,7 @@ const EditVehicleDetails = () => {
     };
 
     axiosInstance
-      .delete(`api/vehicles/image/delete/id/${id}`, {
+      .delete(`api/${category}/image/delete/id/${id}`, {
         data: body,
         headers: {
           Authorization: `Bearer ${token}`,
@@ -141,7 +143,7 @@ const EditVehicleDetails = () => {
     };
 
     axiosInstance
-      .put(`api/vehicles/id/${id}`, body, {
+      .put(`api/${category}/id/${id}`, body, {
         headers: {
           'Content-Type': 'application/json',
           Authorization: `Bearer ${token}`,

@@ -112,7 +112,7 @@ const VehicleAdForm = () => {
     console.log({ ...value, images: selectedImages });
     axiosInstance
       .post(
-        'api/vehicles/add',
+        'api/vehicle/add',
         { ...value, images: selectedImages, second_hand },
         {
           headers: {

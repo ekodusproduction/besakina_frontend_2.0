@@ -17,25 +17,25 @@ const AdCard = ({ data, link , refresh}) => {
   const navigate = useNavigate();
   
   const categoryRoutes ={
-    property: "propertiesdetails",
-    vehicles: "vehicledetails",
-    education: "educationdetails",
-    hospitality: "hospitalitydetails",
-    doctors: "doctordetails",
-    hospital: "hospitaldetails"
+    Property: "propertiesdetails",
+    Vehicle: "vehicledetails",
+    Education: "educationdetails",
+    Hospitality: "hospitalitydetails",
+    Doctor: "doctordetails",
+    Hospital: "hospitaldetails"
   }
 
   const editRoutes = {
-    vehicles: "vehicle",
-    property: "property",
-    education: "education",
-    hospitality: "hospitality",
-    doctors : "healthcare",
-    hospitals : "healthcare",
+    Vehicle: "vehicle",
+    Property: "property",
+    Education: "education",
+    Hospitality: "hospitality",
+    Doctor : "healthcare",
+    Hospital : "healthcare",
   }
 
-  const category = data?.category;
-  const id = data?.id;
+  const category = data?.advType;
+  const id = data?._id;
 
   const refreshOnce = () => {
     refresh();
@@ -52,10 +52,12 @@ const AdCard = ({ data, link , refresh}) => {
           })
           .then((response) => {
             console.log(response);
+            toast.success(response?.data?.message)
             setisActive(!isActive);
           })
           .catch((err) => {
             setisActive(!isActive);
+            toast.error(err?.response?.data?.message)
             console.log(err);
           });
       }
@@ -74,10 +76,12 @@ const AdCard = ({ data, link , refresh}) => {
           .then((response) => {
             setisActive(!isActive);
             console.log(response);
+            toast.success(response?.data?.message)
           })
           .catch((err) => {
             setisActive(!isActive);
             console.log(err);
+            toast.error(err?.response?.data?.message)
           });
       }
     }
@@ -122,10 +126,10 @@ const AdCard = ({ data, link , refresh}) => {
               <Switch
                 checked={isActive}
                 size="small"
-                onChange={() => disableHandler(data?.id, data?.category)}
+                onChange={() => disableHandler(id, category)}
               />
               <FaRegEdit
-                onClick={() => navigate(`/edit-${editRoutes[category]}-details/${data?.id}`,{state:{category:category}})}
+                onClick={() => navigate(`/edit-${editRoutes[category]}-details/${id}`,{state:{category:category}})}
                 className="w-5 h-5 cursor-pointer"
               />
               <MdOutlineDeleteOutline onClick={handleDeleteAd} className="w-6 h-6 cursor-pointer"/>
