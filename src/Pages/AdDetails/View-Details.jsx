@@ -84,9 +84,9 @@ const ViewDetails = ({ data, route, category }) => {
                 Home
               </Link>
               <p> {'>'}</p>
-              <a href="" className="font-semibold capitalize">
+              <Link to={(-1)} className="font-semibold capitalize">
                 {category}
-              </a>
+              </Link>
             </div>
             <section className="flex xl:flex-row flex-col gap-4 ">
               <div className="xl:w-3/5">
@@ -134,7 +134,7 @@ const ViewDetails = ({ data, route, category }) => {
             </section>
 
             {/* property */}
-            {category == 'property' && (
+            {category == 'properties' && (
               <section className="xl:w-3/5 border-[1px] border-slate-400 sm:mt-8 mt-4 p-4 rounded-md overflow-x-scroll capitalize">
                 <h2 className="font-bold mb-4">Details</h2>
                 <div className="flex flex-col gap-2 min-w-[600px]">

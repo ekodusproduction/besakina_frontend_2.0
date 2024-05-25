@@ -69,7 +69,7 @@ const Properties = () => {
             <div className='flex gap-2 sm:mb-6'>
                 <Link to="/" className='font-semibold'>Home</Link>
                 <p> {'>'} </p>
-                <a href="" className='font-semibold'>Properties</a>
+                <Link className='font-semibold'>Properties</Link>
             </div>
             <div>
                 <Splide aria-label="Banner" options={options}>

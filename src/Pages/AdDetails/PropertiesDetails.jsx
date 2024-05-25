@@ -235,7 +235,7 @@ const PropertiesDetails = () => {
     //     </div>
     //   )}
     // </>
-    <ViewDetails data={propertyData} route={location?.pathname} category={"property"}/>
+    <ViewDetails data={propertyData} route={location?.pathname} category={"properties"}/>
   );
 };
 

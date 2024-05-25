@@ -67,9 +67,9 @@ const Vehicles = () => {
             Home
           </Link>
           <p> {'>'} </p>
-          <a href="" className="font-semibold">
+          <Link className="font-semibold">
             Vehicles
-          </a>
+          </Link>
         </div>
         <div>
           <Splide aria-label="Banner">
