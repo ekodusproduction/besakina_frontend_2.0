@@ -19,7 +19,7 @@ const DoctorDetails = () => {
 
   useEffect(() => {
     axiosInstance
-      .get(`api/doctors/id/${id}`)
+      .get(`api/doctor/id/${id}`)
       .then((response) => {
         console.log(response);
         const data = response.data.data;

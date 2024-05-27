@@ -124,7 +124,7 @@ const Doctors = () => {
   });
   useEffect(() => {
     axiosInstance
-      .get("api/doctors/list")
+      .get("api/doctor/list")
       .then((response) => {
         console.log(response);
         setDoctorsList(response.data.data.doctors);
@@ -136,7 +136,7 @@ const Doctors = () => {
 
   const filterHandlerDoctors = () => {
     axiosInstance
-      .get(`api/doctors/filter?expertise=${expertise}`)
+      .get(`api/doctor/filter?expertise=${expertise}`)
       .then((response) => {
         console.log(response);
         setDoctorsList(response.data.data.doctors);
@@ -151,10 +151,10 @@ const Doctors = () => {
 
   useEffect(() => {
     axiosInstance
-      .get("api/hospitals/list")
+      .get("api/hospital/list")
       .then((response) => {
         console.log(response);
-        setHospitalityList(response.data.data.hospitals);
+        setHospitalityList(response.data.data.hospital);
       })
       .catch((error) => {
         console.error(error);
@@ -165,7 +165,7 @@ const Doctors = () => {
     console.log(priceRange);
     axiosInstance
       .get(
-        `api/hospitals/filter?type=${selectedHospitalType}`
+        `api/hospital/filter?type=${selectedHospitalType}`
       )
       .then((response) => {
         console.log(response);
