@@ -61,7 +61,7 @@ const Education = () => {
             <div>
                 <Splide aria-label="Banner" >
                     <SplideSlide>
-                        <img src="/assets/Banner/education.jpg" className='w-[100%] rounded-xl' alt="Image 1"/>
+                        <img src="/assets/Post/education (3).jpg" className='w-[100%] rounded-xl' alt="Image 1"/>
                     </SplideSlide>
                     {/* <SplideSlide>
                         <img src="/assets/Banner/properties_banner.png" className='w-[100%]'    alt="Image 1"/>

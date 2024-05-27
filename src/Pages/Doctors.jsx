@@ -201,18 +201,18 @@ const Doctors = () => {
           <Splide aria-label="Banner">
             <SplideSlide>
               <img
-                src="/assets/Banner/properties_banner.png"
-                className="w-[100%]"
+                src="/assets/Post/healthcare (1).jpg"
+                className="w-[100%] rounded-xl"
                 alt="Image 1"
               />
             </SplideSlide>
-            <SplideSlide>
+            {/* <SplideSlide>
               <img
                 src="/assets/Banner/properties_banner.png"
                 className="w-[100%]"
                 alt="Image 1"
               />
-            </SplideSlide>
+            </SplideSlide> */}
           </Splide>
         </div>
         <div className="py-4 flex flex-col gap-4">
