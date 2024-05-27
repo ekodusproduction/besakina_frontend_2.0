@@ -73,6 +73,19 @@ const Banner = () => {
                                 </div> */}
                             </div>
                     </SplideSlide>
+                    <SplideSlide>
+                    <div className='relative'>
+                                <img src="/assets/Post/mystic (1).jpg" className='w-[100%] rounded-3xl' alt="Image 1"/>
+                                {/* <div className='absolute top-[50%] left-[2rem] translate-y-[-50%]'>
+                                    <h2 className='text-white font-bold sm:text-4xl text-xl primaryheader'>Let us help you <br /> Find, Buy & Sell your <br /> Products and services</h2>
+                                    <p className='text-white text-xs xsm:text-sm pt-2 sm:pt-4'>Most loved and trusted classified ad listing <br /> website. Browse thousand of items near you.</p>
+                                    <div className='flex gap-4 mt-2 sm:mt-4'>
+                                        <Button category={'primarybtn'}>List Your Business</Button>
+                                        <Button category={'secondbtn'}>Ask our Expert</Button>
+                                    </div>
+                                </div> */}
+                            </div>
+                    </SplideSlide>
                 </Splide>
         </div>
 
