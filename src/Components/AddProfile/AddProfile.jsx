@@ -388,6 +388,7 @@ const AddProfile = () => {
             type="text"
             placeholder="Pincode"
             name="pincode"
+            maxLength={6}
             className="border border-gray-200 rounded"
             value={userDetails?.pincode || ''}
             onChange={(e) => handleEditForm(e, 'pincode')}
