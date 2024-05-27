@@ -8,6 +8,7 @@ import axiosInstance, { baseURL } from '../../api/axiosInstance';
 import Swal from 'sweetalert2';
 import { useNavigate, useParams } from 'react-router-dom';
 import { StateCitiesData } from '../../data/Indian_Cities_In_States';
+import toast from 'react-hot-toast';
 
 const EducationEditForm = () => {
   const [selectedImages, setSelectedImages] = useState([]);
@@ -126,22 +127,14 @@ const EducationEditForm = () => {
       })
       .then((response) => {
         console.log(response);
-        Swal.fire({
-          title: 'Success',
-          text: 'The form was successfully submitted',
-          icon: 'success',
-        });
+        toast.success(response?.data?.message);
         setSubmitting(false);
-        navigate('/');
+        navigate(`/educationdetails/${id}`);
       })
       .catch((err) => {
         console.log(err);
         setSubmitting(false);
-        Swal.fire({
-          title: 'Error',
-          text: 'Something went wrong',
-          icon: 'error',
-        });
+        toast.error(err?.response?.data?.message);
       });
   };
   const handleDeleteImage = (index) => {
@@ -165,9 +158,11 @@ const EducationEditForm = () => {
       })
       .then((response) => {
         console.log('delete', response);
+        toast.success(response?.data?.message);
       })
       .catch((error) => {
         console.error('Error uploading image:', error);
+        toast.error(error?.response?.data?.message);
       });
   };
   return (

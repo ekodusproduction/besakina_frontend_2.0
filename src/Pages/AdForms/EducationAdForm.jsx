@@ -15,6 +15,7 @@ import {
 } from '../../data/formConstains';
 import { DataContext } from '../../contexts/DataContext';
 import { StateCitiesData } from '../../data/Indian_Cities_In_States';
+import toast from 'react-hot-toast';
 
 const EducationAdForm = () => {
   const [selectedImages, setSelectedImages] = useState([]);
@@ -145,22 +146,14 @@ const EducationAdForm = () => {
       )
       .then((response) => {
         console.log(response);
-        Swal.fire({
-          title: 'Success',
-          text: 'The form was successfully submitted',
-          icon: 'success',
-        });
+        toast.success(response?.data?.message);
         setSubmitting(false);
-        navigate('/');
+        navigate(`/educationdetails/${id}`);
       })
       .catch((err) => {
         console.log(err);
         setSubmitting(false);
-        Swal.fire({
-          title: err?.response?.data?.message,
-          // text: err?.response?.data?.message,
-          icon: 'warning',
-        });
+        toast.error(err?.response?.data?.message)
         if (err?.response?.data?.message === 'User Profile Incomplete') {
           updateData(formData);
           navigate('/setup-profile', {
