@@ -4,10 +4,12 @@ import { FaAngleRight } from "react-icons/fa6";
 import axiosInstance from "../api/axiosInstance";
 import { IoIosCheckmarkCircle } from "react-icons/io";
 import { IoIosCloseCircle } from "react-icons/io";
+import { useNavigate } from "react-router-dom";
 
 const Plans = () => {
   const [plans, setPlans] = useState([]);
   const token = localStorage.getItem("token");
+  const navigate = useNavigate();
 
   useEffect(() => {
     axiosInstance
@@ -23,9 +25,10 @@ const Plans = () => {
         console.log(error);
       });
   }, []);
-  console.log("hii", plans);
 
   return (
+    <>
+    {plans?.length ?
     <>
       <div className="text-center pt-16">
         <p className="text-[#1A5C96]">Our Pricing</p>
@@ -211,6 +214,14 @@ const Plans = () => {
           </div>
         </div> */}
       </div>
+    </>
+    :
+    <div className="w-full h-screen flex flex-col items-center justify-center">
+      <p className="text-xl font-bold">Sorry there is no plans right now..</p>
+      <p className="text-xl font-bold text-blue-600">Please visit after some time</p>
+      <button onClick={()=>navigate("/")} className="border-2 py-1 px-4 mt-2 font-medium border-blue-400 rounded-md">Go back to Home</button>
+    </div>
+      }
     </>
   );
 };

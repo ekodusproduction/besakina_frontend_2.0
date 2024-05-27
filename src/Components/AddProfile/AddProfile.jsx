@@ -155,7 +155,7 @@ const AddProfile = () => {
 
   const profileSubmitHandler = (e) => {
     e.preventDefault();
-    if (!profilePic) {
+    if (!(profilePic?.length || userDetails?.profile_pic)) {
       // toast.error("Please upload your profile picture!");
       toast('Please upload your profile picture!', {
         icon: '😥',
@@ -176,25 +176,16 @@ const AddProfile = () => {
       })
       .then((response) => {
         console.log(response);
-        Swal.fire({
-          title: 'Success',
-          text: 'The form was successfully submitted',
-          icon: 'success',
-        });
+        toast.success(response?.data?.message);
         setSubmitting(false);
         route?.length ? navigate(route) : navigate('/profile');
       })
       .catch((err) => {
         console.log(err);
         setSubmitting(false);
-        Swal.fire({
-          title: 'Error',
-          text: err.response.data.message,
-          icon: 'error',
-        });
+        toast.error(err.response.data.message)
       });
   };
-
   const handleEditForm = (e, fieldName) => {
     const value = e.target.value;
     let formattedValue = value;
