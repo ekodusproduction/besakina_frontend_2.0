@@ -201,7 +201,7 @@ const Doctors = () => {
           <Splide aria-label="Banner">
             <SplideSlide>
               <img
-                src="/assets/Post/healthcare (1).jpg"
+                src="/assets/Post/healthcare (2).jpg"
                 className="w-[100%] rounded-xl"
                 alt="Image 1"
               />
