@@ -10,6 +10,7 @@ import { useNavigate } from 'react-router-dom';
 import BackButton from '../../Components/BackButton/BackButton';
 import { StateCitiesData } from '../../data/Indian_Cities_In_States';
 import { HospitalityTypeData } from '../../data/hospitalityData';
+import toast from 'react-hot-toast';
 
 
 const HospitalityAdForm = () => {
@@ -93,22 +94,13 @@ const HospitalityAdForm = () => {
                 'Authorization': `Bearer ${token}`
             }
           }).then((response)=> {
-            console.log(response)
-            Swal.fire({
-                title: "Success",
-                text: "The form was successfully submitted",
-                icon: "success"
-              });
+            toast.success(response?.data?.message);
             setSubmitting(false);
             navigate("/");
           }).catch(err=> {
             console.log(err)
             setSubmitting(false)
-            Swal.fire({
-                title: er?.response?.data?.message,
-                // text: er?.response?.data?.message,
-                icon: "warning"
-              });
+            toast.error(err?.response?.data?.message,)
               if(err?.response?.data?.message=="User Profile Incomplete"){
                 navigate("/setup-profile");
             }})}

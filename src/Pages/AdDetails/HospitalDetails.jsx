@@ -19,7 +19,7 @@ const HospitalDetails = () => {
     const location = useLocation();
 
     useEffect(()=> {
-        axiosInstance.get(`api/hospitals/id/${id}`)
+        axiosInstance.get(`api/hospital/id/${id}`)
         .then(response => {
             console.log(response)
             const data = response.data.data;

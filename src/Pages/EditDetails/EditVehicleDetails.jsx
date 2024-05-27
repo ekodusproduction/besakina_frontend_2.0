@@ -9,6 +9,7 @@ import Swal from 'sweetalert2';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { Fueldata, VehicleData, Vehicletype } from '../../data/VehicleData';
 import { StateCitiesData } from '../../data/Indian_Cities_In_States';
+import toast from 'react-hot-toast';
 
 const EditVehicleDetails = () => {
   const [selectedImages, setSelectedImages] = useState([]);
@@ -59,11 +60,7 @@ const EditVehicleDetails = () => {
 
   const imageHandler = (e) => {
     if (selectedImages?.length >= 20) {
-      Swal.fire({
-        title: 'Error',
-        text: 'You can upload photos upto 20',
-        icon: 'error',
-      });
+      toast.error('You can upload photos upto 20');
       return;
     }
     const file = e.target.files[0];
@@ -114,10 +111,11 @@ const EditVehicleDetails = () => {
         },
       })
       .then((response) => {
-        console.log('delete', response);
+        toast.success(response?.data?.message);
       })
       .catch((error) => {
         console.error('Error uploading image:', error);
+        toast.error(error?.response?.data?.message);
       });
   };
 
@@ -151,22 +149,14 @@ const EditVehicleDetails = () => {
       })
       .then((response) => {
         console.log(response);
-        Swal.fire({
-          title: 'Success',
-          text: 'The form was successfully submitted',
-          icon: 'success',
-        });
+        toast.success(response?.data?.message);
         setSubmitting(false);
         navigate(`/vehicledetails/${id}`);
       })
       .catch((err) => {
         console.log(err);
         setSubmitting(false);
-        Swal.fire({
-          title: 'Error',
-          text: 'Something went wrong',
-          icon: 'error',
-        });
+        toast.error(err?.response?.data?.message);
       });
   };
   const handleDeleteImage = (index) => {

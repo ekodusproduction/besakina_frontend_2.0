@@ -120,7 +120,7 @@ const AdCard = ({ data, link , refresh}) => {
           <div className="flex justify-between items-center">
             <h2 className="font-bold xl:text-lg">
               {" "}
-              {"expertise" in data ? data?.name : "₹" + data?.price}
+              {data?.name ? data?.name : "₹" + data?.price}
             </h2>
             <div className="flex items-center gap-5">
               <Switch

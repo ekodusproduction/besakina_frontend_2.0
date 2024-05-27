@@ -10,6 +10,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { Fueldata, VehicleData, Vehicletype } from '../../data/VehicleData';
 import BackButton from '../../Components/BackButton/BackButton';
 import { StateCitiesData } from '../../data/Indian_Cities_In_States';
+import toast from 'react-hot-toast';
 
 const VehicleAdForm = () => {
   const [selectedImages, setSelectedImages] = useState([]);
@@ -123,22 +124,14 @@ const VehicleAdForm = () => {
       )
       .then((response) => {
         console.log(response);
-        Swal.fire({
-          title: 'Success',
-          text: 'The form was successfully submitted',
-          icon: 'success',
-        });
+        toast.success(response?.data?.message);
         setSubmitting(false);
         navigate('/');
       })
       .catch((err) => {
         console.log(err);
         setSubmitting(false);
-        Swal.fire({
-          title: err?.response?.data?.message,
-          // text: err?.response?.data?.message,
-          icon: 'warning',
-        });
+        toast.error(err?.response?.data?.message);
         if (err?.response?.data?.message === 'User Profile Incomplete') {
           navigate('/setup-profile');
         }
@@ -509,67 +502,21 @@ const VehicleAdForm = () => {
                     Vehicle Type*
                   </p>
                   <div className="flex flex-wrap gap-2 text-gray-700">
-                    <div className="border-[1px] border-gray-400 rounded-sm">
+                  {Vehicletype?.map((item,index)=>(
+                    <div key={index} className="border-[1px] border-gray-400 rounded-sm">
                       <input
                         type="radio"
-                        id="car"
+                        id={item.value}
                         name="type"
-                        value="car"
+                        value={item.value}
                         className="hidden"
                         onChange={handleTypeChange}
                       />
-                      <label for="car" className="px-4 py-[2px] cursor-pointer">
-                        Car
+                      <label for={item.value} className="px-4 py-[2px] cursor-pointer">
+                      {item.label}
                       </label>
                     </div>
-                    <div className="border-[1px] border-gray-400 rounded-sm">
-                      <input
-                        type="radio"
-                        id="motorcycle"
-                        name="type"
-                        value="motorcycle"
-                        onChange={handleTypeChange}
-                        className="hidden"
-                      />
-                      <label
-                        for="motorcycle"
-                        className="px-4 py-[2px] cursor-pointer"
-                      >
-                        Motorcycle
-                      </label>
-                    </div>
-                    <div className="border-[1px] border-gray-400 rounded-sm">
-                      <input
-                        type="radio"
-                        id="scooter"
-                        name="type"
-                        value="scooter"
-                        onChange={handleTypeChange}
-                        className="hidden"
-                      />
-                      <label
-                        for="scooter"
-                        className="px-4 py-[2px] cursor-pointer"
-                      >
-                        Scooter
-                      </label>
-                    </div>
-                    {/* <div className="border-[1px] border-gray-400 rounded-sm">
-                      <input
-                        type="radio"
-                        id="bicycle"
-                        name="type"
-                        value="bicycle"
-                        onChange={handleTypeChange}
-                        className="hidden"
-                      />
-                      <label
-                        for="bicycle"
-                        className="px-4 py-[2px] cursor-pointer"
-                      >
-                        Bicycle
-                      </label>
-                    </div> */}
+                  ))}
                   </div>
                 </div>
                 <div>

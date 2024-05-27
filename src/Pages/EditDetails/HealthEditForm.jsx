@@ -30,9 +30,10 @@ const HealthEditForm = () => {
 
   const token = localStorage.getItem('token');
 
+
   const getDoctorDetails = async () => {
     await axiosInstance
-      .get(`api/doctors/id/${id}`)
+      .get(`api/doctor/id/${id}`)
       .then((response) => {
         console.log('doctors', response);
         const data = response.data.data;
@@ -47,7 +48,7 @@ const HealthEditForm = () => {
 
   const getHospitalDetals = async () => {
     await axiosInstance
-      .get(`api/hospitals/id/${id}`)
+      .get(`api/hospital/id/${id}`)
       .then((response) => {
         console.log('hospitals', response);
         const data = response.data.data;
@@ -59,7 +60,7 @@ const HealthEditForm = () => {
   };
 
   useEffect(() => {
-    if (selectedForm === 'doctors') {
+    if (selectedForm === 'Doctor') {
       getDoctorDetails();
     } else {
       getHospitalDetals();
@@ -87,11 +88,7 @@ const HealthEditForm = () => {
 
   const doctorImageHandler = (e) => {
     if (doctorsImage?.length >= 20) {
-      Swal.fire({
-        title: 'Error',
-        text: 'You can upload photos upto 20',
-        icon: 'error',
-      });
+      toast.error('You can upload photos upto 20')
       return;
     }
     const file = e.target.files[0];
@@ -104,7 +101,7 @@ const HealthEditForm = () => {
     formData.append('image', file);
 
     axiosInstance
-      .post(`api/doctors/images/id/${id}`, formData, {
+      .post(`api/doctor/images/id/${id}`, formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
           Authorization: `Bearer ${token}`,
@@ -129,12 +126,8 @@ const HealthEditForm = () => {
       });
   };
   const hospitalImageHandler = (e) => {
-    if (selectedImages?.length >= 20) {
-      Swal.fire({
-        title: 'Error',
-        text: 'You can upload photos upto 20',
-        icon: 'error',
-      });
+    if (hospitalsImage?.length >= 20) {
+      toast.error('You can upload photos upto 20');
       return;
     }
     const file = e.target.files[0];
@@ -190,16 +183,16 @@ const HealthEditForm = () => {
       expertise: doctorsDetails?.expertise,
     };
     axiosInstance
-      .put(`api/doctors/id/${id}`, body, {
+      .put(`api/doctor/id/${id}`, body, {
         headers: {
           'Content-Type': 'application/json',
           Authorization: `Bearer ${token}`,
         },
       })
       .then((response) => {
-        toast.success('The form was successfully submitted');
+        toast.success(response?.data?.message);
         setSubmitting(false);
-        navigate('/');
+        navigate(`/hospitaldetails/${id}`);
       })
       .catch((err) => {
         console.log(err);
@@ -227,7 +220,7 @@ const HealthEditForm = () => {
 
     axiosInstance
       .put(
-        `api/hospitals/id/${id}`,
+        `api/hospital/id/${id}`,
         body,
         {
           headers: {
@@ -238,22 +231,14 @@ const HealthEditForm = () => {
       )
       .then((response) => {
         console.log(response);
-        Swal.fire({
-          title: 'Success',
-          text: 'The form was successfully submitted',
-          icon: 'success',
-        });
+        toast.success(response?.data?.message);
         setSubmitting(false);
         navigate('/');
       })
       .catch((err) => {
         console.log(err);
         setSubmitting(false);
-        Swal.fire({
-          title: 'Error',
-          text: 'Something went wrong',
-          icon: 'error',
-        });
+        toast.error('Something went wrong');
       });
   };
 
@@ -360,7 +345,7 @@ const HealthEditForm = () => {
             </button>
           </div> */}
           <div>
-            {selectedForm == 'doctors' && (
+            {selectedForm == 'Doctor' && (
               <form
                 action=""
                 onSubmit={doctorFormSubmitHandler}
@@ -600,7 +585,7 @@ const HealthEditForm = () => {
               </form>
             )}
 
-            {selectedForm == 'hospitals' && (
+            {selectedForm == 'Hospital' && (
               <form
                 action=""
                 className="flex flex-col gap-8"
@@ -803,7 +788,7 @@ const HealthEditForm = () => {
                         type="file"
                         id={`file-1`}
                         accept="image/*"
-                        onChange={(e) => doctorImageHandler(e)}
+                        onChange={(e) => hospitalImageHandler(e)}
                         className="hidden"
                       />
                     </div>

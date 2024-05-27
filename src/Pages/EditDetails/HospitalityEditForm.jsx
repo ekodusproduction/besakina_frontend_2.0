@@ -9,6 +9,7 @@ import Swal from 'sweetalert2';
 import { useNavigate, useParams } from 'react-router-dom';
 import { StateCitiesData } from '../../data/Indian_Cities_In_States';
 import { HospitalityTypeData } from '../../data/hospitalityData';
+import toast from 'react-hot-toast';
 
 const HospitalityEditForm = () => {
   const [selectedImages, setSelectedImages] = useState([]);
@@ -122,23 +123,14 @@ const HospitalityEditForm = () => {
         }
       )
       .then((response) => {
-        console.log(response);
-        Swal.fire({
-          title: 'Success',
-          text: 'The form was successfully submitted',
-          icon: 'success',
-        });
+        toast.success(response?.data?.message);
         setSubmitting(false);
-        navigate('/');
+        navigate(`/hospitalitydetails/${id}`);
       })
       .catch((err) => {
         console.log(err);
         setSubmitting(false);
-        Swal.fire({
-          title: 'Error',
-          text: 'Something went wrong',
-          icon: 'error',
-        });
+        toast.error(err?.response?.data?.message);
       });
   };
   const handleDeleteImage = (index) => {

@@ -8,6 +8,7 @@ import { useNavigate } from 'react-router-dom';
 import BackButton from '../../Components/BackButton/BackButton';
 import { StateCitiesData } from '../../data/Indian_Cities_In_States';
 import { ExpertiseData, HospitalData } from '../../data/heathFormData';
+import toast from 'react-hot-toast';
 
 const HealthAdForm = () => {
   const [selectedForm, setSelectedForm] = useState('doctors');
@@ -24,6 +25,7 @@ const HealthAdForm = () => {
   const navigate = useNavigate();
 
   const token = localStorage.getItem('token');
+
 
   const imageHandler = (e, index) => {
     const files = e.target.files;
@@ -151,7 +153,7 @@ const HealthAdForm = () => {
     console.log({ ...value, images: selectedDoctorsImages });
     axiosInstance
       .post(
-        'api/doctors/add',
+        'api/doctor/add',
         { ...value, images: selectedDoctorsImages },
         {
           headers: {
@@ -162,22 +164,14 @@ const HealthAdForm = () => {
       )
       .then((response) => {
         console.log(response);
-        Swal.fire({
-          title: 'Success',
-          text: 'The form was successfully submitted',
-          icon: 'success',
-        });
+        toast.success(response?.data?.message);
         setSubmitting(false);
         navigate('/');
       })
       .catch((err) => {
         console.log(err);
         setSubmitting(false);
-        Swal.fire({
-          title: err?.response?.data?.message,
-          // text: err?.response?.data?.message,
-          icon: 'warning',
-        });
+        toast.error(err?.response?.data?.message);
         if (err?.response?.data?.message == 'User Profile Incomplete') {
           navigate('/setup-profile');
         }
@@ -198,7 +192,7 @@ const HealthAdForm = () => {
     console.log({ ...value, images: selectedHospitalImages });
     axiosInstance
       .post(
-        'api/hospitals/add',
+        'api/hospital/add',
         { ...value, images: selectedHospitalImages },
         {
           headers: {
@@ -209,22 +203,14 @@ const HealthAdForm = () => {
       )
       .then((response) => {
         console.log(response);
-        Swal.fire({
-          title: 'Success',
-          text: 'The form was successfully submitted',
-          icon: 'success',
-        });
+        toast.success(response?.data?.message);
         setSubmitting(false);
         navigate('/');
       })
       .catch((err) => {
         console.log(err);
         setSubmitting(false);
-        Swal.fire({
-          title: err?.response?.data?.message,
-          // text: err?.response?.data?.message,
-          icon: 'warning',
-        });
+        toast.error(err?.response?.data?.message)
         if (err?.response?.message == 'User Profile Incomplete') {
           navigate('/setup-profile');
         }
