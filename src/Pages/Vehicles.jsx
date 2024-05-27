@@ -75,7 +75,7 @@ const Vehicles = () => {
           <Splide aria-label="Banner">
             <SplideSlide>
               <img
-                src="public/assets/Post/vehical (2).jpg"
+                src="/assets/Post/vehical (2).jpg"
                 className="w-[100%] rounded-xl"
                 alt="Image 1"
               />
