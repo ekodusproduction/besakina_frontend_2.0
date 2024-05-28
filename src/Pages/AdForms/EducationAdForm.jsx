@@ -148,7 +148,7 @@ const EducationAdForm = () => {
         console.log(response);
         toast.success(response?.data?.message);
         setSubmitting(false);
-        navigate(`/educationdetails/${id}`);
+        navigate("/");
       })
       .catch((err) => {
         console.log(err);
