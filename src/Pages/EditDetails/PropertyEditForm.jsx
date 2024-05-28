@@ -18,6 +18,7 @@ import {
   ParkingData,
   TypesData,
 } from '../../data/propertyFormData';
+import toast from 'react-hot-toast';
 
 const PropertyEditForm = () => {
   const [selectedImages, setSelectedImages] = useState([]);
@@ -58,11 +59,7 @@ const PropertyEditForm = () => {
 
   const imageHandler = (e) => {
     if (selectedImages?.length >= 20) {
-      Swal.fire({
-        title: 'Error',
-        text: 'You can upload photos upto 20',
-        icon: 'error',
-      });
+      toast.error('You can upload photos upto 20')
       return;
     }
     const file = e.target.files[0];
@@ -131,22 +128,14 @@ const PropertyEditForm = () => {
       })
       .then((response) => {
         console.log(response);
-        Swal.fire({
-          title: 'Success',
-          text: 'The form was successfully submitted',
-          icon: 'success',
-        });
+        toast.success(response?.data?.message);
         setSubmitting(false);
         navigate('/');
       })
       .catch((err) => {
         console.log(err);
         setSubmitting(false);
-        Swal.fire({
-          title: 'Error',
-          text: 'Something went wrong',
-          icon: 'error',
-        });
+        toast.error(err?.response?.data?.message);
       });
   };
 

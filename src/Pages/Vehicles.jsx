@@ -24,7 +24,7 @@ const Vehicles = () => {
 
   useEffect(() => {
     axiosInstance
-      .get('api/vehicles/list')
+      .get('api/vehicle/list')
       .then((response) => {
         console.log(response);
         setVehiclesList(response.data.data.vehicles);
@@ -35,7 +35,7 @@ const Vehicles = () => {
   }, []);
 
   const filterHandler = () => {
-    let url = `api/vehicles/filter?minPrice=${priceRange.min_price}`;
+    let url = `api/vehicle/filter?minPrice=${priceRange.min_price}`;
     if (filter.brand) url += `&brand=${filter.brand}`;
     if (filter.type) url += `&type=${filter.type}`;
     if (filter.fuel) url += `&fuel=${filter.fuel}`;
