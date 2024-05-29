@@ -62,14 +62,16 @@ const Navbar = () => {
   };
   const handleProductNavigate = (item) => {
     setSearch('');
-    if (item?.category === 'property') {
-      return navigate(`/propertiesdetails/${item.id}`);
-    } else if (item.category === 'vehicles') {
-      return navigate(`/vehicledetails/${item.id}`);
-    } else if (item.category === 'education') {
-      return navigate(`/educationdetails/${item.id}`);
-    } else if (item.category === 'hospitality') {
-      return navigate(`/hospitalitydetails/${item.id}`);
+    if (item?.advType === 'Property') {
+      return navigate(`/propertiesdetails/${item._id}`);
+    } else if (item.advType === 'Vehicle') {
+      return navigate(`/vehicledetails/${item._id}`);
+    } else if (item.advType === 'Education') {
+      return navigate(`/educationdetails/${item._id}`);
+    } else if (item.advType === 'Hospitality') {
+      return navigate(`/hospitalitydetails/${item._id}`);
+    } else if (item.advType === 'Hospital') {
+      return navigate(`/hospitaldetails/${item._id}`);
     }
   };
 
@@ -132,7 +134,7 @@ const Navbar = () => {
                         <p className="capitalize">{item?.title}</p>
                         <p className="capitalize text-sm">
                           {' '}
-                          Category: {item?.category}
+                          Category: {item?.advType}
                         </p>
                       </div>
                     </li>

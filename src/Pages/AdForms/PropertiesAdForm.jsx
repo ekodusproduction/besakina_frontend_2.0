@@ -115,7 +115,7 @@ const PropertiesAdForm = () => {
       )
       .then((response) => {
         console.log(response);
-        toast.success(response?.data?.message)
+        toast.success(response?.data?.message);
         setSubmitting(false);
         navigate('/');
       })
@@ -395,20 +395,23 @@ const PropertiesAdForm = () => {
               <div>
                 <p className="mb-2 font-semibold text-gray-700">Car Parking</p>
                 <div className="flex flex-wrap gap-2 text-gray-700">
-                {ParkingData?.map((item,index)=>(
-                  <div key={index} className="border-[1px] border-gray-400 rounded-sm">
-                    <input
-                      type="radio"
-                      id={item.id}
-                      name="car_parking"
-                      value={item.label}
-                      className="hidden"
-                    />
-                    <label for={item.id} className="px-4 py-[2px]">
-                    {item.label}
-                    </label>
-                  </div>
-                ))}
+                  {ParkingData?.map((item, index) => (
+                    <div
+                      key={index}
+                      className="border-[1px] border-gray-400 rounded-sm"
+                    >
+                      <input
+                        type="radio"
+                        id={item.id}
+                        name="car_parking"
+                        value={item.label}
+                        className="hidden"
+                      />
+                      <label for={item.id} className="px-4 py-[2px]">
+                        {item.label}
+                      </label>
+                    </div>
+                  ))}
                 </div>
               </div>
               <div>
@@ -631,7 +634,6 @@ const PropertiesAdForm = () => {
                   <input
                     type="text"
                     name="price"
-                    required
                     className="w-[90vw] sm:w-[50vw] border-[1px] border-gray-400 py-2 rounded-md"
                   />
                 </div>
