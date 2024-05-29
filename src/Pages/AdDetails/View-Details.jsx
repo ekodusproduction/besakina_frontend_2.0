@@ -84,7 +84,7 @@ const ViewDetails = ({ data, route, category }) => {
                 Home
               </Link>
               <p> {'>'}</p>
-              <Link to={(-1)} className="font-semibold capitalize">
+              <Link to={-1} className="font-semibold capitalize">
                 {category}
               </Link>
             </div>
@@ -104,14 +104,16 @@ const ViewDetails = ({ data, route, category }) => {
                                         </button> */}
                   </div>
                   <p className="text-lg font-semibold mb-2">
-                    {data?.name && category !="hospitality" && data?.name}
+                    {data?.name && category != 'hospitality' && data?.name}
                   </p>
 
                   <div className="mt-4 mb-4 flex  flex-col justify-between">
                     <span className="text-sm sm:text-base flex items-center text-slate-700">
                       <MdLocationPin size={25} />
                       {`${
-                        data?.house_no ? `House No: ${data?.house_no},` : ''
+                        data?.house_no && data?.house_no !== '0'
+                          ? `House No: ${data?.house_no},`
+                          : ''
                       } ${data?.street}, ${data?.city} - ${data?.pincode}, ${
                         data?.state
                       }`}
@@ -151,10 +153,14 @@ const ViewDetails = ({ data, route, category }) => {
                   <div className="flex justify-between">
                     {/* <p className='w-1/4 text-sm text-slate-500'>Bathrooms</p>
                         <p className='w-1/4 text-sm text-slate-700'>{data?.bathrooms}</p> */}
-                    <p className="w-1/4 text-sm text-slate-500">Total Rooms:</p>
-                    <p className="w-1/4 text-sm text-slate-700">
-                      {data?.total_rooms}
-                    </p>
+                    <>
+                      <p className="w-1/4 text-sm text-slate-500">
+                        Total Rooms:
+                      </p>
+                      <p className="w-1/4 text-sm text-slate-700">
+                        {data?.total_rooms != 0 ? data?.total_rooms : 'N/A'}
+                      </p>
+                    </>
                     <p className="w-1/4 text-sm text-slate-500">Furnishing:</p>
                     <p className="w-1/4 text-sm text-slate-700">
                       {data?.furnishing}
@@ -173,26 +179,40 @@ const ViewDetails = ({ data, route, category }) => {
                     </p>
                   </div>
                   <div className="flex justify-between">
-                    <p className="w-1/4 text-sm text-slate-500">
-                      Super buildup area:
-                    </p>
-                    <p className="w-1/4 text-sm text-slate-700">
-                      {data?.super_builtup_area}
-                    </p>
-                    <p className="w-1/4 text-sm text-slate-500">Carpet area:</p>
-                    <p className="w-1/4 text-sm text-slate-700">
-                      {data?.carpet_area}
-                    </p>
+                    <>
+                      <p className="w-1/4 text-sm text-slate-500">
+                        Super buildup area:
+                      </p>
+                      <p className="w-1/4 text-sm text-slate-700">
+                        {data?.super_builtup_area != 0
+                          ? data?.super_builtup_area
+                          : 'N/A'}
+                      </p>
+                    </>
+                    <>
+                      <p className="w-1/4 text-sm text-slate-500">
+                        Carpet area:
+                      </p>
+                      <p className="w-1/4 text-sm text-slate-700">
+                        {data?.carpet_area != 0 ? data?.carpet_area : 'N/A'}
+                      </p>
+                    </>
                   </div>
                   <div className="flex justify-between">
-                    <p className="w-1/4 text-sm text-slate-500">Total floors:</p>
-                    <p className="w-1/4 text-sm text-slate-700">
-                      {data?.total_floors}
-                    </p>
-                    <p className="w-1/4 text-sm text-slate-500">Floor No.</p>
-                    <p className="w-1/4 text-sm text-slate-700">
-                      {data?.floor_no}
-                    </p>
+                    <>
+                      <p className="w-1/4 text-sm text-slate-500">
+                        Total floors:
+                      </p>
+                      <p className="w-1/4 text-sm text-slate-700">
+                        {data?.total_floors != 0 ? data?.total_floors : 'N/A'}
+                      </p>
+                    </>
+                    <>
+                      <p className="w-1/4 text-sm text-slate-500">Floor No.</p>
+                      <p className="w-1/4 text-sm text-slate-700">
+                        {data?.floor_no != 0 ? data?.floor_no : 'N/A'}
+                      </p>
+                    </>
                   </div>
                   <div className="flex items-center gap-4">
                     <p className="w-[23%] text-sm text-slate-500">
@@ -213,19 +233,15 @@ const ViewDetails = ({ data, route, category }) => {
                 <div className="flex flex-col gap-2 min-w-[600px]">
                   <div className="flex justify-between pr-12">
                     {data?.type && (
-                      <div className='flex items-center gap-2'>
+                      <div className="flex items-center gap-2">
                         <p className="text-slate-500 text-sm"> Vehicle Type:</p>
-                        <p className="text-sm text-slate-700">
-                          {data?.type}
-                        </p>
+                        <p className="text-sm text-slate-700">{data?.type}</p>
                       </div>
                     )}
                     {data?.brand && (
-                      <div className='flex items-center gap-2'>
+                      <div className="flex items-center gap-2">
                         <p className="text-sm text-slate-500">Brand:</p>
-                        <p className="text-sm text-slate-700">
-                          {data?.brand}
-                        </p>
+                        <p className="text-sm text-slate-700">{data?.brand}</p>
                       </div>
                     )}
                   </div>
@@ -241,7 +257,7 @@ const ViewDetails = ({ data, route, category }) => {
                       </div>
                     )} */}
                     {data?.registration_year && (
-                      <div className='flex items-center gap-4'>
+                      <div className="flex items-center gap-4">
                         <p className="text-sm text-slate-500">
                           Registration Year:
                         </p>
@@ -279,28 +295,31 @@ const ViewDetails = ({ data, route, category }) => {
                       Course Duration:
                     </p>
                     <p className="w-1/4 text-sm text-slate-700">
-                      {data?.course_duration} {"months"}
+                      {data?.course_duration} {'months'}
                     </p>
                   </div>
                 </div>
               </section>
             )}
-            {category == "hospitality" &&
-            <section className='xl:w-3/5 border-[1px] border-slate-400 sm:mt-8 mt-4 p-4 rounded-md overflow-x-scroll capitalize'>
-                <h2 className='font-bold mb-4'>Details</h2>
-                <div className='flex flex-col gap-2 min-w-[600px]'>
-                    <div className='flex items-center gap-56'>
-                        <div className='flex items-center gap-2'>
-                        <p className='text-slate-500 text-sm'>Type:</p>
-                        <p className='text-sm text-slate-700'>{convertString(data?.type)}</p>
-                        </div>
-                        <div className='flex items-center gap-2'>
-                        <p className='text-sm text-slate-500'>City:</p>
-                        <p className='text-sm text-slate-700'>{data?.city}</p>
-                        </div>
+            {category == 'hospitality' && (
+              <section className="xl:w-3/5 border-[1px] border-slate-400 sm:mt-8 mt-4 p-4 rounded-md overflow-x-scroll capitalize">
+                <h2 className="font-bold mb-4">Details</h2>
+                <div className="flex flex-col gap-2 min-w-[600px]">
+                  <div className="flex items-center gap-56">
+                    <div className="flex items-center gap-2">
+                      <p className="text-slate-500 text-sm">Type:</p>
+                      <p className="text-sm text-slate-700">
+                        {convertString(data?.type)}
+                      </p>
                     </div>
+                    <div className="flex items-center gap-2">
+                      <p className="text-sm text-slate-500">City:</p>
+                      <p className="text-sm text-slate-700">{data?.city}</p>
+                    </div>
+                  </div>
                 </div>
-            </section>}
+              </section>
+            )}
             {/* doctor */}
             {category == 'doctor' && (
               <section className="xl:w-3/5 border-[1px] border-slate-400 sm:mt-8 mt-4 p-4 rounded-md overflow-x-scroll capitalize">
@@ -349,7 +368,9 @@ const ViewDetails = ({ data, route, category }) => {
                     {data?.type && (
                       <div className="flex items-center gap-2">
                         <p className="text-sm text-slate-500">Type:</p>
-                        <p className="text-sm text-slate-700">{convertString(data?.type)}</p>
+                        <p className="text-sm text-slate-700">
+                          {convertString(data?.type)}
+                        </p>
                       </div>
                     )}
                   </div>
