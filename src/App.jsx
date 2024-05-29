@@ -109,7 +109,6 @@ const App = () => {
               }
             />
             {/* <Route path='wishlist' element={<Wishlist/>}/> */}
-            <Route path="my-listing" element={<MyListing />} />
             <Route path="listing-categories" element={<ListingCategories />} />
           </Route>
         </Routes>

@@ -181,9 +181,6 @@ const Navbar = () => {
                   <Link to="/plans">My Plans</Link>
                 </li>
                 <li className="py-2 lg:py-0 lg:hidden">
-                  <Link to="/my-listing">My Listing</Link>
-                </li>
-                <li className="py-2 lg:py-0 lg:hidden">
                   <button onClick={logoutHandler}>Logout</button>
                 </li>
               </>
@@ -206,9 +203,6 @@ const Navbar = () => {
                   </Dropdown.Item>
                   <Dropdown.Item onClick={() => navigate('/plans')}>
                     My Plans
-                  </Dropdown.Item>
-                  <Dropdown.Item onClick={() => navigate('/my-listing')}>
-                    My Listing
                   </Dropdown.Item>
                   <Dropdown.Item onClick={logoutHandler}>Logout</Dropdown.Item>
                 </Dropdown>
