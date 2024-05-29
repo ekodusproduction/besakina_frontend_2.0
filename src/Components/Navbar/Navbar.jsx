@@ -1,16 +1,16 @@
-import { useEffect, useRef, useState } from "react";
-import Button from "../Button/Button";
-import { RxHamburgerMenu } from "react-icons/rx";
-import { BsSearch } from "react-icons/bs";
-import styles from "./Navbar.module.css";
-import { Link } from "react-router-dom";
-import { useNavigate } from "react-router-dom";
-import { FaUser } from "react-icons/fa";
-import { Dropdown } from "flowbite-react";
-import { useLogin } from "../../hooks/useLogin";
-import { baseURL } from "../../api/axiosInstance";
-import axios from "axios";
-import ProductCard from "../Cards/ProductCard";
+import { useEffect, useRef, useState } from 'react';
+import Button from '../Button/Button';
+import { RxHamburgerMenu } from 'react-icons/rx';
+import { BsSearch } from 'react-icons/bs';
+import styles from './Navbar.module.css';
+import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
+import { FaUser } from 'react-icons/fa';
+import { Dropdown } from 'flowbite-react';
+import { useLogin } from '../../hooks/useLogin';
+import { baseURL } from '../../api/axiosInstance';
+import axios from 'axios';
+import ProductCard from '../Cards/ProductCard';
 
 const Navbar = () => {
   const [search, setSearch] = useState();
@@ -21,16 +21,16 @@ const Navbar = () => {
   const { isLoggedIn, setIsLoggedIn } = useLogin();
 
   const navOpenHandler = () => {
-    if (navRef.current.classList.contains("h-0")) {
-      navRef.current.classList.remove("h-0");
-      navRef.current.classList.add("h-auto");
+    if (navRef.current.classList.contains('h-0')) {
+      navRef.current.classList.remove('h-0');
+      navRef.current.classList.add('h-auto');
     } else {
-      navRef.current.classList.remove("h-auto");
-      navRef.current.classList.add("h-0");
+      navRef.current.classList.remove('h-auto');
+      navRef.current.classList.add('h-0');
     }
   };
   const logoutHandler = () => {
-    localStorage.removeItem("token");
+    localStorage.removeItem('token');
     setIsLoggedIn(false);
   };
 
@@ -43,7 +43,7 @@ const Navbar = () => {
         setLoading(false);
       })
       .catch((error) => {
-        console.error("Error fetching data: ", error);
+        console.error('Error fetching data: ', error);
         setLoading(false);
       });
   };
@@ -61,14 +61,14 @@ const Navbar = () => {
     setSearch(e.target.value);
   };
   const handleProductNavigate = (item) => {
-    setSearch("");
-    if (item?.category === "property") {
+    setSearch('');
+    if (item?.category === 'property') {
       return navigate(`/propertiesdetails/${item.id}`);
-    } else if (item.category === "vehicles") {
+    } else if (item.category === 'vehicles') {
       return navigate(`/vehicledetails/${item.id}`);
-    } else if (item.category === "education") {
+    } else if (item.category === 'education') {
       return navigate(`/educationdetails/${item.id}`);
-    } else if (item.category === "hospitality") {
+    } else if (item.category === 'hospitality') {
       return navigate(`/hospitalitydetails/${item.id}`);
     }
   };
@@ -84,12 +84,12 @@ const Navbar = () => {
             >
               <RxHamburgerMenu size={25} className="lg:hidden block" />
             </button>
-            <Link to={"/"}>
+            <Link to={'/'}>
               <div className="w-[160px] hidden md:block">
                 <img src="/logo.png" className="w-full" alt="" />
               </div>
             </Link>
-            <Link to={"/"}>
+            <Link to={'/'}>
               <div className="xsm:w-[50px] w-[40px] md:hidden">
                 <img src="/small_logo.png" className="w-full" alt="" />
               </div>
@@ -106,7 +106,7 @@ const Navbar = () => {
                 className="placeholder:text-xs sm:placeholder:text-sm w-[200px] xsm:w-[300px] sm:w-[400px]  md:w-[30vw]  pl-2 bg-transparent focus:outline-none border-none"
                 placeholder="Search for product, business or service"
               />
-              <Button category={"primarybtn"}>
+              <Button category={'primarybtn'}>
                 <BsSearch size={18} color="white" />
               </Button>
             </div>
@@ -123,13 +123,17 @@ const Navbar = () => {
                       onClick={() => handleProductNavigate(item)}
                       className="flex items-center gap-2 cursor-pointer hover:bg-gray-200 p-2"
                     >
-                      <img src={`${item?.images[0]}`} alt={item?.images[0]} className="w-12 h-12 object-cover rounded-md" />
+                      <img
+                        src={`${item?.images[0]}`}
+                        alt={item?.images[0]}
+                        className="w-12 h-12 object-cover rounded-md"
+                      />
                       <div className="flex flex-col">
-                      <p className="capitalize">{item?.title}</p>
-                      <p className="capitalize text-sm">
-                        {" "}
-                        Category: {item?.category}
-                      </p>
+                        <p className="capitalize">{item?.title}</p>
+                        <p className="capitalize text-sm">
+                          {' '}
+                          Category: {item?.category}
+                        </p>
                       </div>
                     </li>
                   </ul>
@@ -177,6 +181,9 @@ const Navbar = () => {
                   <Link to="/plans">My Plans</Link>
                 </li>
                 <li className="py-2 lg:py-0 lg:hidden">
+                  <Link to="/my-listing">My Listing</Link>
+                </li>
+                <li className="py-2 lg:py-0 lg:hidden">
                   <button onClick={logoutHandler}>Logout</button>
                 </li>
               </>
@@ -186,7 +193,7 @@ const Navbar = () => {
               <>
                 <Dropdown
                   inline
-                  label={""}
+                  label={''}
                   dismissOnClick={false}
                   renderTrigger={() => (
                     <button className="hidden lg:block">
@@ -194,11 +201,14 @@ const Navbar = () => {
                     </button>
                   )}
                 >
-                  <Dropdown.Item onClick={() => navigate("/profile")}>
+                  <Dropdown.Item onClick={() => navigate('/profile')}>
                     Profile
                   </Dropdown.Item>
-                  <Dropdown.Item onClick={() => navigate("/plans")}>
+                  <Dropdown.Item onClick={() => navigate('/plans')}>
                     My Plans
+                  </Dropdown.Item>
+                  <Dropdown.Item onClick={() => navigate('/my-listing')}>
+                    My Listing
                   </Dropdown.Item>
                   <Dropdown.Item onClick={logoutHandler}>Logout</Dropdown.Item>
                 </Dropdown>
@@ -206,8 +216,8 @@ const Navbar = () => {
             ) : (
               <li className="py-2 md:py-0">
                 <Button
-                  category={"primarybtn"}
-                  clickHandler={() => navigate("/login")}
+                  category={'primarybtn'}
+                  clickHandler={() => navigate('/login')}
                 >
                   Login
                 </Button>

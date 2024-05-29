@@ -30,7 +30,8 @@ const MyListing = () => {
   };
 
   return (
-    <div className="w-full flex flex-col justify-center items-center shadow rounded">
+    <div className="w-full h-[25rem] flex flex-col justify-center items-center shadow rounded">
+      <p className="text-xl font-medium pb-5">My Listing</p>
       {userAds?.length === 0 ? (
         <div className="w-56 flex flex-col items-center justify-center pb-2">
           <Lottie animationData={notFoundAnimation} loop={true} />

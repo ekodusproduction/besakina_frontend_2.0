@@ -40,6 +40,7 @@ import Wishlist from './Pages/Wishlist';
 import ListingCategories from './Pages/ListingCategories';
 import { DataProvider } from './contexts/DataContext';
 import { Toaster } from 'react-hot-toast';
+import MyListing from './Components/MyListing/MyListing';
 
 const App = () => {
   return (
@@ -108,6 +109,7 @@ const App = () => {
               }
             />
             {/* <Route path='wishlist' element={<Wishlist/>}/> */}
+            <Route path="my-listing" element={<MyListing />} />
             <Route path="listing-categories" element={<ListingCategories />} />
           </Route>
         </Routes>
