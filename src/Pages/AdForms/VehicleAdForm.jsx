@@ -308,7 +308,9 @@ const VehicleAdForm = () => {
                       className="border-[1px]  border-gray-400 rounded-sm w-[150px]"
                     >
                       {Fueldata?.map((item, index) => (
-                        <option key={index} value={item.value}>{item.label}</option>
+                        <option key={index} value={item.value}>
+                          {item.label}
+                        </option>
                       ))}
                     </select>
                   </div>
@@ -428,7 +430,6 @@ const VehicleAdForm = () => {
                     <input
                       name="price"
                       type="text"
-                      required
                       className="w-[85vw] md:w-[50vw] pl-2 border-[1px] border-gray-400 py-2 rounded-md"
                     />
                   </div>
@@ -502,21 +503,27 @@ const VehicleAdForm = () => {
                     Vehicle Type*
                   </p>
                   <div className="flex flex-wrap gap-2 text-gray-700">
-                  {Vehicletype?.map((item,index)=>(
-                    <div key={index} className="border-[1px] border-gray-400 rounded-sm">
-                      <input
-                        type="radio"
-                        id={item.value}
-                        name="type"
-                        value={item.value}
-                        className="hidden"
-                        onChange={handleTypeChange}
-                      />
-                      <label for={item.value} className="px-4 py-[2px] cursor-pointer">
-                      {item.label}
-                      </label>
-                    </div>
-                  ))}
+                    {Vehicletype?.map((item, index) => (
+                      <div
+                        key={index}
+                        className="border-[1px] border-gray-400 rounded-sm"
+                      >
+                        <input
+                          type="radio"
+                          id={item.value}
+                          name="type"
+                          value={item.value}
+                          className="hidden"
+                          onChange={handleTypeChange}
+                        />
+                        <label
+                          for={item.value}
+                          className="px-4 py-[2px] cursor-pointer"
+                        >
+                          {item.label}
+                        </label>
+                      </div>
+                    ))}
                   </div>
                 </div>
                 <div>
@@ -732,7 +739,6 @@ const VehicleAdForm = () => {
                     <input
                       name="price"
                       type="text"
-                      required
                       className="w-[85vw] md:w-[50vw] pl-2 border-[1px] border-gray-400 py-2 rounded-md"
                     />
                   </div>

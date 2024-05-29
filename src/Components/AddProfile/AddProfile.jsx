@@ -183,7 +183,7 @@ const AddProfile = () => {
       .catch((err) => {
         console.log(err);
         setSubmitting(false);
-        toast.error(err.response.data.message)
+        toast.error(err.response.data.message);
       });
   };
   const handleEditForm = (e, fieldName) => {
@@ -216,7 +216,7 @@ const AddProfile = () => {
       <div className="grid sm:grid-cols-2 gap-8">
         <div>
           <p className="text-gray-500 text-sm mb-2">Upload Profile Picture*</p>
-          <div className="w-20 h-20 flex items-center justify-center border border-gray-400 rounded-full relative">
+          <div className="w-28 h-28 flex items-center justify-center border border-gray-400 rounded-full relative">
             {profilePic || userDetails?.profile_pic?.length ? (
               <img
                 src={
@@ -242,7 +242,7 @@ const AddProfile = () => {
               className="hidden"
               onChange={(e) => handlePicChange(e, 'profilePic')}
             />
-            <div className="w-7 h-7 bg-gray-500 flex items-center justify-center border absolute bottom-0 -right-1 rounded-full">
+            <div className="w-7 h-7 bg-white flex items-center justify-center border border-black absolute bottom-0 -right-1 rounded-full">
               <label
                 htmlFor="profile"
                 className="cursor-pointer flex justify-center items-center"
@@ -253,7 +253,7 @@ const AddProfile = () => {
                     className="animate-bounce"
                   />
                 ) : (
-                  <FiCamera size={15} color="white" />
+                  <FiCamera size={15} color="black" />
                 )}
               </label>
             </div>
