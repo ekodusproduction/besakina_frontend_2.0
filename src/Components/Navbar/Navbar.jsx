@@ -167,11 +167,11 @@ const Navbar = () => {
 
             {isLoggedIn ? (
               <li className="py-2 lg:py-0">
-                <Link to="/postad">Post an Advertisement</Link>
+                <Link to="/postad">Post an Ad</Link>
               </li>
             ) : (
               <li className="py-2 lg:py-0">
-                <Link to="/login">Post an Advertisement</Link>
+                <Link to="/login">Post an Ad</Link>
               </li>
             )}
             {isLoggedIn && (

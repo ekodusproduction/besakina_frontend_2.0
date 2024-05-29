@@ -103,9 +103,16 @@ const ViewDetails = ({ data, route, category }) => {
                                             <FaRegHeart size={25} />
                                         </button> */}
                   </div>
-                  <p className="text-lg font-semibold mb-2">
-                    {data?.name && category != 'hospitality' && data?.name}
-                  </p>
+                  {category == 'hospital' || category == 'doctor' ? (
+                    <p className="text-sm font-semibold mb-2 capitalize">
+                      Sub-Category:{' '}
+                      {data?.type ? convertString(data?.type) : ''}
+                    </p>
+                  ) : (
+                    <p className="text-sm font-semibold mb-2 capitalize">
+                      Sub-Category: {data?.advType ? data?.advType : ''}
+                    </p>
+                  )}
 
                   <div className="mt-4 mb-4 flex  flex-col justify-between">
                     <span className="text-sm sm:text-base flex items-center text-slate-700">

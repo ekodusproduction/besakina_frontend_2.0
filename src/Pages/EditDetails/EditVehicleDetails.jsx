@@ -80,6 +80,7 @@ const EditVehicleDetails = () => {
         },
       })
       .then((response) => {
+        toast.success('Image added succesfully');
         if (Array.isArray(response.data)) {
           setSelectedImages((prev) => [
             ...prev, // Spread the previous images
@@ -597,20 +598,26 @@ const EditVehicleDetails = () => {
                     Vehicle Type*
                   </p>
                   <div className="flex flex-wrap gap-2 text-gray-700">
-                    {Vehicletype?.map((item,index)=>(
-                    <div key={index} className="border-[1px] border-gray-400 rounded-sm">
-                      <input
-                        type="radio"
-                        id={item.value}
-                        name="type"
-                        value={item.value}
-                        className="hidden"
-                        checked={vehicleData?.type === item.value}
-                      />
-                      <label for={item.value} className="px-4 py-[2px] cursor-pointer">
-                      {item.label}
-                      </label>
-                    </div>
+                    {Vehicletype?.map((item, index) => (
+                      <div
+                        key={index}
+                        className="border-[1px] border-gray-400 rounded-sm"
+                      >
+                        <input
+                          type="radio"
+                          id={item.value}
+                          name="type"
+                          value={item.value}
+                          className="hidden"
+                          checked={vehicleData?.type === item.value}
+                        />
+                        <label
+                          for={item.value}
+                          className="px-4 py-[2px] cursor-pointer"
+                        >
+                          {item.label}
+                        </label>
+                      </div>
                     ))}
                   </div>
                 </div>
@@ -657,7 +664,7 @@ const EditVehicleDetails = () => {
                       name="model"
                       required
                       value={vehicleData?.model}
-                      onChange={(e)=>handleEditForm(e,"model")}
+                      onChange={(e) => handleEditForm(e, 'model')}
                       type="text"
                       className="w-[85vw] md:w-[50vw] border-[1px] pl-2 border-gray-400 py-2 rounded-md"
                     />
@@ -670,7 +677,7 @@ const EditVehicleDetails = () => {
                       name="variant"
                       required
                       value={vehicleData?.variant}
-                      onChange={(e)=>handleEditForm(e,"variant")}
+                      onChange={(e) => handleEditForm(e, 'variant')}
                       type="text"
                       className="w-[85vw] md:w-[50vw] border-[1px] pl-2 border-gray-400 py-2 rounded-md"
                     />

@@ -13,9 +13,7 @@ const Footer = () => {
       <section className="px-4 md:px-12 pt-12 pb-8 flex lg:flex-row flex-col justify-start gap-6 lg:gap-20 text-white">
         <div className="w-[220px]">
           <img src="/logo.png" alt="" className="w-[150px] filter grayscale" />
-          <p className="mt-4 text-sm">
-            Direct Mail Advertising Division and Online Market Place.
-          </p>
+          <p className="mt-4 text-sm">Direct Mail and Online Market Place.</p>
           <div className="">
             <a href=""></a>
             <a href=""></a>
@@ -47,7 +45,7 @@ const Footer = () => {
               <a href="">Advertise with us</a>
             </li>
             <li>
-              <Link to={"/plans"}>Pricing</Link>
+              <Link to={'/plans'}>Pricing</Link>
             </li>
             <li>
               <a href="">Customer Care</a>
@@ -73,7 +71,7 @@ const Footer = () => {
               <Link>Terms & Conditions</Link>
             </li>
             <li>
-              <Link>Privecy Policy</Link>
+              <Link>Privacy Policy</Link>
             </li>
           </ul>
         </div>
