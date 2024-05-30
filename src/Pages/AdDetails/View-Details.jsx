@@ -105,12 +105,11 @@ const ViewDetails = ({ data, route, category }) => {
                   </div>
                   {category == 'hospital' || category == 'doctor' ? (
                     <p className="text-sm font-semibold mb-2 capitalize">
-                      Sub-Category:{' '}
                       {data?.type ? convertString(data?.type) : ''}
                     </p>
                   ) : (
                     <p className="text-sm font-semibold mb-2 capitalize">
-                      Sub-Category: {data?.advType ? data?.advType : ''}
+                      {data?.type ? data?.type : ''}
                     </p>
                   )}
 
@@ -148,9 +147,9 @@ const ViewDetails = ({ data, route, category }) => {
                 <h2 className="font-bold mb-4">Details</h2>
                 <div className="flex flex-col gap-2 min-w-[600px]">
                   <div className="flex justify-between">
-                    <p className="w-1/4 text-slate-500 text-sm">Type:</p>
+                    <p className="w-1/4 text-slate-500 text-sm">Category:</p>
                     <p className="w-1/4 text-sm text-slate-700">
-                      {convertString(data?.type)}
+                      {data?.advType}
                     </p>
                     <p className="w-1/4 text-sm text-slate-500">Bedrooms:</p>
                     <p className="w-1/4 text-sm text-slate-700">
@@ -239,10 +238,12 @@ const ViewDetails = ({ data, route, category }) => {
                 <h2 className="font-bold mb-4">Details</h2>
                 <div className="flex flex-col gap-2 min-w-[600px]">
                   <div className="flex justify-between pr-12">
-                    {data?.type && (
+                    {data?.advType && (
                       <div className="flex items-center gap-2">
-                        <p className="text-slate-500 text-sm"> Vehicle Type:</p>
-                        <p className="text-sm text-slate-700">{data?.type}</p>
+                        <p className="text-slate-500 text-sm"> Category:</p>
+                        <p className="text-sm text-slate-700">
+                          {data?.advType}
+                        </p>
                       </div>
                     )}
                     {data?.brand && (
@@ -284,13 +285,16 @@ const ViewDetails = ({ data, route, category }) => {
                 <h2 className="font-bold mb-4">Details</h2>
                 <div className="flex flex-col gap-2 min-w-[600px]">
                   <div className="flex justify-between">
-                    <p className="w-1/4 text-slate-500 text-sm">Type:</p>
-                    <p className="w-1/4 text-sm text-slate-700">{data?.type}</p>
+                    <p className="w-1/4 text-slate-500 text-sm">Category:</p>
+                    <p className="w-1/4 text-sm text-slate-700">
+                      {data?.advType}
+                    </p>
                     <p className="w-1/4 text-sm text-slate-500">Domain:</p>
                     <p className="w-1/4 text-sm text-slate-700">
                       {convertString(data?.domain)}
                     </p>
                   </div>
+
                   <div className="flex justify-between">
                     <p className="w-1/4 text-sm text-slate-500">
                       Institution Name:
@@ -305,6 +309,14 @@ const ViewDetails = ({ data, route, category }) => {
                       {data?.course_duration} {'months'}
                     </p>
                   </div>
+                  <div className="flex">
+                    <p className="w-1/4 text-sm text-slate-500">
+                      Fees of the course:
+                    </p>
+                    <p className="w-1/4 text-sm text-slate-700">
+                      {'₹ ' + data?.price}
+                    </p>
+                  </div>
                 </div>
               </section>
             )}
@@ -314,15 +326,17 @@ const ViewDetails = ({ data, route, category }) => {
                 <div className="flex flex-col gap-2 min-w-[600px]">
                   <div className="flex items-center gap-56">
                     <div className="flex items-center gap-2">
-                      <p className="text-slate-500 text-sm">Type:</p>
-                      <p className="text-sm text-slate-700">
-                        {convertString(data?.type)}
-                      </p>
+                      <p className="text-slate-500 text-sm">Category:</p>
+                      <p className="text-sm text-slate-700">{data?.advType}</p>
                     </div>
                     <div className="flex items-center gap-2">
                       <p className="text-sm text-slate-500">City:</p>
                       <p className="text-sm text-slate-700">{data?.city}</p>
                     </div>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <p className="text-sm text-slate-500">Locality:</p>
+                    <p className="text-sm text-slate-700">{data?.locality}</p>
                   </div>
                 </div>
               </section>
@@ -366,18 +380,18 @@ const ViewDetails = ({ data, route, category }) => {
                 <h2 className="font-bold mb-4">Details</h2>
                 <div className="flex flex-col gap-2 min-w-[500px]">
                   <div className="flex items-center justify-between pr-28">
+                    {data?.advType && (
+                      <div className="flex items-center gap-2">
+                        <p className="text-sm text-slate-500">Category:</p>
+                        <p className="text-sm text-slate-700">
+                          {data?.advType == 'Hospital' && 'Healthcare'}
+                        </p>
+                      </div>
+                    )}
                     {data?.name && (
                       <div className="flex items-center gap-2">
                         <p className="text-slate-500 text-sm">Name:</p>
                         <p className="text-sm text-slate-700">{data?.name}</p>
-                      </div>
-                    )}
-                    {data?.type && (
-                      <div className="flex items-center gap-2">
-                        <p className="text-sm text-slate-500">Type:</p>
-                        <p className="text-sm text-slate-700">
-                          {convertString(data?.type)}
-                        </p>
                       </div>
                     )}
                   </div>

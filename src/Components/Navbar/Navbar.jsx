@@ -113,7 +113,7 @@ const Navbar = () => {
               </Button>
             </div>
 
-            {/*  */}
+            {/* search item */}
             {searchData?.length > 0 && search.length > 0 && (
               <div className="absolute bg-white w-full max-h-64 overflow-auto">
                 {searchData?.map((item, index) => (
@@ -167,7 +167,9 @@ const Navbar = () => {
 
             {isLoggedIn ? (
               <li className="py-2 lg:py-0">
-                <Link to="/postad">Post an Ad</Link>
+                <Link to="/postad" onClick={() => navOpenHandler()}>
+                  Post an Ad
+                </Link>
               </li>
             ) : (
               <li className="py-2 lg:py-0">
@@ -177,10 +179,14 @@ const Navbar = () => {
             {isLoggedIn && (
               <>
                 <li className="py-2 lg:py-0 lg:hidden">
-                  <Link to="/profile">Profile</Link>
+                  <Link to="/profile" onClick={() => navOpenHandler()}>
+                    Profile
+                  </Link>
                 </li>
                 <li className="py-2 lg:py-0 lg:hidden">
-                  <Link to="/plans">My Plans</Link>
+                  <Link to="/plans" onClick={() => navOpenHandler()}>
+                    My Plans
+                  </Link>
                 </li>
                 <li className="py-2 lg:py-0 lg:hidden">
                   <button onClick={logoutHandler}>Logout</button>
@@ -200,10 +206,18 @@ const Navbar = () => {
                     </button>
                   )}
                 >
-                  <Dropdown.Item onClick={() => navigate('/profile')}>
+                  <Dropdown.Item
+                    onClick={() => {
+                      navigate('/profile'), navOpenHandler();
+                    }}
+                  >
                     Profile
                   </Dropdown.Item>
-                  <Dropdown.Item onClick={() => navigate('/plans')}>
+                  <Dropdown.Item
+                    onClick={() => {
+                      navigate('/plans'), navOpenHandler();
+                    }}
+                  >
                     My Plans
                   </Dropdown.Item>
                   <Dropdown.Item onClick={logoutHandler}>Logout</Dropdown.Item>

@@ -43,7 +43,7 @@ const MyListing = () => {
           </p>
         </div>
       ) : (
-        <div className="w-full grid xl:grid-cols-3 lg:grid-cols-2 grid-cols-1 gap-2 md:gap-4">
+        <div className="w-full p-5 grid xl:grid-cols-3 lg:grid-cols-2 grid-cols-1 gap-2 md:gap-4">
           {userAds?.map((item) => (
             <AdCard
               data={item}

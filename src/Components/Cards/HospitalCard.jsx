@@ -26,10 +26,13 @@ const HospitalCard = ({ data, link }) => {
           <div>
             <h2 className="font-bold xl:text-lg capitalize"> {data?.name}</h2>
             {/* <p className='text-xs xl:text-sm capitalize'>{data?.title?.slice(0,30)}...</p> */}
-            <p className="text-xs xl:text-sm capitalize">
+            {/* <p className="text-sm font-medium capitalize">
               {data?.advType == 'Hospital' || data?.advType == 'Doctor'
                 ? 'Category: Healthcare'
                 : 'Category: ' + data?.advType}
+            </p> */}
+            <p className="text-sm font-medium capitalize">
+              {convertString(data?.type)}
             </p>
           </div>
           <div>

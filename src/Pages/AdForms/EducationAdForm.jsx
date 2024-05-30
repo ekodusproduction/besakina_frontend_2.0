@@ -148,12 +148,12 @@ const EducationAdForm = () => {
         console.log(response);
         toast.success(response?.data?.message);
         setSubmitting(false);
-        navigate("/");
+        navigate('/');
       })
       .catch((err) => {
         console.log(err);
         setSubmitting(false);
-        toast.error(err?.response?.data?.message)
+        toast.error(err?.response?.data?.message);
         if (err?.response?.data?.message === 'User Profile Incomplete') {
           updateData(formData);
           navigate('/setup-profile', {
@@ -200,7 +200,7 @@ const EducationAdForm = () => {
               <h3 className="mb-2 font-semibold text-xl">Add Some Details</h3>
               <div>
                 <p className="mb-2 font-semibold text-gray-700">
-                  Select Course Type*
+                  Select Course Type
                 </p>
                 <div className="flex flex-wrap gap-2 text-gray-700">
                   {Select_Course_Type?.map((item, index) => (
@@ -229,7 +229,7 @@ const EducationAdForm = () => {
               </div>
               <div>
                 <p className="mb-2 font-semibold text-gray-700">
-                  Select Domain*
+                  Select Domain
                 </p>
                 <div className="flex flex-wrap gap-2 text-gray-700">
                   {Select_Domain?.map((item, index) => (
@@ -289,7 +289,11 @@ const EducationAdForm = () => {
                           </option>
                           {StateCitiesData[selectedState]?.map(
                             (city, index) => (
-                              <option key={index} value={city} className='cursor-pointer'>
+                              <option
+                                key={index}
+                                value={city}
+                                className="cursor-pointer"
+                              >
                                 {city}
                               </option>
                             )
@@ -309,14 +313,25 @@ const EducationAdForm = () => {
                         {item.title} {item.required && '*'}
                       </p>
                       <div className="flex gap-2">
-                        <input
-                          name={item.name}
-                          required={item.required}
-                          type={item.type ? item.type : 'text'}
-                          value={fillData[item.name]}
-                          onChange={(e) => handleEditForm(e, item.name)}
-                          className="w-[90vw] sm:w-[50vw] border-[1px] pl-2 border-gray-400 py-2 rounded-md"
-                        />
+                        {item.type == 'textarea' ? (
+                          <textarea
+                            name={item.name}
+                            required={item.required}
+                            value={fillData[item.name]}
+                            onChange={(e) => handleEditForm(e, item.name)}
+                            rows={3}
+                            className="w-[90vw] sm:w-[50vw] border-[1px] pl-2 border-gray-400 py-2 rounded-md resize-none"
+                          />
+                        ) : (
+                          <input
+                            name={item.name}
+                            required={item.required}
+                            type={item.type ? item.type : 'text'}
+                            value={fillData[item.name]}
+                            onChange={(e) => handleEditForm(e, item.name)}
+                            className="w-[90vw] sm:w-[50vw] border-[1px] pl-2 border-gray-400 py-2 rounded-md"
+                          />
+                        )}
                       </div>
                     </>
                   )}

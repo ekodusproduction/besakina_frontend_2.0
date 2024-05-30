@@ -3,7 +3,7 @@ import { FaLocationDot } from 'react-icons/fa6';
 import { MdVerified } from 'react-icons/md';
 import { Link } from 'react-router-dom';
 import dayjs from 'dayjs';
-import { formatDate } from '../../utils/fornatter';
+import { convertString, formatDate } from '../../utils/fornatter';
 
 const ProductCard = ({ data, link }) => {
   return (
@@ -21,10 +21,13 @@ const ProductCard = ({ data, link }) => {
             <p className="xl:text-base capitalize font-bold">
               {data?.title?.slice(0, 30)}...
             </p>
-            <h2 className="text-sm capitalize font-medium">
+            {/* <h2 className="text-sm capitalize font-medium">
               {data?.advType == 'Property'
                 ? `Category: Properties`
                 : 'Category: ' + data?.advType}
+            </h2> */}
+            <h2 className="text-sm capitalize font-medium">
+              {convertString(data?.type)}
             </h2>
           </div>
           <div>

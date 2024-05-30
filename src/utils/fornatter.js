@@ -1,28 +1,27 @@
-
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
 
 export function formatINR(amount) {
-    if (typeof amount !== 'number') {
-      amount = parseFloat(amount);
-    }
-    
-    return amount.toLocaleString('en-IN', {
+  if (typeof amount !== 'number') {
+    amount = parseFloat(amount);
+  }
+
+  return amount
+    .toLocaleString('en-IN', {
       maximumFractionDigits: 2,
       style: 'currency',
       currency: 'INR',
-    }).replace('₹', '₹ ');
-  }
+    })
+    .replace('₹', '₹ ');
+}
 
-  export function formatAadhaarNumber(value) {
-    const cleaned = value.replace(/\D/g, '');
-  
-    const formatted = cleaned.match(/.{1,4}/g)?.join(' ') || '';
-  
-    return formatted;
-  };
-  
+export function formatAadhaarNumber(value) {
+  const cleaned = value.replace(/\D/g, '');
 
+  const formatted = cleaned.match(/.{1,4}/g)?.join(' ') || '';
+
+  return formatted;
+}
 
 dayjs.extend(relativeTime);
 
@@ -42,4 +41,7 @@ export function formatDate(createdAt) {
   }
 }
 
-  
+export function convertString(str) {
+  // Replace underscores with spaces
+  return str.replace(/_/g, ' ');
+}

@@ -79,52 +79,45 @@ export const Select_Domain = [
     value: 'electronics',
     label: 'electronics',
   },
-]
+];
 
 export const formFields = [
   {
-    title:"Name of Institution",
-    name:"institution_name",
-    required:true,
+    title: 'Name of Institution',
+    name: 'institution_name',
   },
   {
-    title:"Course Duration (In months)",
-    name:"course_duration",
-    required:true
+    title: 'Course Duration (In months)',
+    name: 'course_duration',
   },
   {
-    title:"Ad Title",
-    name:"title",
-    required:true,
+    title: 'Ad Title',
+    name: 'title',
   },
   {
-    title:"Describe about the course",
-    name:"description",
-    required:true
+    title: 'Describe about the course',
+    name: 'description',
+    type: 'textarea',
   },
   {
-    title:"Street",
-    name:"street",
-    required:true,
+    title: 'Street',
+    name: 'street',
   },
   {
-    title:"Locality",
-    name:"locality",
-    required:true
+    title: 'Locality',
+    name: 'locality',
   },
   {
-    title:"State",
-    name:"state",
-    required:true
+    title: 'State',
+    name: 'state',
   },
   {
-    title:"Pincode",
-    name:"pincode",
-    required:true
+    title: 'Pincode',
+    name: 'pincode',
   },
   {
-    title:"Price",
-    secondaryTitle:"Set a price",
-    name:"price",
-  }
-]
+    title: 'Price',
+    secondaryTitle: 'Set a price',
+    name: 'price',
+  },
+];

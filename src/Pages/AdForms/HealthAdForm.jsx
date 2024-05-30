@@ -26,7 +26,6 @@ const HealthAdForm = () => {
 
   const token = localStorage.getItem('token');
 
-
   const imageHandler = (e, index) => {
     const files = e.target.files;
 
@@ -210,7 +209,7 @@ const HealthAdForm = () => {
       .catch((err) => {
         console.log(err);
         setSubmitting(false);
-        toast.error(err?.response?.data?.message)
+        toast.error(err?.response?.data?.message);
         if (err?.response?.message == 'User Profile Incomplete') {
           navigate('/setup-profile');
         }
@@ -323,10 +322,12 @@ const HealthAdForm = () => {
                   </div>
                 </div>
                 <div>
-                  <p className="mb-2 font-semibold text-gray-700">Title*</p>
+                  <p className="mb-2 font-semibold text-gray-700">
+                    Designation
+                  </p>
                   <div className="flex gap-2">
                     <input
-                      name="title"
+                      name="designation"
                       type="text"
                       className="w-[85vw] md:w-[50vw] pl-2 border-[1px] border-gray-400 py-2 rounded-md"
                     />
@@ -479,7 +480,7 @@ const HealthAdForm = () => {
                 </div>
               </form>
             )}
-
+            {/* hospital ad form */}
             {selectedForm == 'hospitals' && (
               <form
                 action=""
@@ -515,7 +516,7 @@ const HealthAdForm = () => {
                   </div>
                 </div>
 
-                <div>
+                {/* <div>
                   <p className="mb-2 font-semibold text-gray-700">Name*</p>
                   <div className="flex gap-2">
                     <input
@@ -524,10 +525,12 @@ const HealthAdForm = () => {
                       className="w-[85vw] md:w-[50vw] border-[1px] pl-2 border-gray-400 py-2 rounded-md"
                     />
                   </div>
-                </div>
+                </div> */}
 
                 <div>
-                  <p className="mb-2 font-semibold text-gray-700">Title*</p>
+                  <p className="mb-2 font-semibold text-gray-700">
+                    Title/Name*
+                  </p>
                   <div className="flex gap-2">
                     <input
                       name="title"
