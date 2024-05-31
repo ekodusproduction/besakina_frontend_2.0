@@ -62,17 +62,29 @@ export const VehicleData = [
 ];
 
 export const Vehicletype = [
-  {label: 'Car', value: 'car'},
-  {label: 'MotorCycle', value: 'motorcycle'},
-  {label: 'Scooty', value: 'scooty'},
-  {label: 'Bike', value: 'bike'},
+  { label: 'Car', value: 'car' },
+  { label: 'MotorCycle', value: 'motorcycle' },
+  { label: 'Scooty', value: 'scooty' },
+  { label: 'Bike', value: 'bike' },
+  {
+    label: 'Car Accessories',
+    value: 'car_accessories',
+  },
+  {
+    label: 'Spare Parts',
+    value: 'spare_parts',
+  },
+  {
+    label: 'Other',
+    value: 'other',
+  },
 ];
 
 export const Fueldata = [
-  {label: 'Petrol', value: 'petrol'},
-  {label: 'Diesel', value: 'diesel'},
-  {label: 'CNG', value: 'cng'},
-  {label: 'LPG', value: 'lpg'},
-  {label: 'Electric', value: 'electric'},
-  {label: 'Hybrid', value: 'hybrid'},
+  { label: 'Petrol', value: 'petrol' },
+  { label: 'Diesel', value: 'diesel' },
+  { label: 'CNG', value: 'cng' },
+  { label: 'LPG', value: 'lpg' },
+  { label: 'Electric', value: 'electric' },
+  { label: 'Hybrid', value: 'hybrid' },
 ];
