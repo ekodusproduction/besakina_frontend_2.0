@@ -1,17 +1,11 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import ImageGallery from 'react-image-gallery';
 import 'react-image-gallery/styles/css/image-gallery.css';
-import Button from '../../Components/Button/Button';
-import { MdVerified } from 'react-icons/md';
-import { Link, useLocation, useNavigate, useParams } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import { MdLocationPin } from 'react-icons/md';
-import { FaRegHeart } from 'react-icons/fa';
-import axiosInstance from '../../api/axiosInstance';
-import { baseURL } from '../../api/axiosInstance';
 import dayjs from 'dayjs';
 import { useLogin } from '../../hooks/useLogin';
 import Contactseller from '../../Components/ContactSeller/Contactseller';
-import { formatINR } from '../../utils/fornatter';
 
 const ViewDetails = ({ data, route, category }) => {
   const { id } = useParams();
