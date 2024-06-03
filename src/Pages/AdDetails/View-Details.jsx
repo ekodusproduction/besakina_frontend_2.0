@@ -291,7 +291,9 @@ const ViewDetails = ({ data, route, category }) => {
                     </p>
                     <p className="w-1/4 text-sm text-slate-500">Domain:</p>
                     <p className="w-1/4 text-sm text-slate-700">
-                      {convertString(data?.domain)}
+                      {data?.domain
+                        ? convertString(data?.domain)
+                        : data?.domain}
                     </p>
                   </div>
 

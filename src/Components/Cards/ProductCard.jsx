@@ -27,7 +27,7 @@ const ProductCard = ({ data, link }) => {
                 : 'Category: ' + data?.advType}
             </h2> */}
             <h2 className="text-sm capitalize font-medium">
-              {convertString(data?.type)}
+              {data?.type ? convertString(data?.type) : data?.type}
             </h2>
           </div>
           <div>

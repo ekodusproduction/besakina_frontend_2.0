@@ -9,6 +9,7 @@ import BackButton from '../../Components/BackButton/BackButton';
 import { StateCitiesData } from '../../data/Indian_Cities_In_States';
 import { ExpertiseData, HospitalData } from '../../data/heathFormData';
 import toast from 'react-hot-toast';
+import Select from 'react-select';
 
 const HealthAdForm = () => {
   const [selectedForm, setSelectedForm] = useState('doctors');
@@ -22,6 +23,8 @@ const HealthAdForm = () => {
   const [submitting, setSubmitting] = useState(false);
   const initialSelectedState = Object.keys(StateCitiesData)[0];
   const [selectedState, setSelectedState] = useState(initialSelectedState);
+  const [expertiseData, setExpertiseData] = useState([]);
+  const [isModalOpen, setModalOpen] = useState(false);
   const navigate = useNavigate();
 
   const token = localStorage.getItem('token');
@@ -182,6 +185,19 @@ const HealthAdForm = () => {
     setSelectedState(selectedState);
   };
 
+  useEffect(() => {
+    axiosInstance
+      .get(`api/doctor/expertise`)
+      .then((response) => {
+        setExpertiseData(response?.data?.data?.expertise);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  }, []);
+
+  console.log('hiiiii', expertiseData);
+
   const hospitalFormSubmitHandler = (e) => {
     setSubmitting(true);
     e.preventDefault();
@@ -233,6 +249,38 @@ const HealthAdForm = () => {
     setSelectedHospitalImages(newSelectedImages);
   };
 
+  const handleChange = (selectedOption) => {
+    if (selectedOption.value === 'add-new') {
+      setModalOpen(true);
+    }
+  };
+
+  const customStyles = {
+    control: (provided) => ({
+      ...provided,
+      minWidth: 240,
+      borderColor: '#ccc', // Customize the border color if needed
+      boxShadow: 'none',
+      '&:hover': {
+        borderColor: '#aaa', // Customize the border color on hover
+      },
+      '&:focus': {
+        borderColor: '#aaa', // Customize the border color on focus
+      },
+    }),
+    input: (provided) => ({
+      ...provided,
+      boxShadow: 'none !important',
+      '&:focus': {
+        boxShadow: 'none !important',
+      },
+    }),
+    menu: (provided) => ({
+      ...provided,
+      zIndex: 9999,
+    }),
+  };
+
   return (
     <>
       <section className="bg-white">
@@ -279,7 +327,7 @@ const HealthAdForm = () => {
                     Select Expertise*
                   </p>
                   <div className="flex flex-wrap gap-2 text-gray-700">
-                    {ExpertiseData?.map((item, index) => (
+                    {/* {ExpertiseData?.map((item, index) => (
                       <div
                         key={index}
                         className="border-[1px] border-gray-400 rounded-sm"
@@ -295,7 +343,35 @@ const HealthAdForm = () => {
                           {item.label}
                         </label>
                       </div>
-                    ))}
+                    ))} */}
+                    <Select
+                      name="expertise"
+                      styles={customStyles}
+                      onChange={handleChange}
+                      options={[
+                        ...expertiseData,
+                        { value: 'add-new', label: 'Add new expertise' },
+                      ]}
+                      placeholder="Search or select expertise..."
+                    />
+
+                    {isModalOpen && (
+                      <div className="">
+                        <div className="">
+                          <input
+                            type="text"
+                            className="w-[15vw] h-9 border-[1px] pl-2 border-gray-400 py-2 rounded-md"
+                            placeholder="Enter new expertise"
+                          />
+                          <div className="flex items-center gap-2">
+                            <button className="border">Add</button>
+                            <button onClick={() => setModalOpen(false)}>
+                              Cancel
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                    )}
                   </div>
                 </div>
 
