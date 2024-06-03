@@ -31,7 +31,9 @@ const HospitalCard = ({ data, link }) => {
                 ? 'Category: Healthcare'
                 : 'Category: ' + data?.advType}
             </p> */}
-            <p className="text-sm font-medium capitalize">{data?.type}</p>
+            <p className="text-sm font-medium capitalize">
+              {data?.type ? convertString(data?.type) : data?.type}
+            </p>
           </div>
           <div>
             <div className="flex items-center gap-[3px]">

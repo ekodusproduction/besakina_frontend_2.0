@@ -83,10 +83,6 @@ export const Select_Domain = [
 
 export const formFields = [
   {
-    title: 'Name of Institution',
-    name: 'institution_name',
-  },
-  {
     title: 'Course Duration (In months)',
     name: 'course_duration',
   },
@@ -114,6 +110,7 @@ export const formFields = [
   {
     title: 'Pincode',
     name: 'pincode',
+    max: '6',
   },
   {
     title: 'Price',

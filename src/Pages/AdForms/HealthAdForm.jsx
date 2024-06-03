@@ -10,6 +10,7 @@ import { StateCitiesData } from '../../data/Indian_Cities_In_States';
 import { ExpertiseData, HospitalData } from '../../data/heathFormData';
 import toast from 'react-hot-toast';
 import Select from 'react-select';
+import AddNewField from '../../Components/Global/AddNewField';
 
 const HealthAdForm = () => {
   const [selectedForm, setSelectedForm] = useState('doctors');
@@ -181,6 +182,7 @@ const HealthAdForm = () => {
       state: doctorsFormData.state,
       city: doctorsFormData.city,
       pincode: doctorsFormData.pincode,
+      images: selectedDoctorsImages,
     };
     axiosInstance
       .post('api/doctor/add', payload, {
@@ -210,7 +212,7 @@ const HealthAdForm = () => {
     setSelectedState(selectedState);
   };
 
-  useEffect(() => {
+  const getExpertise = async () => {
     axiosInstance
       .get(`api/doctor/expertise`)
       .then((response) => {
@@ -219,6 +221,9 @@ const HealthAdForm = () => {
       .catch((error) => {
         console.error(error);
       });
+  };
+  useEffect(() => {
+    getExpertise();
   }, []);
 
   const hospitalFormSubmitHandler = (e) => {
@@ -282,7 +287,6 @@ const HealthAdForm = () => {
   const handleAddExpertise = (e) => {
     setNewExpertise(e.target.value);
     console.log(e.target.value);
-    console.log('new', newExpertise);
   };
 
   const addExpertise = async () => {
@@ -299,6 +303,9 @@ const HealthAdForm = () => {
       })
       .then((response) => {
         console.log('post', response);
+        toast.success(response?.data?.message);
+        getExpertise();
+        setModalOpen(false);
       })
       .catch((error) => {
         console.error(error);
@@ -405,27 +412,12 @@ const HealthAdForm = () => {
                     />
 
                     {isModalOpen && (
-                      <div className="">
-                        <div className="flex items-center gap-4">
-                          <input
-                            type="text"
-                            onChange={handleAddExpertise}
-                            className="w-[15vw] h-9 border-[1px] pl-2 border-gray-400 py-2 rounded-md"
-                            placeholder="Enter new expertise"
-                          />
-                          <div className="flex items-center gap-2">
-                            <button
-                              onClick={addExpertise}
-                              className="border px-2 py-1"
-                            >
-                              Add
-                            </button>
-                            <button onClick={() => setModalOpen(false)}>
-                              Cancel
-                            </button>
-                          </div>
-                        </div>
-                      </div>
+                      <AddNewField
+                        onClick={addExpertise}
+                        onChange={handleAddExpertise}
+                        placeholder={'Add new expertise'}
+                        setOpen={false}
+                      />
                     )}
                   </div>
                 </div>

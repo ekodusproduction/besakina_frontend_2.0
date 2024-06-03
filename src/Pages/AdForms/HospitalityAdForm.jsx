@@ -11,14 +11,20 @@ import BackButton from '../../Components/BackButton/BackButton';
 import { StateCitiesData } from '../../data/Indian_Cities_In_States';
 import { HospitalityTypeData } from '../../data/hospitalityData';
 import toast from 'react-hot-toast';
+import ReactSelect from 'react-select';
+import AddNewField from '../../Components/Global/AddNewField';
 
 const HospitalityAdForm = () => {
   const [selectedImages, setSelectedImages] = useState([]);
   const token = localStorage.getItem('token');
   const [image, setImage] = useState([]);
   const [submitting, setSubmitting] = useState(false);
+  const [fillData, setFillData] = useState('');
   const initialSelectedState = Object.keys(StateCitiesData)[0];
   const [selectedState, setSelectedState] = useState(initialSelectedState);
+  const [hospitalityType, setHospitalityType] = useState([]);
+  const [modalOpen, setModalOpen] = useState('');
+  const [newExpertise, setNewExpertise] = useState('');
 
   const navigate = useNavigate();
 
@@ -81,22 +87,69 @@ const HospitalityAdForm = () => {
     }
   };
 
+  const handleEditForm = (e, fieldName) => {
+    const value = e.target.value;
+    setFillData((prevData) => ({
+      ...prevData,
+      [fieldName]: value,
+    }));
+  };
+
+  const getFieldDetails = async (field) => {
+    axiosInstance
+      .get(`api/hospitality/formdata/fieldname/${field}`)
+      .then((response) => {
+        const data = response?.data?.data?.[field];
+        if (field === 'type') {
+          setHospitalityType(data);
+        }
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  };
+  useEffect(() => {
+    getFieldDetails('type');
+  }, []);
+
+  const addField = async (field) => {
+    const payload = {
+      label: newExpertise,
+      value: newExpertise,
+      fieldname: field,
+    };
+    await axiosInstance
+      .post(`api/hospitality/formdata`, payload, {
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .then((response) => {
+        toast.success(response?.data?.message);
+        getFieldDetails(field);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  };
+
   const handleStateChange = (event) => {
     const selectedState = event.target.value;
     setSelectedState(selectedState);
+    setFillData((prevData) => ({
+      ...prevData,
+      state: selectedState,
+    }));
   };
 
-  const formSubmitHandler = (e) => {
-    e.preventDefault();
+  const formSubmitHandler = () => {
     setSubmitting(true);
-    const data = new FormData(e.target);
-    const value = Object.fromEntries(data.entries());
 
-    console.log({ ...value, images: selectedImages });
     axiosInstance
       .post(
         'api/hospitality/add',
-        { ...value, images: selectedImages },
+        { ...fillData, images: selectedImages },
         {
           headers: {
             'Content-Type': 'multipart/form-data',
@@ -117,6 +170,19 @@ const HospitalityAdForm = () => {
           navigate('/setup-profile');
         }
       });
+  };
+
+  const handleChange = (selectedOption, fieldName) => {
+    if (selectedOption.value === 'add-new') {
+      setModalOpen(fieldName);
+    } else {
+      setModalOpen('');
+    }
+
+    setFillData((prevData) => ({
+      ...prevData,
+      [fieldName]: selectedOption.value,
+    }));
   };
 
   const handleDeleteImage = (index) => {
@@ -147,35 +213,40 @@ const HospitalityAdForm = () => {
                         <a href="">PG & Guest House</a>
                     </div> */}
           <div>
-            <form
-              action=""
-              className="flex flex-col gap-8"
-              onSubmit={formSubmitHandler}
-            >
+            <div className="flex flex-col gap-4">
               <h3 className="mb-2 font-semibold text-xl">Add Some Details</h3>
+              <div>
+                <p className="mb-2 font-semibold text-gray-700">
+                  Ad Title/Name*
+                </p>
+                <div className="flex gap-2">
+                  <input
+                    name="title"
+                    value={fillData?.title}
+                    onChange={(e) => handleEditForm(e, 'title')}
+                    type="text"
+                    className="w-[85vw] md:w-[50vw] pl-2 border-[1px] border-gray-400 py-2 rounded-md"
+                  />
+                </div>
+              </div>
               <div>
                 <p className="mb-2 font-semibold text-gray-700">Select Type*</p>
                 <div className="flex flex-wrap gap-2 text-gray-700">
-                  {HospitalityTypeData?.map((item, index) => (
-                    <div
-                      key={index}
-                      className="border-[1px] border-gray-400 rounded-sm"
-                    >
-                      <input
-                        type="radio"
-                        id={item.value}
-                        name="type"
-                        value={item.value}
-                        className="hidden"
-                      />
-                      <label
-                        for={item.value}
-                        className="px-4 py-[2px] cursor-pointer"
-                      >
-                        {item.label}
-                      </label>
-                    </div>
-                  ))}
+                  <ReactSelect
+                    className="w-60"
+                    onChange={(e) => handleChange(e, 'type')}
+                    options={[
+                      ...hospitalityType,
+                      { value: 'add-new', label: 'Add new type' },
+                    ]}
+                  />
+                  {modalOpen === 'type' && (
+                    <AddNewField
+                      onChange={(e) => setNewExpertise(e.target.value)}
+                      onClick={() => addField('type')}
+                      placeholder={'Add new type'}
+                    />
+                  )}
                 </div>
               </div>
 
@@ -188,24 +259,14 @@ const HospitalityAdForm = () => {
 
               <div>
                 <p className="mb-2 font-semibold text-gray-700">
-                  Ad Title/Name*
-                </p>
-                <div className="flex gap-2">
-                  <input
-                    name="title"
-                    type="text"
-                    className="w-[85vw] md:w-[50vw] pl-2 border-[1px] border-gray-400 py-2 rounded-md"
-                  />
-                </div>
-              </div>
-              <div>
-                <p className="mb-2 font-semibold text-gray-700">
                   Describe what you are selling*
                 </p>
                 <div className="flex gap-2">
                   <textarea
                     name="description"
                     title="description"
+                    value={fillData?.description}
+                    onChange={(e) => handleEditForm(e, 'description')}
                     type="text"
                     rows={3}
                     className="w-[85vw] md:w-[50vw] pl-2 border-[1px] border-gray-400 py-2 rounded-md resize-none"
@@ -218,6 +279,8 @@ const HospitalityAdForm = () => {
                   <input
                     type="text"
                     name="street"
+                    value={fillData?.street}
+                    onChange={(e) => handleEditForm(e, 'street')}
                     className="w-[85vw] md:w-[50vw] border-[1px] border-gray-400 py-2 rounded-md"
                   />
                 </div>
@@ -228,6 +291,8 @@ const HospitalityAdForm = () => {
                   <input
                     type="text"
                     name="locality"
+                    value={fillData?.locality}
+                    onChange={(e) => handleEditForm(e, 'locality')}
                     className="w-[85vw] md:w-[50vw] border-[1px] border-gray-400 py-2 rounded-md"
                   />
                 </div>
@@ -244,6 +309,7 @@ const HospitalityAdForm = () => {
                   <select
                     name="state"
                     id="state"
+                    value={fillData?.state}
                     onChange={(e) => handleStateChange(e)}
                   >
                     {Object.keys(StateCitiesData)?.map((state, index) => (
@@ -255,7 +321,12 @@ const HospitalityAdForm = () => {
                 </div>
                 <div>
                   <p className="mb-2 font-semibold text-gray-700">City*</p>
-                  <select name="city" id="city">
+                  <select
+                    name="city"
+                    id="city"
+                    value={fillData?.city}
+                    onChange={(e) => handleEditForm(e, 'city')}
+                  >
                     <option value="" defaultChecked>
                       Select City
                     </option>
@@ -273,6 +344,8 @@ const HospitalityAdForm = () => {
                   <input
                     type="text"
                     name="pincode"
+                    value={fillData?.pincode}
+                    onChange={(e) => handleEditForm(e, 'pincode')}
                     className="w-[85vw] md:w-[50vw] border-[1px] border-gray-400 py-2 rounded-md"
                   />
                 </div>
@@ -283,6 +356,8 @@ const HospitalityAdForm = () => {
                 <div className="flex gap-2">
                   <input
                     name="price"
+                    value={fillData?.price}
+                    onChange={(e) => handleEditForm(e, 'price')}
                     type="text"
                     className="w-[85vw] md:w-[50vw] pl-2 border-[1px] border-gray-400 py-2 rounded-md"
                   />
@@ -335,13 +410,14 @@ const HospitalityAdForm = () => {
               <div className="flex justify-end">
                 <Button
                   category={'primarybtn'}
+                  clickHandler={formSubmitHandler}
                   type={'submit'}
                   disabled={submitting}
                 >
                   {submitting ? 'Submitting' : 'Submit'}
                 </Button>
               </div>
-            </form>
+            </div>
           </div>
         </div>
       </section>

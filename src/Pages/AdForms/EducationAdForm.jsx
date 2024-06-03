@@ -16,6 +16,8 @@ import {
 import { DataContext } from '../../contexts/DataContext';
 import { StateCitiesData } from '../../data/Indian_Cities_In_States';
 import toast from 'react-hot-toast';
+import Select from 'react-select';
+import AddNewField from '../../Components/Global/AddNewField';
 
 const EducationAdForm = () => {
   const [selectedImages, setSelectedImages] = useState([]);
@@ -26,6 +28,11 @@ const EducationAdForm = () => {
   const initialSelectedState = Object.keys(StateCitiesData)[0];
   const [selectedState, setSelectedState] = useState(initialSelectedState);
   const [fillData, setFillData] = useState([]);
+  const [courseTypeData, setCourseTypeData] = useState([]);
+  const [courseDomain, setCourseDomain] = useState([]);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isModalOpenType, setModalOpenType] = useState(false);
+  const [newExpertise, setNewExpertise] = useState('');
   const token = localStorage.getItem('token');
   const navigate = useNavigate();
   const location = useLocation();
@@ -97,8 +104,62 @@ const EducationAdForm = () => {
     }
   }, []);
 
-  console.log(storeData);
+  // useEffect(() => {
+  //   axiosInstance
+  //     .get(`api/education/formdata/fieldname/type`)
+  //     .then((response) => {
+  //       const data = response?.data?.data?.type;
+  //       setCourseTypeData(data);
+  //     })
+  //     .catch((error) => {
+  //       console.error(error);
+  //     });
+  // }, []);
 
+  const getFieldDetails = async (field) => {
+    axiosInstance
+      .get(`api/education/formdata/fieldname/${field}`)
+      .then((response) => {
+        const data = response?.data?.data?.[field];
+        if (field === 'domain') {
+          setCourseDomain(data);
+        } else if (field === 'type') {
+          setCourseTypeData(data);
+        }
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  };
+
+  useEffect(() => {
+    getFieldDetails('type');
+    getFieldDetails('domain');
+  }, []);
+
+  const addField = async (field) => {
+    const payload = {
+      label: newExpertise,
+      value: newExpertise,
+      fieldname: field,
+    };
+    axiosInstance
+      .post(`api/education/formdata`, payload, {
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .then((response) => {
+        toast.success(response?.data?.message);
+        getFieldDetails(field);
+        setNewExpertise('');
+        setIsModalOpen(false);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  };
   // const handleCheckChange = (event) => {
   //     const value = event.target.value;
   //     if (value) {
@@ -126,17 +187,27 @@ const EducationAdForm = () => {
     setSelectedState(selectedState);
   };
 
-  const formSubmitHandler = (e) => {
-    setSubmitting(true);
-    e.preventDefault();
-    const data = new FormData(e.target);
-    const value = Object.fromEntries(data.entries());
+  const handleChange = (selectedOption, fieldName) => {
+    if (selectedOption.value === 'add-new' && fieldName === 'domain') {
+      setIsModalOpen(true);
+    } else if (selectedOption.value === 'add-new' && fieldName === 'type') {
+      setModalOpenType(true);
+    } else {
+      setIsModalOpen(false);
+      setModalOpenType(false);
+    }
+    setFillData((prevData) => ({
+      ...prevData,
+      [fieldName]: selectedOption.value,
+    }));
+  };
 
-    const formData = { ...value, images: selectedImages };
+  const formSubmitHandler = () => {
+    setSubmitting(true);
     axiosInstance
       .post(
         'api/education/add',
-        { ...value, images: selectedImages },
+        { ...fillData, images: selectedImages },
         {
           headers: {
             'Content-Type': 'multipart/form-data',
@@ -192,70 +263,71 @@ const EducationAdForm = () => {
         </div>
         <div className="flex justify-center p-8 gap-16">
           <div>
-            <form
-              action=""
-              className="flex flex-col gap-8"
-              onSubmit={formSubmitHandler}
-            >
+            <div className="flex flex-col gap-8">
               <h3 className="mb-2 font-semibold text-xl">Add Some Details</h3>
+              <div>
+                <p className="mb-2 font-semibold text-gray-700">
+                  Name of the Institute*
+                </p>
+                <div className="flex gap-2">
+                  <input
+                    name="institution_name"
+                    required={true}
+                    type="text"
+                    value={fillData.institution_name}
+                    onChange={(e) => handleEditForm(e, 'institution_name')}
+                    className="w-[90vw] sm:w-[50vw] border-[1px] pl-2 border-gray-400 py-2 rounded-md"
+                  />
+                </div>
+              </div>
               <div>
                 <p className="mb-2 font-semibold text-gray-700">
                   Select Course Type
                 </p>
                 <div className="flex flex-wrap gap-2 text-gray-700">
-                  {Select_Course_Type?.map((item, index) => (
-                    <div
-                      key={index}
-                      className="border-[1px] border-gray-400 rounded-sm"
-                    >
-                      <input
-                        type={item.type}
-                        id={item.id}
-                        name={item.name}
-                        value={item.value}
-                        checked={fillData && fillData[item.name] === item.value}
-                        onChange={(e) => handleEditForm(e, item.name)}
-                        className="hidden"
+                  <div className="flex items-center gap-2">
+                    <Select
+                      name="type"
+                      className="w-60"
+                      onChange={(e) => handleChange(e, 'type')}
+                      options={[
+                        ...courseTypeData,
+                        { value: 'add-new', label: 'Add new type' },
+                      ]}
+                      placeholder="Search or select type..."
+                    />
+                    {isModalOpenType && (
+                      <AddNewField
+                        onChange={(e) => setNewExpertise(e.target.value)}
+                        onClick={() => addField('type')}
+                        placeholder={'Add new type'}
                       />
-                      <label
-                        for={item.label}
-                        className="px-4 py-[2px] cursor-pointer capitalize"
-                      >
-                        {item.label}
-                      </label>
-                    </div>
-                  ))}
+                    )}
+                  </div>
                 </div>
               </div>
               <div>
                 <p className="mb-2 font-semibold text-gray-700">
                   Select Domain
                 </p>
-                <div className="flex flex-wrap gap-2 text-gray-700">
-                  {Select_Domain?.map((item, index) => (
-                    <div
-                      key={index}
-                      className="border-[1px] border-gray-400 rounded-sm"
-                    >
-                      {/* <div id="science" onClick={handleCheckChange} value="science" className={`${selectedOptions.includes('science') ? "bg-blue-500 text-white":""} w-20 h-7 flex items-center justify-center select-none`}>Science</div> */}
-                      <input
-                        type={item.type}
-                        id={item.id}
-                        name={item.name}
-                        value={item.value}
-                        checked={fillData && fillData[item.name] === item.value}
-                        onChange={(e) => handleEditForm(e, item.name)}
-                        className="hidden"
-                      />
-
-                      <label
-                        for={item.value}
-                        className="px-4 py-[2px] capitalize"
-                      >
-                        {item.label}
-                      </label>
-                    </div>
-                  ))}
+                <div className="w-full flex items-center gap-2 text-gray-700">
+                  <Select
+                    className="w-60"
+                    name="domain"
+                    onChange={(e) => handleChange(e, 'domain')}
+                    options={[
+                      ...courseDomain,
+                      { value: 'add-new', label: 'Add new domain' },
+                    ]}
+                    placeholder="Search or select domain..."
+                  />
+                  {isModalOpen && (
+                    <AddNewField
+                      onChange={(e) => setNewExpertise(e.target.value)}
+                      onClick={() => addField('domain')}
+                      placeholder={'Add new domain'}
+                    />
+                  )}
                 </div>
               </div>
 
@@ -270,7 +342,9 @@ const EducationAdForm = () => {
                         <select
                           name="state"
                           id="state"
-                          onChange={(e) => handleStateChange(e)}
+                          onChange={(e) => {
+                            handleStateChange(e), handleEditForm(e, 'state');
+                          }}
                         >
                           {Object.keys(StateCitiesData)?.map((state, index) => (
                             <option key={index} value={state}>
@@ -283,7 +357,11 @@ const EducationAdForm = () => {
                         <p className="mb-2 font-semibold text-gray-700">
                           City*
                         </p>
-                        <select name="city" id="city">
+                        <select
+                          name="city"
+                          id="city"
+                          onChange={(e) => handleEditForm(e, 'city')}
+                        >
                           <option value="" defaultChecked>
                             Select City
                           </option>
@@ -328,6 +406,7 @@ const EducationAdForm = () => {
                             required={item.required}
                             type={item.type ? item.type : 'text'}
                             value={fillData[item.name]}
+                            maxLength={item.max}
                             onChange={(e) => handleEditForm(e, item.name)}
                             className="w-[90vw] sm:w-[50vw] border-[1px] pl-2 border-gray-400 py-2 rounded-md"
                           />
@@ -383,6 +462,7 @@ const EducationAdForm = () => {
               </div>
               <div className="flex justify-end">
                 <Button
+                  clickHandler={formSubmitHandler}
                   category={'primarybtn'}
                   type={'submit'}
                   disabled={submitting}
@@ -390,7 +470,7 @@ const EducationAdForm = () => {
                   {submitting ? 'Submitting' : 'Submit'}
                 </Button>
               </div>
-            </form>
+            </div>
           </div>
         </div>
       </section>
