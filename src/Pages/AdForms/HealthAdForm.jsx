@@ -20,10 +20,25 @@ const HealthAdForm = () => {
   const [selectedHospitalImages, setSelectedHospitalImages] = useState([]);
   const [doctorsImage, setDoctorsImage] = useState([]);
   const [hospitalsImage, setHospitalsImage] = useState([]);
+  const [doctorsFormData, setDoctorsFormData] = useState({
+    expertise: '',
+    name: '',
+    total_experience: '',
+    designation: '',
+    description: '',
+    price_per_visit: '',
+    street: '',
+    locality: '',
+    state: '',
+    city: '',
+    pincode: '',
+    images: [],
+  });
   const [submitting, setSubmitting] = useState(false);
   const initialSelectedState = Object.keys(StateCitiesData)[0];
   const [selectedState, setSelectedState] = useState(initialSelectedState);
   const [expertiseData, setExpertiseData] = useState([]);
+  const [newExpertise, setNewExpertise] = useState();
   const [isModalOpen, setModalOpen] = useState(false);
   const navigate = useNavigate();
 
@@ -87,6 +102,7 @@ const HealthAdForm = () => {
       reader.readAsDataURL(files[0]);
     }
   };
+
   const hospitalImageHandler = (e, index) => {
     const files = e.target.files;
 
@@ -146,24 +162,33 @@ const HealthAdForm = () => {
     }
   };
 
-  const doctorFormSubmitHandler = (e) => {
-    setSubmitting(true);
-    e.preventDefault();
-    const data = new FormData(e.target);
-    const value = Object.fromEntries(data.entries());
+  const handleDoctorFormChange = (e) => {
+    const { name, value } = e.target;
+    setDoctorsFormData({ ...doctorsFormData, [name]: value });
+  };
 
-    console.log({ ...value, images: selectedDoctorsImages });
+  const doctorFormSubmitHandler = () => {
+    setSubmitting(true);
+    const payload = {
+      expertise: doctorsFormData.expertise,
+      name: doctorsFormData.name,
+      total_experience: doctorsFormData.total_experience,
+      designation: doctorsFormData.designation,
+      description: doctorsFormData.description,
+      price_per_visit: doctorsFormData.price_per_visit,
+      street: doctorsFormData.street,
+      locality: doctorsFormData.locality,
+      state: doctorsFormData.state,
+      city: doctorsFormData.city,
+      pincode: doctorsFormData.pincode,
+    };
     axiosInstance
-      .post(
-        'api/doctor/add',
-        { ...value, images: selectedDoctorsImages },
-        {
-          headers: {
-            'Content-Type': 'multipart/form-data',
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      )
+      .post('api/doctor/add', payload, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+          Authorization: `Bearer ${token}`,
+        },
+      })
       .then((response) => {
         console.log(response);
         toast.success(response?.data?.message);
@@ -195,8 +220,6 @@ const HealthAdForm = () => {
         console.error(error);
       });
   }, []);
-
-  console.log('hiiiii', expertiseData);
 
   const hospitalFormSubmitHandler = (e) => {
     setSubmitting(true);
@@ -253,6 +276,33 @@ const HealthAdForm = () => {
     if (selectedOption.value === 'add-new') {
       setModalOpen(true);
     }
+    setDoctorsFormData({ ...doctorsFormData, expertise: selectedOption.value });
+  };
+
+  const handleAddExpertise = (e) => {
+    setNewExpertise(e.target.value);
+    console.log(e.target.value);
+    console.log('new', newExpertise);
+  };
+
+  const addExpertise = async () => {
+    const payload = {
+      label: newExpertise,
+      value: newExpertise,
+    };
+    axiosInstance
+      .post(`api/doctor/expertise`, payload, {
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .then((response) => {
+        console.log('post', response);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
   };
 
   const customStyles = {
@@ -316,9 +366,8 @@ const HealthAdForm = () => {
           </div>
           <div>
             {selectedForm == 'doctors' && (
-              <form
-                action=""
-                onSubmit={doctorFormSubmitHandler}
+              <div
+                // onSubmit={doctorFormSubmitHandler}
                 className="flex flex-col gap-8"
               >
                 <h3 className="mb-2 font-semibold text-xl">Add Some Details</h3>
@@ -357,14 +406,20 @@ const HealthAdForm = () => {
 
                     {isModalOpen && (
                       <div className="">
-                        <div className="">
+                        <div className="flex items-center gap-4">
                           <input
                             type="text"
+                            onChange={handleAddExpertise}
                             className="w-[15vw] h-9 border-[1px] pl-2 border-gray-400 py-2 rounded-md"
                             placeholder="Enter new expertise"
                           />
                           <div className="flex items-center gap-2">
-                            <button className="border">Add</button>
+                            <button
+                              onClick={addExpertise}
+                              className="border px-2 py-1"
+                            >
+                              Add
+                            </button>
                             <button onClick={() => setModalOpen(false)}>
                               Cancel
                             </button>
@@ -380,6 +435,7 @@ const HealthAdForm = () => {
                   <div className="flex gap-2">
                     <input
                       name="name"
+                      onChange={handleDoctorFormChange}
                       type="text"
                       className="w-[85vw] md:w-[50vw] border-[1px] pl-2 border-gray-400 py-2 rounded-md"
                     />
@@ -393,17 +449,19 @@ const HealthAdForm = () => {
                     <input
                       name="total_experience"
                       type="text"
+                      onChange={handleDoctorFormChange}
                       className="w-[85vw] md:w-[50vw] pl-2 border-[1px] border-gray-400 py-2 rounded-md"
                     />
                   </div>
                 </div>
                 <div>
                   <p className="mb-2 font-semibold text-gray-700">
-                    Designation
+                    Designation*
                   </p>
                   <div className="flex gap-2">
                     <input
                       name="designation"
+                      onChange={handleDoctorFormChange}
                       type="text"
                       className="w-[85vw] md:w-[50vw] pl-2 border-[1px] border-gray-400 py-2 rounded-md"
                     />
@@ -416,6 +474,7 @@ const HealthAdForm = () => {
                   <div className="flex gap-2">
                     <textarea
                       name="description"
+                      onChange={handleDoctorFormChange}
                       type="text"
                       rows={3}
                       className="w-[85vw] md:w-[50vw] pl-2 border-[1px] border-gray-400 py-2 rounded-md resize-none"
@@ -437,6 +496,7 @@ const HealthAdForm = () => {
                   <div className="flex gap-2">
                     <input
                       name="price_per_visit"
+                      onChange={handleDoctorFormChange}
                       type="text"
                       className="w-[85vw] md:w-[50vw] pl-2 border-[1px] border-gray-400 py-2 rounded-md"
                     />
@@ -447,6 +507,7 @@ const HealthAdForm = () => {
                   <div className="flex gap-2">
                     <input
                       type="text"
+                      onChange={handleDoctorFormChange}
                       name="street"
                       className="w-[85vw] md:w-[50vw] border-[1px] border-gray-400 py-2 rounded-md"
                     />
@@ -457,6 +518,7 @@ const HealthAdForm = () => {
                   <div className="flex gap-2">
                     <input
                       type="text"
+                      onChange={handleDoctorFormChange}
                       name="locality"
                       className="w-[85vw] md:w-[50vw] border-[1px] border-gray-400 py-2 rounded-md"
                     />
@@ -468,7 +530,9 @@ const HealthAdForm = () => {
                     <select
                       name="state"
                       id="state"
-                      onChange={(e) => handleStateChange(e)}
+                      onChange={(e) => {
+                        handleStateChange(e), handleDoctorFormChange(e);
+                      }}
                     >
                       {Object.keys(StateCitiesData)?.map((state, index) => (
                         <option key={index} value={state}>
@@ -479,7 +543,11 @@ const HealthAdForm = () => {
                   </div>
                   <div>
                     <p className="mb-2 font-semibold text-gray-700">City*</p>
-                    <select name="city" id="city">
+                    <select
+                      name="city"
+                      id="city"
+                      onChange={handleDoctorFormChange}
+                    >
                       <option value="" defaultChecked>
                         Select City
                       </option>
@@ -496,6 +564,7 @@ const HealthAdForm = () => {
                   <div className="flex gap-2">
                     <input
                       type="number"
+                      onChange={handleDoctorFormChange}
                       name="pincode"
                       className="w-[85vw] md:w-[50vw] border-[1px] border-gray-400 py-2 rounded-md"
                     />
@@ -547,6 +616,7 @@ const HealthAdForm = () => {
                 </div>
                 <div className="flex justify-end">
                   <Button
+                    clickHandler={doctorFormSubmitHandler}
                     category={'primarybtn'}
                     type={'submit'}
                     disabled={submitting}
@@ -554,7 +624,7 @@ const HealthAdForm = () => {
                     {submitting ? 'Submitting' : 'Submit'}
                   </Button>
                 </div>
-              </form>
+              </div>
             )}
             {/* hospital ad form */}
             {selectedForm == 'hospitals' && (
