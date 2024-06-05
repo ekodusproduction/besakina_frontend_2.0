@@ -14,7 +14,7 @@ const HospitalCard = ({ data, link }) => {
 
   return (
     <Link to={`${link}/${data?._id}`}>
-      <div className="border-[1px] border-slate-400 rounded-md overflow-hidden bg-white h-80">
+      <div className="border-[1px] border-slate-400 rounded-md overflow-hidden bg-white max-h-80">
         <div className="h-[150px] sm:h-[200px]  ">
           <img
             src={`${data?.images[0]}`}
