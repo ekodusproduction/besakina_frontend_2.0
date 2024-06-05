@@ -30,7 +30,6 @@ const HealthEditForm = () => {
 
   const token = localStorage.getItem('token');
 
-
   const getDoctorDetails = async () => {
     await axiosInstance
       .get(`api/doctor/id/${id}`)
@@ -85,10 +84,9 @@ const HealthEditForm = () => {
     }
   }, [hospitalDetails?.images]);
 
-
   const doctorImageHandler = (e) => {
     if (doctorsImage?.length >= 20) {
-      toast.error('You can upload photos upto 20')
+      toast.error('You can upload photos upto 20');
       return;
     }
     const file = e.target.files[0];
@@ -173,7 +171,7 @@ const HealthEditForm = () => {
 
     for (let i = 0; i < data.length; i++) {
       const { name, value: val } = data[i];
-      if (name !== '' && name != 'expertise' && name != "type" ) {
+      if (name !== '' && name != 'expertise' && name != 'type') {
         value[name] = val;
       }
     }
@@ -197,7 +195,7 @@ const HealthEditForm = () => {
       .catch((err) => {
         console.log(err);
         setSubmitting(false);
-        toast.error('Something went wrong')
+        toast.error('Something went wrong');
       });
   };
 
@@ -219,16 +217,12 @@ const HealthEditForm = () => {
     };
 
     axiosInstance
-      .put(
-        `api/hospital/id/${id}`,
-        body,
-        {
-          headers: {
-            'Content-Type': 'application/json',
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      )
+      .put(`api/hospital/id/${id}`, body, {
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+      })
       .then((response) => {
         console.log(response);
         toast.success(response?.data?.message);
@@ -256,7 +250,7 @@ const HealthEditForm = () => {
       images: image,
     };
     axiosInstance
-      .delete(`api/doctors/image/delete/id/${id}`, {
+      .delete(`api/doctor/image/delete/id/${id}`, {
         data: body,
         headers: {
           Authorization: `Bearer ${token}`,
@@ -264,6 +258,7 @@ const HealthEditForm = () => {
       })
       .then((response) => {
         console.log('delete', response);
+        toast.success(response?.data?.message);
       })
       .catch((error) => {
         console.error('Error uploading image:', error);
@@ -274,7 +269,7 @@ const HealthEditForm = () => {
       images: image,
     };
     axiosInstance
-      .delete(`api/hospitals/image/delete/id/${id}`, {
+      .delete(`api/hospital/image/delete/id/${id}`, {
         data: body,
         headers: {
           Authorization: `Bearer ${token}`,
@@ -282,6 +277,7 @@ const HealthEditForm = () => {
       })
       .then((response) => {
         console.log('delete', response);
+        toast.success(response?.data?.message);
       })
       .catch((error) => {
         console.error('Error uploading image:', error);
@@ -357,7 +353,7 @@ const HealthEditForm = () => {
                     Select Expertise*
                   </p>
                   <div className="flex flex-wrap gap-2 text-gray-700">
-                  {ExpertiseData?.map((item, index) => (
+                    {ExpertiseData?.map((item, index) => (
                       <div
                         key={index}
                         className="border-[1px] border-gray-400 rounded-sm"
@@ -368,9 +364,7 @@ const HealthEditForm = () => {
                           name="type"
                           value={item.value}
                           className="hidden"
-                          checked={
-                            doctorsDetails?.expertise == item.value
-                          }
+                          checked={doctorsDetails?.expertise == item.value}
                           onChange={(e) => handleEditForm(e, 'expertise')}
                         />
                         <label
@@ -381,7 +375,6 @@ const HealthEditForm = () => {
                         </label>
                       </div>
                     ))}
-                    
                   </div>
                 </div>
                 <div>
@@ -477,44 +470,44 @@ const HealthEditForm = () => {
                   </div>
                 </div>
                 <div className="flex items-center gap-5">
-                <div>
-                  <p className="mb-2 font-semibold text-gray-700">State*</p>
-                  <select
-                    name="state"
-                    id="state"
-                    value={selectedState}
-                    onChange={(e) => setSelectedState(e.target.value)}
-                  >
-                    {Object.keys(StateCitiesData)?.map((state, index) => (
-                      <option key={index} value={state}>
-                        {state}
+                  <div>
+                    <p className="mb-2 font-semibold text-gray-700">State*</p>
+                    <select
+                      name="state"
+                      id="state"
+                      value={selectedState}
+                      onChange={(e) => setSelectedState(e.target.value)}
+                    >
+                      {Object.keys(StateCitiesData)?.map((state, index) => (
+                        <option key={index} value={state}>
+                          {state}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+                  <div>
+                    <p className="mb-2 font-semibold text-gray-700">City*</p>
+                    <select
+                      name="city"
+                      id="city"
+                      value={selectedCity}
+                      onChange={(e) => setSelectedCity(e.target.value)}
+                    >
+                      <option value="" defaultChecked>
+                        Select City
                       </option>
-                    ))}
-                  </select>
+                      {StateCitiesData[selectedState]?.map((city, index) => (
+                        <option
+                          key={index}
+                          value={city}
+                          className="cursor-pointer"
+                        >
+                          {city}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
                 </div>
-                <div>
-                  <p className="mb-2 font-semibold text-gray-700">City*</p>
-                  <select
-                    name="city"
-                    id="city"
-                    value={selectedCity}
-                    onChange={(e) => setSelectedCity(e.target.value)}
-                  >
-                    <option value="" defaultChecked>
-                      Select City
-                    </option>
-                    {StateCitiesData[selectedState]?.map((city, index) => (
-                      <option
-                        key={index}
-                        value={city}
-                        className="cursor-pointer"
-                      >
-                        {city}
-                      </option>
-                    ))}
-                  </select>
-                </div>
-              </div>
                 <div>
                   <p className="mb-2 font-semibold text-gray-700">Pincode*</p>
                   <div className="flex gap-2">
@@ -597,24 +590,27 @@ const HealthEditForm = () => {
                     Select Type*
                   </p>
                   <div className="flex flex-wrap gap-2 text-gray-700">
-                    {HospitalData?.map((item,index)=>(
-                    <div key={index} className="border-[1px] border-gray-400 rounded-sm">
-                      <input
-                        type="radio"
-                        id={item.value}
-                        name="type"
-                        checked={hospitalDetails?.type == item.value}
-                        onChange={(e) => handleEditForm(e, 'type')}
-                        value={item.value}
-                        className="hidden"
-                      />
-                      <label
-                        for={item.value}
-                        className="px-4 py-[2px] cursor-pointer"
+                    {HospitalData?.map((item, index) => (
+                      <div
+                        key={index}
+                        className="border-[1px] border-gray-400 rounded-sm"
                       >
-                        {item.label}
-                      </label>
-                    </div>
+                        <input
+                          type="radio"
+                          id={item.value}
+                          name="type"
+                          checked={hospitalDetails?.type == item.value}
+                          onChange={(e) => handleEditForm(e, 'type')}
+                          value={item.value}
+                          className="hidden"
+                        />
+                        <label
+                          for={item.value}
+                          className="px-4 py-[2px] cursor-pointer"
+                        >
+                          {item.label}
+                        </label>
+                      </div>
                     ))}
                   </div>
                 </div>
@@ -626,7 +622,7 @@ const HealthEditForm = () => {
                       name="name"
                       type="text"
                       value={hospitalDetails?.name}
-                      onChange={(e)=>handleEditForm(e,"name")}
+                      onChange={(e) => handleEditForm(e, 'name')}
                       className="w-[85vw] md:w-[50vw] border-[1px] pl-2 border-gray-400 py-2 rounded-md"
                     />
                   </div>
@@ -639,7 +635,7 @@ const HealthEditForm = () => {
                       name="title"
                       type="text"
                       value={hospitalDetails?.title}
-                      onChange={(e)=>handleEditForm(e,"title")}
+                      onChange={(e) => handleEditForm(e, 'title')}
                       className="w-[85vw] md:w-[50vw] pl-2 border-[1px] border-gray-400 py-2 rounded-md"
                     />
                   </div>
@@ -653,7 +649,7 @@ const HealthEditForm = () => {
                       name="description"
                       type="text"
                       value={hospitalDetails?.description}
-                      onChange={(e)=>handleEditForm(e,"description")}
+                      onChange={(e) => handleEditForm(e, 'description')}
                       className="w-[85vw] md:w-[50vw] pl-2 border-[1px] border-gray-400 py-2 rounded-md"
                     />
                   </div>
@@ -667,7 +663,7 @@ const HealthEditForm = () => {
                       name="price_registration"
                       type="text"
                       value={hospitalDetails?.price_registration}
-                      onChange={(e)=>handleEditForm(e,"price_registration")}
+                      onChange={(e) => handleEditForm(e, 'price_registration')}
                       className="w-[85vw] md:w-[50vw] pl-2 border-[1px] border-gray-400 py-2 rounded-md"
                     />
                   </div>
@@ -682,7 +678,7 @@ const HealthEditForm = () => {
                       name="price_per_visit"
                       type="text"
                       value={hospitalDetails?.price_per_visit}
-                      onChange={(e)=>handleEditForm(e,"price_per_visit")}
+                      onChange={(e) => handleEditForm(e, 'price_per_visit')}
                       className="w-[85vw] md:w-[50vw] pl-2 border-[1px] border-gray-400 py-2 rounded-md"
                     />
                   </div>
@@ -694,7 +690,7 @@ const HealthEditForm = () => {
                       type="text"
                       name="street"
                       value={hospitalDetails?.street}
-                      onChange={(e)=>handleEditForm(e,"street")}
+                      onChange={(e) => handleEditForm(e, 'street')}
                       className="w-[85vw] md:w-[50vw] border-[1px] border-gray-400 py-2 rounded-md"
                     />
                   </div>
@@ -706,7 +702,7 @@ const HealthEditForm = () => {
                       type="text"
                       name="locality"
                       value={hospitalDetails?.locality}
-                      onChange={(e)=>handleEditForm(e,"locality")}
+                      onChange={(e) => handleEditForm(e, 'locality')}
                       className="w-[85vw] md:w-[50vw] border-[1px] border-gray-400 py-2 rounded-md"
                     />
                   </div>
@@ -718,7 +714,7 @@ const HealthEditForm = () => {
                       type="text"
                       name="city"
                       value={hospitalDetails?.city}
-                      onChange={(e)=>handleEditForm(e,"city")}
+                      onChange={(e) => handleEditForm(e, 'city')}
                       className="w-[85vw] md:w-[50vw] border-[1px] border-gray-400 py-2 rounded-md"
                     />
                   </div>
@@ -731,7 +727,7 @@ const HealthEditForm = () => {
                       type="text"
                       name="state"
                       value={hospitalDetails?.state}
-                      onChange={(e)=>handleEditForm(e,"state")}
+                      onChange={(e) => handleEditForm(e, 'state')}
                       className="w-[85vw] md:w-[50vw] border-[1px] border-gray-400 py-2 rounded-md"
                     />
                   </div>
@@ -743,7 +739,7 @@ const HealthEditForm = () => {
                       type="number"
                       name="pincode"
                       value={hospitalDetails?.pincode}
-                      onChange={(e)=>handleEditForm(e,"pincode")}
+                      onChange={(e) => handleEditForm(e, 'pincode')}
                       className="w-[85vw] md:w-[50vw] border-[1px] border-gray-400 py-2 rounded-md"
                     />
                   </div>

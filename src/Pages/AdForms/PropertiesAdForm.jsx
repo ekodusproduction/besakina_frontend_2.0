@@ -230,7 +230,7 @@ const PropertiesAdForm = () => {
                 <div className="flex items-center gap-4">
                   <ReactSelect
                     name="type"
-                    className="w-60"
+                    className="w-60 capitalize"
                     onChange={(e) => handleChange(e, 'type')}
                     options={[
                       ...catgories,

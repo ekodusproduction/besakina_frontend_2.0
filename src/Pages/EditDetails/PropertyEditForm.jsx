@@ -19,6 +19,8 @@ import {
   TypesData,
 } from '../../data/propertyFormData';
 import toast from 'react-hot-toast';
+import ReactSelect from 'react-select';
+import AddNewField from '../../Components/Global/AddNewField';
 
 const PropertyEditForm = () => {
   const [selectedImages, setSelectedImages] = useState([]);
@@ -32,6 +34,9 @@ const PropertyEditForm = () => {
   const navigate = useNavigate();
   const { id } = useParams();
   const [propertyData, setPropertyData] = useState({});
+  const [catgories, setCategories] = useState([]);
+  const [newExpertise, setNewExpertise] = useState('');
+  const [isModalOpenType, setModalOpenType] = useState(false);
 
   useEffect(() => {
     axiosInstance
@@ -48,6 +53,24 @@ const PropertyEditForm = () => {
       });
   }, [id]);
 
+  const getFieldDetails = async (field) => {
+    axiosInstance
+      .get(`api/property/formdata/fieldname/${field}`)
+      .then((response) => {
+        const data = response?.data?.data?.[field];
+        if (field === 'type') {
+          setCategories(data);
+        }
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  };
+
+  useEffect(() => {
+    getFieldDetails('type');
+  }, []);
+
   useEffect(() => {
     if (propertyData?.images?.length) {
       setSelectedImages((prev) => [
@@ -59,7 +82,7 @@ const PropertyEditForm = () => {
 
   const imageHandler = (e) => {
     if (selectedImages?.length >= 20) {
-      toast.error('You can upload photos upto 20')
+      toast.error('You can upload photos upto 20');
       return;
     }
     const file = e.target.files[0];
@@ -102,22 +125,11 @@ const PropertyEditForm = () => {
     setSelectedState(selectedState);
   };
 
-  const formSubmitHandler = (e) => {
+  const formSubmitHandler = () => {
     setSubmitting(true);
-    e.preventDefault();
-    const data = e.target;
-    const value = {};
-
-    for (let i = 0; i < data.length; i++) {
-      const { name, value: val } = data[i];
-      if (name !== '' && name !== 'car_parking') {
-        value[name] = val;
-      }
-    }
 
     const body = {
-      ...value,
-      car_parking: propertyData?.car_parking,
+      propertyData,
     };
     axiosInstance
       .put(`api/property/id/${id}`, body, {
@@ -168,6 +180,42 @@ const PropertyEditForm = () => {
     setSelectedImages(newSelectedImages);
   };
 
+  const addField = async (field) => {
+    const payload = {
+      label: newExpertise,
+      value: newExpertise,
+      fieldname: field,
+    };
+    axiosInstance
+      .post(`api/property/formdata`, payload, {
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .then((response) => {
+        toast.success(response?.data?.message);
+        getFieldDetails(field);
+        setNewExpertise('');
+        setModalOpenType(false);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  };
+
+  const handleChange = (selectedOption, fieldName) => {
+    if (selectedOption.value === 'add-new' && fieldName === 'type') {
+      setModalOpenType(true);
+    } else {
+      setModalOpenType(false);
+    }
+    setPropertyData((prevData) => ({
+      ...prevData,
+      category: selectedOption.value,
+    }));
+  };
+
   const handleEditForm = (e, fieldName) => {
     const value = e.target.value;
     setPropertyData((prevState) => ({
@@ -175,6 +223,8 @@ const PropertyEditForm = () => {
       [fieldName]: value,
     }));
   };
+
+  console.log('details', propertyData);
 
   return (
     <>
@@ -186,25 +236,31 @@ const PropertyEditForm = () => {
         </div>
         <div className="flex justify-center p-8 gap-16">
           <div>
-            <form
-              action=""
-              className="flex flex-col gap-8"
-              onSubmit={formSubmitHandler}
-            >
+            <div className="flex flex-col gap-4">
               <h3 className="mb-2 font-semibold text-xl">Add Some Details</h3>
               <div>
                 <p className="mb-2 font-semibold text-gray-700">Category*</p>
-                <select
-                  name="category"
-                  value={propertyData?.category}
-                  onChange={(e) => handleEditForm(e, 'category')}
-                >
-                  {Category?.map((item, index) => (
-                    <option key={index} value={item.value}>
-                      {item.label}
-                    </option>
-                  ))}
-                </select>
+                <div className="flex items-center gap-4">
+                  <ReactSelect
+                    name="type"
+                    className="w-60 capitalize"
+                    value={propertyData?.category}
+                    onChange={(e) => handleChange(e, 'type')}
+                    options={[
+                      ...catgories,
+                      { value: 'add-new', label: 'Add new type' },
+                    ]}
+                    placeholder="Search or select type..."
+                  />
+                  {isModalOpenType && (
+                    <AddNewField
+                      onChange={(e) => setNewExpertise(e.target.value)}
+                      onClick={() => addField('type')}
+                      setOpen={() => setModalOpenType(false)}
+                      placeholder={'Add new type'}
+                    />
+                  )}
+                </div>
               </div>
               <div>
                 <p className="mb-2 font-semibold text-gray-700">Type*</p>
@@ -350,24 +406,27 @@ const PropertyEditForm = () => {
               <div>
                 <p className="mb-2 font-semibold text-gray-700">Listed By</p>
                 <div className="flex flex-wrap gap-2 text-gray-700">
-                  {ListedByData?.map((item,index)=>(
-                  <div key={index} className="border-[1px] border-gray-400 rounded-sm">
-                    <input
-                      type="radio"
-                      id={item.value}
-                      name="listed_by"
-                      checked={propertyData?.listed_by == item.value}
-                      onChange={(e) => handleEditForm(e, 'listed_by')}
-                      value={item.value}
-                      className="hidden"
-                    />
-                    <label
-                      for={item.value}
-                      className="px-4 py-[2px] cursor-pointer"
+                  {ListedByData?.map((item, index) => (
+                    <div
+                      key={index}
+                      className="border-[1px] border-gray-400 rounded-sm"
                     >
-                      {item.label}
-                    </label>
-                  </div>
+                      <input
+                        type="radio"
+                        id={item.value}
+                        name="listed_by"
+                        checked={propertyData?.listed_by == item.value}
+                        onChange={(e) => handleEditForm(e, 'listed_by')}
+                        value={item.value}
+                        className="hidden"
+                      />
+                      <label
+                        for={item.value}
+                        className="px-4 py-[2px] cursor-pointer"
+                      >
+                        {item.label}
+                      </label>
+                    </div>
                   ))}
                 </div>
               </div>
@@ -410,15 +469,13 @@ const PropertyEditForm = () => {
                 </div>
               </div>
               <div>
-                <p className="mb-2 font-semibold text-gray-700">
-                Maintenance*
-                </p>
+                <p className="mb-2 font-semibold text-gray-700">Maintenance*</p>
                 <div className="flex gap-2">
                   <input
                     type="text"
                     name="maintenance"
                     value={propertyData?.maintenance}
-                    onChange={(e)=>handleEditForm(e,"maintenance")}
+                    onChange={(e) => handleEditForm(e, 'maintenance')}
                     className="w-[50vw] border-[1px] border-gray-400 py-2 rounded-md"
                   />
                 </div>
@@ -464,21 +521,24 @@ const PropertyEditForm = () => {
               <div>
                 <p className="mb-2 font-semibold text-gray-700">Car Parking</p>
                 <div className="flex flex-wrap gap-2 text-gray-700">
-                  {ParkingData?.map((item,index)=>(
-                  <div key={index} className="border-[1px] border-gray-400 rounded-sm">
-                    <input
-                      type="radio"
-                      id={item.id}
-                      name="car_parking"
-                      checked={propertyData?.car_parking == item.label}
-                      onChange={(e) => handleEditForm(e, 'car_parking')}
-                      value={item.label}
-                      className="hidden"
-                    />
-                    <label for={item.id} className="px-4 py-[2px]">
-                    {item.label}
-                    </label>
-                  </div>
+                  {ParkingData?.map((item, index) => (
+                    <div
+                      key={index}
+                      className="border-[1px] border-gray-400 rounded-sm"
+                    >
+                      <input
+                        type="radio"
+                        id={item.id}
+                        name="car_parking"
+                        checked={propertyData?.car_parking == item.label}
+                        onChange={(e) => handleEditForm(e, 'car_parking')}
+                        value={item.label}
+                        className="hidden"
+                      />
+                      <label for={item.id} className="px-4 py-[2px]">
+                        {item.label}
+                      </label>
+                    </div>
                   ))}
                 </div>
               </div>
@@ -628,13 +688,14 @@ const PropertyEditForm = () => {
               <div className="flex justify-end">
                 <Button
                   category={'primarybtn'}
+                  clickHandler={formSubmitHandler}
                   type={'submit'}
                   disabled={submitting}
                 >
                   {submitting ? 'Submitting' : 'Submit'}
                 </Button>
               </div>
-            </form>
+            </div>
           </div>
         </div>
       </section>
