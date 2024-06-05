@@ -37,6 +37,7 @@ const PropertyEditForm = () => {
   const [catgories, setCategories] = useState([]);
   const [newExpertise, setNewExpertise] = useState('');
   const [isModalOpenType, setModalOpenType] = useState(false);
+  const [selectType, setSelectType] = useState('');
 
   useEffect(() => {
     axiosInstance
@@ -214,6 +215,13 @@ const PropertyEditForm = () => {
       ...prevData,
       category: selectedOption.value,
     }));
+    if (fieldName === 'type') {
+      const newOption = {
+        value: selectedOption.value.toLowerCase().trim(),
+        label: selectedOption.label.trim(),
+      };
+      setSelectType(newOption);
+    }
   };
 
   const handleEditForm = (e, fieldName) => {
@@ -223,8 +231,13 @@ const PropertyEditForm = () => {
       [fieldName]: value,
     }));
   };
-
-  console.log('details', propertyData);
+  useEffect(() => {
+    const newOption = {
+      value: propertyData?.category,
+      label: propertyData?.category,
+    };
+    setSelectType(newOption);
+  }, []);
 
   return (
     <>
@@ -244,7 +257,7 @@ const PropertyEditForm = () => {
                   <ReactSelect
                     name="type"
                     className="w-60 capitalize"
-                    value={propertyData?.category}
+                    value={selectType}
                     onChange={(e) => handleChange(e, 'type')}
                     options={[
                       ...catgories,
