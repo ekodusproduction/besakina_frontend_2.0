@@ -11,6 +11,8 @@ import { Fueldata, VehicleData, Vehicletype } from '../../data/VehicleData';
 import BackButton from '../../Components/BackButton/BackButton';
 import { StateCitiesData } from '../../data/Indian_Cities_In_States';
 import toast from 'react-hot-toast';
+import ReactSelect from 'react-select';
+import AddNewField from '../../Components/Global/AddNewField';
 
 const VehicleAdForm = () => {
   const [selectedImages, setSelectedImages] = useState([]);
@@ -23,6 +25,11 @@ const VehicleAdForm = () => {
   const [second_hand, setSecondHand] = useState(0);
   const initialSelectedState = Object.keys(StateCitiesData)[0];
   const [selectedState, setSelectedState] = useState(initialSelectedState);
+  const [fillData, setFillData] = useState([]);
+  const [vehicleType, setVehicleType] = useState([]);
+  const [vehicleBrand, setVehicleBrand] = useState([]);
+  const [newExpertise, setNewExpertise] = useState('');
+  const [isModalOpenType, setIsModalOpenType] = useState('');
   const navigate = useNavigate();
 
   const imageHandler = (e, index) => {
@@ -84,6 +91,50 @@ const VehicleAdForm = () => {
     }
   };
 
+  const getFieldDetails = async (field) => {
+    axiosInstance
+      .get(`api/vehicle/formdata/fieldname/${field}`)
+      .then((response) => {
+        const data = response?.data?.data?.[field];
+        if (field === 'type') {
+          setVehicleType(data);
+        } else if (field === 'brand') {
+          setVehicleBrand(data);
+        }
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  };
+
+  useEffect(() => {
+    getFieldDetails('type');
+    getFieldDetails('brand');
+  }, []);
+
+  const addField = async (field) => {
+    const payload = {
+      label: newExpertise,
+      value: newExpertise,
+      fieldname: field,
+    };
+    axiosInstance
+      .post(`api/vehicle/formdata`, payload, {
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .then((response) => {
+        toast.success(response?.data?.message);
+        getFieldDetails(field);
+        setNewExpertise('');
+        setIsModalOpenType('');
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  };
   const handleBrandChange = (event) => {
     const selectedValue = event.target.value;
     setSelectedBrand(selectedValue);
@@ -100,21 +151,36 @@ const VehicleAdForm = () => {
     setSelectedType(e.target.value);
     setSelectedBrand('');
   };
-  const formSubmitHandler = (e) => {
-    e.preventDefault();
-    setSubmitting(true);
-    const data = new FormData(e.target);
-    const value = Object.fromEntries(data.entries());
 
-    if (value.brand === 'Other') {
-      value.brand = otherBrand;
+  const handleEditForm = (e) => {
+    const { name, value } = e.target;
+    setFillData((prevState) => ({
+      ...prevState,
+      [name]: value,
+    }));
+  };
+
+  const handleChange = (selectedOption, fieldName) => {
+    if (selectedOption.value === 'add-new' && fieldName === 'type') {
+      setIsModalOpenType('type');
+    } else if (selectedOption.value === 'add-new' && fieldName === 'brand') {
+      setIsModalOpenType('brand');
+    } else {
+      setIsModalOpenType('');
     }
+    setFillData((prevData) => ({
+      ...prevData,
+      [fieldName]: selectedOption.value,
+    }));
+  };
 
-    console.log({ ...value, images: selectedImages });
+  const formSubmitHandler = () => {
+    setSubmitting(true);
+
     axiosInstance
       .post(
         'api/vehicle/add',
-        { ...value, images: selectedImages, second_hand },
+        { ...fillData, images: selectedImages, second_hand },
         {
           headers: {
             'Content-Type': 'multipart/form-data',
@@ -137,6 +203,15 @@ const VehicleAdForm = () => {
         }
       });
   };
+
+  useEffect(() => {
+    setFillData((prevData) => ({
+      ...prevData,
+      state: initialSelectedState,
+      city: StateCitiesData[initialSelectedState][0],
+      fuel: Fueldata[0].value,
+    }));
+  }, []);
   const handleDeleteImage = (index) => {
     const newImages = [...image];
     const newSelectedImages = [...selectedImages];
@@ -181,11 +256,7 @@ const VehicleAdForm = () => {
           </div>
           <div>
             {second_hand == 0 && (
-              <form
-                action=""
-                className="flex flex-col gap-8"
-                onSubmit={formSubmitHandler}
-              >
+              <div className="flex flex-col gap-8">
                 <h3 className="mb-2 text-center md:text-left font-semibold text-xl">
                   Add Some Details
                 </h3>
@@ -194,27 +265,24 @@ const VehicleAdForm = () => {
                     Vehicle Type*
                   </p>
                   <div className="flex flex-wrap gap-2 text-gray-700">
-                    {Vehicletype?.map((item, index) => (
-                      <div
-                        key={index}
-                        className="border-[1px] border-gray-400 rounded-sm"
-                      >
-                        <input
-                          type="radio"
-                          id={item.value}
-                          name="type"
-                          value={item.value}
-                          className="hidden"
-                          onChange={handleTypeChange}
-                        />
-                        <label
-                          for={item.value}
-                          className="px-4 py-[2px] cursor-pointer"
-                        >
-                          {item.label}
-                        </label>
-                      </div>
-                    ))}
+                    <ReactSelect
+                      name="type"
+                      className="w-60 capitalize"
+                      onChange={(e) => handleChange(e, 'type')}
+                      options={[
+                        ...vehicleType,
+                        { value: 'add-new', label: 'Add new type' },
+                      ]}
+                      placeholder="Search or select type..."
+                    />
+                    {isModalOpenType === 'type' && (
+                      <AddNewField
+                        onChange={(e) => setNewExpertise(e.target.value)}
+                        onClick={() => addField('type')}
+                        setOpen={() => setIsModalOpenType('')}
+                        placeholder={'Add new type'}
+                      />
+                    )}
                   </div>
                 </div>
                 <div>
@@ -222,41 +290,22 @@ const VehicleAdForm = () => {
                     Select Brand*
                   </p>
                   <div className="flex gap-2 text-gray-700">
-                    <select
+                    <ReactSelect
                       name="brand"
-                      id=""
-                      disabled={selectedType?.length === 0}
-                      value={selectedBrand}
-                      onChange={handleBrandChange}
-                      required
-                      className="border-[1px]  border-gray-400 rounded-sm w-[150px]"
-                    >
-                      {/* <option value="BMW">BMW</option>
-                      <option value="Ford">Ford</option>
-                      <option value="Fiat">Fiat</option>
-                      <option value="Honda">Honda</option>
-                      <option value="Hyundai">Hyundai</option>
-                      <option value="Jeep">Jeep</option>
-                      <option value="Mercedes">Mercedes</option>
-                      <option value="Toyota">Toyota</option> */}
-                      {selectedType &&
-                        VehicleData?.find(
-                          (vehicle) =>
-                            vehicle.label.toLowerCase() ==
-                            selectedType.toLowerCase()
-                        )?.models?.map((model, index) => (
-                          <option key={index} value={model}>
-                            {model}
-                          </option>
-                        ))}
-                      <option value="Other">Other</option>
-                    </select>
-                    {selectedBrand === 'Other' && (
-                      <input
-                        type="text"
-                        value={otherBrand}
-                        onChange={handleOtherBrandChange}
-                        placeholder="Enter brand"
+                      className="w-60 capitalize"
+                      onChange={(e) => handleChange(e, 'brand')}
+                      options={[
+                        ...vehicleBrand,
+                        { value: 'add-new', label: 'Add new brand' },
+                      ]}
+                      placeholder="Search or select brand"
+                    />
+                    {isModalOpenType === 'brand' && (
+                      <AddNewField
+                        onChange={(e) => setNewExpertise(e.target.value)}
+                        onClick={() => addField('brand')}
+                        setOpen={() => setIsModalOpenType('')}
+                        placeholder={'Add new brand'}
                       />
                     )}
                   </div>
@@ -267,6 +316,7 @@ const VehicleAdForm = () => {
                     <input
                       name="model"
                       type="text"
+                      onChange={handleEditForm}
                       className="w-[85vw] md:w-[50vw] border-[1px] pl-2 border-gray-400 py-2 rounded-md"
                     />
                   </div>
@@ -277,6 +327,7 @@ const VehicleAdForm = () => {
                     <input
                       name="variant"
                       type="text"
+                      onChange={handleEditForm}
                       className="w-[85vw] md:w-[50vw] border-[1px] pl-2 border-gray-400 py-2 rounded-md"
                     />
                   </div>
@@ -291,6 +342,7 @@ const VehicleAdForm = () => {
                         name="transmission"
                         id=""
                         required
+                        onChange={handleEditForm}
                         className="border-[1px]  border-gray-400 rounded-sm w-[150px]"
                       >
                         <option value="automatic">Automatic</option>
@@ -304,6 +356,10 @@ const VehicleAdForm = () => {
                   <div className="flex gap-2 text-gray-700">
                     <select
                       name="fuel"
+                      value={fillData?.fuel}
+                      onChange={(e) => {
+                        handleEditForm(e), handleEditForm(e);
+                      }}
                       id=""
                       className="border-[1px]  border-gray-400 rounded-sm w-[150px]"
                     >
@@ -323,6 +379,7 @@ const VehicleAdForm = () => {
                   <div className="flex gap-2">
                     <input
                       name="registration_year"
+                      onChange={handleEditForm}
                       type="text"
                       className="w-[85vw] md:w-[50vw] border-[1px] pl-2 border-gray-400 py-2 rounded-md"
                     />
@@ -335,6 +392,7 @@ const VehicleAdForm = () => {
                     <input
                       name="title"
                       type="text"
+                      onChange={handleEditForm}
                       required
                       className="w-[85vw] md:w-[50vw] pl-2 border-[1px] border-gray-400 py-2 rounded-md"
                     />
@@ -348,6 +406,7 @@ const VehicleAdForm = () => {
                     <textarea
                       name="description"
                       type="text"
+                      onChange={handleEditForm}
                       required
                       rows={3}
                       className="w-[85vw] md:w-[50vw] pl-2 border-[1px] border-gray-400 py-2 rounded-md resize-none"
@@ -361,6 +420,7 @@ const VehicleAdForm = () => {
                     <input
                       type="text"
                       name="street"
+                      onChange={handleEditForm}
                       required
                       className="w-[85vw] md:w-[50vw] border-[1px] border-gray-400 py-2 rounded-md"
                     />
@@ -372,6 +432,7 @@ const VehicleAdForm = () => {
                     <input
                       type="text"
                       name="locality"
+                      onChange={handleEditForm}
                       required
                       className="w-[85vw] md:w-[50vw] border-[1px] border-gray-400 py-2 rounded-md"
                     />
@@ -389,7 +450,10 @@ const VehicleAdForm = () => {
                     <select
                       name="state"
                       id="state"
-                      onChange={(e) => handleStateChange(e)}
+                      value={fillData?.state}
+                      onChange={(e) => {
+                        handleStateChange(e), handleEditForm(e);
+                      }}
                     >
                       {Object.keys(StateCitiesData)?.map((state, index) => (
                         <option key={index} value={state}>
@@ -400,7 +464,12 @@ const VehicleAdForm = () => {
                   </div>
                   <div>
                     <p className="mb-2 font-semibold text-gray-700">City*</p>
-                    <select name="city" id="city">
+                    <select
+                      name="city"
+                      id="city"
+                      value={fillData?.city}
+                      onChange={handleEditForm}
+                    >
                       <option value="" defaultChecked>
                         Select City
                       </option>
@@ -418,6 +487,7 @@ const VehicleAdForm = () => {
                     <input
                       type="text"
                       name="pincode"
+                      onChange={handleEditForm}
                       required
                       className="w-[85vw] md:w-[50vw] border-[1px] border-gray-400 py-2 rounded-md"
                     />
@@ -429,6 +499,7 @@ const VehicleAdForm = () => {
                   <div className="flex gap-2">
                     <input
                       name="price"
+                      onChange={handleEditForm}
                       type="text"
                       className="w-[85vw] md:w-[50vw] pl-2 border-[1px] border-gray-400 py-2 rounded-md"
                     />
@@ -481,16 +552,17 @@ const VehicleAdForm = () => {
                 <div className="flex justify-end">
                   <Button
                     category={'primarybtn'}
+                    clickHandler={formSubmitHandler}
                     type={'submit'}
                     disabled={submitting}
                   >
                     {submitting ? 'Submitting' : 'Submit'}
                   </Button>
                 </div>
-              </form>
+              </div>
             )}
             {second_hand == 1 && (
-              <form
+              <div
                 action=""
                 className="flex flex-col gap-8"
                 onSubmit={formSubmitHandler}
@@ -499,31 +571,30 @@ const VehicleAdForm = () => {
                   Add Some Details
                 </h3>
                 <div>
-                  <p className="mb-2 font-semibold text-gray-700">
-                    Vehicle Type*
-                  </p>
-                  <div className="flex flex-wrap gap-2 text-gray-700">
-                    {Vehicletype?.map((item, index) => (
-                      <div
-                        key={index}
-                        className="border-[1px] border-gray-400 rounded-sm"
-                      >
-                        <input
-                          type="radio"
-                          id={item.value}
-                          name="type"
-                          value={item.value}
-                          className="hidden"
-                          onChange={handleTypeChange}
+                  <div>
+                    <p className="mb-2 font-semibold text-gray-700">
+                      Vehicle Type*
+                    </p>
+                    <div className="flex flex-wrap gap-2 text-gray-700">
+                      <ReactSelect
+                        name="type"
+                        className="w-60 capitalize"
+                        onChange={(e) => handleChange(e, 'type')}
+                        options={[
+                          ...vehicleType,
+                          { value: 'add-new', label: 'Add new type' },
+                        ]}
+                        placeholder="Search or select type..."
+                      />
+                      {isModalOpenType === 'type' && (
+                        <AddNewField
+                          onChange={(e) => setNewExpertise(e.target.value)}
+                          onClick={() => addField('type')}
+                          setOpen={() => setIsModalOpenType('')}
+                          placeholder={'Add new type'}
                         />
-                        <label
-                          for={item.value}
-                          className="px-4 py-[2px] cursor-pointer"
-                        >
-                          {item.label}
-                        </label>
-                      </div>
-                    ))}
+                      )}
+                    </div>
                   </div>
                 </div>
                 <div>
@@ -531,31 +602,22 @@ const VehicleAdForm = () => {
                     Select Brand*
                   </p>
                   <div className="flex gap-2 text-gray-700">
-                    <select
+                    <ReactSelect
                       name="brand"
-                      id=""
-                      required
-                      disabled={selectedType?.length === 0}
-                      className="border-[1px]  border-gray-400 rounded-sm w-[150px]"
-                    >
-                      {selectedType &&
-                        VehicleData?.find(
-                          (vehicle) =>
-                            vehicle?.label?.toLocaleLowerCase() ==
-                            selectedType?.toLocaleLowerCase()
-                        )?.models?.map((model, index) => (
-                          <option key={index} value={model}>
-                            {model}
-                          </option>
-                        ))}
-                      <option value="Other">Other</option>
-                    </select>
-                    {selectedBrand === 'Other' && (
-                      <input
-                        type="text"
-                        value={otherBrand}
-                        onChange={handleOtherBrandChange}
-                        placeholder="Enter Brand"
+                      className="w-60 capitalize"
+                      onChange={(e) => handleChange(e, 'brand')}
+                      options={[
+                        ...vehicleBrand,
+                        { value: 'add-new', label: 'Add new brand' },
+                      ]}
+                      placeholder="Search or select brand"
+                    />
+                    {isModalOpenType === 'brand' && (
+                      <AddNewField
+                        onChange={(e) => setNewExpertise(e.target.value)}
+                        onClick={() => addField('brand')}
+                        setOpen={() => setIsModalOpenType('')}
+                        placeholder={'Add new brand'}
                       />
                     )}
                   </div>
@@ -565,6 +627,7 @@ const VehicleAdForm = () => {
                   <div className="flex gap-2">
                     <input
                       name="model"
+                      onChange={handleEditForm}
                       type="text"
                       className="w-[85vw] md:w-[50vw] border-[1px] pl-2 border-gray-400 py-2 rounded-md"
                     />
@@ -575,6 +638,7 @@ const VehicleAdForm = () => {
                   <div className="flex gap-2">
                     <input
                       name="variant"
+                      onChange={handleEditForm}
                       type="text"
                       className="w-[85vw] md:w-[50vw] border-[1px] pl-2 border-gray-400 py-2 rounded-md"
                     />
@@ -589,6 +653,7 @@ const VehicleAdForm = () => {
                       <div className="flex gap-2 text-gray-700">
                         <select
                           name="transmission"
+                          onChange={handleEditForm}
                           id=""
                           className="border-[1px]  border-gray-400 rounded-sm w-[150px]"
                         >
@@ -604,6 +669,8 @@ const VehicleAdForm = () => {
                   <div className="flex gap-2 text-gray-700">
                     <select
                       name="fuel"
+                      value={fillData?.fuel}
+                      onChange={handleEditForm}
                       id=""
                       className="border-[1px]  border-gray-400 rounded-sm w-[150px]"
                     >
@@ -624,6 +691,7 @@ const VehicleAdForm = () => {
                   <div className="flex gap-2">
                     <input
                       name="registration_year"
+                      onChange={handleEditForm}
                       type="text"
                       required
                       className="w-[85vw] md:w-[50vw] border-[1px] pl-2 border-gray-400 py-2 rounded-md"
@@ -637,6 +705,7 @@ const VehicleAdForm = () => {
                   <div className="flex gap-2">
                     <input
                       name="kilometer_driven"
+                      onChange={handleEditForm}
                       type="text"
                       required
                       className="w-[85vw] md:w-[50vw] pl-2 border-[1px] border-gray-400 py-2 rounded-md"
@@ -649,6 +718,7 @@ const VehicleAdForm = () => {
                   <div className="flex gap-2">
                     <input
                       name="title"
+                      onChange={handleEditForm}
                       type="text"
                       required
                       className="w-[85vw] md:w-[50vw] pl-2 border-[1px] border-gray-400 py-2 rounded-md"
@@ -662,6 +732,7 @@ const VehicleAdForm = () => {
                   <div className="flex gap-2">
                     <textarea
                       name="description"
+                      onChange={handleEditForm}
                       type="text"
                       required
                       rows={3}
@@ -676,6 +747,7 @@ const VehicleAdForm = () => {
                     <input
                       type="text"
                       name="street"
+                      onChange={handleEditForm}
                       required
                       className="w-[85vw] md:w-[50vw] border-[1px] border-gray-400 py-2 rounded-md"
                     />
@@ -687,6 +759,7 @@ const VehicleAdForm = () => {
                     <input
                       type="text"
                       name="locality"
+                      onChange={handleEditForm}
                       required
                       className="w-[85vw] md:w-[50vw] border-[1px] border-gray-400 py-2 rounded-md"
                     />
@@ -698,7 +771,10 @@ const VehicleAdForm = () => {
                     <select
                       name="state"
                       id="state"
-                      onChange={(e) => handleStateChange(e)}
+                      value={fillData?.state}
+                      onChange={(e) => {
+                        handleStateChange(e), handleEditForm(e);
+                      }}
                     >
                       {Object.keys(StateCitiesData)?.map((state, index) => (
                         <option key={index} value={state}>
@@ -709,7 +785,12 @@ const VehicleAdForm = () => {
                   </div>
                   <div>
                     <p className="mb-2 font-semibold text-gray-700">City*</p>
-                    <select name="city" id="city">
+                    <select
+                      name="city"
+                      id="city"
+                      value={fillData?.city}
+                      onChange={handleEditForm}
+                    >
                       <option value="" defaultChecked>
                         Select City
                       </option>
@@ -727,6 +808,7 @@ const VehicleAdForm = () => {
                     <input
                       type="text"
                       name="pincode"
+                      onChange={handleEditForm}
                       required
                       className="w-[85vw] md:w-[50vw] border-[1px] border-gray-400 py-2 rounded-md"
                     />
@@ -738,6 +820,7 @@ const VehicleAdForm = () => {
                   <div className="flex gap-2">
                     <input
                       name="price"
+                      onChange={handleEditForm}
                       type="text"
                       className="w-[85vw] md:w-[50vw] pl-2 border-[1px] border-gray-400 py-2 rounded-md"
                     />
@@ -790,13 +873,14 @@ const VehicleAdForm = () => {
                 <div className="flex justify-end">
                   <Button
                     category={'primarybtn'}
+                    clickHandler={formSubmitHandler}
                     type={'submit'}
                     disabled={submitting}
                   >
                     {submitting ? 'Submitting' : 'Submit'}
                   </Button>
                 </div>
-              </form>
+              </div>
             )}
           </div>
         </div>

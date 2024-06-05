@@ -3,6 +3,7 @@ import { Splide, SplideSlide } from '@splidejs/react-splide';
 import '@splidejs/react-splide/css/skyblue';
 import Button from '../Button/Button';
 import { useNavigate } from 'react-router-dom';
+import { BannerImages } from '../../data/bannerImages';
 
 const Banner = () => {
   const navigate = useNavigate();
@@ -23,7 +24,7 @@ const Banner = () => {
               <div className="relative">
                 <img
                   src="/assets/Banner/carousel_banner.png"
-                  className="w-[100%]"
+                  className="w-[100%] rounded-3xl"
                   alt="Image 1"
                 />
                 <div className="absolute top-[50%] left-[2rem] translate-y-[-50%]">
@@ -42,92 +43,17 @@ const Banner = () => {
                 </div>
               </div>
             </SplideSlide>
-            <SplideSlide>
-              <div className="relative">
-                <img
-                  src="/assets/Banner/S.M. Medicals.png"
-                  className="w-[100%] rounded-3xl"
-                  alt="Image 1"
-                />
-                {/* <div className='absolute top-[50%] left-[2rem] translate-y-[-50%]'>
-                                    <h2 className='text-white font-bold sm:text-4xl md:text-5xl lg:text-4xl text-xl primaryheader'>Let us help you <br /> Find, Buy & Sell your <br /> Products and services</h2>
-                                    <p className='text-white text-xs xsm:text-sm pt-2 sm:pt-4'>Most loved and trusted classified ad listing <br /> website. Browse thousand of items near you.</p>
-                                    <div className='flex gap-4 mt-2 sm:mt-4'>
-                                        <Button category={'primarybtn'}>List Your Business</Button>
-                                        <Button category={'secondbtn'}>Ask our Expert</Button>
-                                    </div>
-                                </div> */}
-              </div>
-            </SplideSlide>
-
-            <SplideSlide>
-              <div className="relative">
-                <img
-                  src="/assets/Banner/Divine Optical Web Banner.jpg"
-                  className="w-[100%] rounded-3xl"
-                  alt="Image 1"
-                />
-                {/* <div className='absolute top-[50%] left-[2rem] translate-y-[-50%]'>
-                                    <h2 className='text-white font-bold sm:text-4xl text-xl primaryheader'>Let us help you <br /> Find, Buy & Sell your <br /> Products and services</h2>
-                                    <p className='text-white text-xs xsm:text-sm pt-2 sm:pt-4'>Most loved and trusted classified ad listing <br /> website. Browse thousand of items near you.</p>
-                                    <div className='flex gap-4 mt-2 sm:mt-4'>
-                                        <Button category={'primarybtn'}>List Your Business</Button>
-                                        <Button category={'secondbtn'}>Ask our Expert</Button>
-                                    </div>
-                                </div> */}
-              </div>
-            </SplideSlide>
-            <SplideSlide>
-              <div className="relative">
-                <img
-                  src="/assets/Post/bluetomato (2).jpg"
-                  className="w-[100%] rounded-3xl"
-                  alt="Image 1"
-                />
-                {/* <div className='absolute top-[50%] left-[2rem] translate-y-[-50%]'>
-                                    <h2 className='text-white font-bold sm:text-4xl text-xl primaryheader'>Let us help you <br /> Find, Buy & Sell your <br /> Products and services</h2>
-                                    <p className='text-white text-xs xsm:text-sm pt-2 sm:pt-4'>Most loved and trusted classified ad listing <br /> website. Browse thousand of items near you.</p>
-                                    <div className='flex gap-4 mt-2 sm:mt-4'>
-                                        <Button category={'primarybtn'}>List Your Business</Button>
-                                        <Button category={'secondbtn'}>Ask our Expert</Button>
-                                    </div>
-                                </div> */}
-              </div>
-            </SplideSlide>
-            <SplideSlide>
-              <div className="relative">
-                <img
-                  src="/assets/Post/mystic (1).jpg"
-                  className="w-[100%] rounded-3xl"
-                  alt="Image 1"
-                />
-                {/* <div className='absolute top-[50%] left-[2rem] translate-y-[-50%]'>
-                                    <h2 className='text-white font-bold sm:text-4xl text-xl primaryheader'>Let us help you <br /> Find, Buy & Sell your <br /> Products and services</h2>
-                                    <p className='text-white text-xs xsm:text-sm pt-2 sm:pt-4'>Most loved and trusted classified ad listing <br /> website. Browse thousand of items near you.</p>
-                                    <div className='flex gap-4 mt-2 sm:mt-4'>
-                                        <Button category={'primarybtn'}>List Your Business</Button>
-                                        <Button category={'secondbtn'}>Ask our Expert</Button>
-                                    </div>
-                                </div> */}
-              </div>
-            </SplideSlide>
-            <SplideSlide>
-              <div className="relative">
-                <img
-                  src="/assets/Post/herbocare.jpg"
-                  className="w-[100%] rounded-3xl"
-                  alt="Image 1"
-                />
-                {/* <div className='absolute top-[50%] left-[2rem] translate-y-[-50%]'>
-                                    <h2 className='text-white font-bold sm:text-4xl text-xl primaryheader'>Let us help you <br /> Find, Buy & Sell your <br /> Products and services</h2>
-                                    <p className='text-white text-xs xsm:text-sm pt-2 sm:pt-4'>Most loved and trusted classified ad listing <br /> website. Browse thousand of items near you.</p>
-                                    <div className='flex gap-4 mt-2 sm:mt-4'>
-                                        <Button category={'primarybtn'}>List Your Business</Button>
-                                        <Button category={'secondbtn'}>Ask our Expert</Button>
-                                    </div>
-                                </div> */}
-              </div>
-            </SplideSlide>
+            {BannerImages?.map((item, index) => (
+              <SplideSlide key={index}>
+                <div className="relative">
+                  <img
+                    src={item.image_path}
+                    className="w-[100%] rounded-3xl"
+                    alt="Image 1"
+                  />
+                </div>
+              </SplideSlide>
+            ))}
           </Splide>
         </div>
 

@@ -20,6 +20,8 @@ import {
   TypesData,
 } from '../../data/propertyFormData';
 import toast from 'react-hot-toast';
+import ReactSelect from 'react-select';
+import AddNewField from '../../Components/Global/AddNewField';
 
 const PropertiesAdForm = () => {
   const [selectedImages, setSelectedImages] = useState([]);
@@ -27,6 +29,10 @@ const PropertiesAdForm = () => {
   const [submitting, setSubmitting] = useState(false);
   const initialSelectedState = Object.keys(StateCitiesData)[0];
   const [selectedState, setSelectedState] = useState(initialSelectedState);
+  const [catgories, setCategories] = useState([]);
+  const [fillData, setFillData] = useState([]);
+  const [newExpertise, setNewExpertise] = useState('');
+  const [isModalOpenType, setModalOpenType] = useState(false);
 
   const token = localStorage.getItem('token');
   const navigate = useNavigate();
@@ -95,17 +101,50 @@ const PropertiesAdForm = () => {
     setSelectedState(selectedState);
   };
 
+  const getFieldDetails = async (field) => {
+    axiosInstance
+      .get(`api/property/formdata/fieldname/${field}`)
+      .then((response) => {
+        const data = response?.data?.data?.[field];
+        if (field === 'type') {
+          setCategories(data);
+        }
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  };
+
+  useEffect(() => {
+    getFieldDetails('type');
+  }, []);
+
+  const handleChange = (selectedOption, fieldName) => {
+    if (selectedOption.value === 'add-new' && fieldName === 'type') {
+      setModalOpenType(true);
+    } else {
+      setModalOpenType(false);
+    }
+    setFillData((prevData) => ({
+      ...prevData,
+      [fieldName]: selectedOption.value,
+    }));
+  };
+
+  const handleEditForm = (e) => {
+    const { name, value } = e.target;
+    setFillData((prevData) => ({
+      ...prevData,
+      [name]: value,
+    }));
+  };
   const formSubmitHandler = (e) => {
     setSubmitting(true);
-    e.preventDefault();
-    const data = new FormData(e.target);
-    const value = Object.fromEntries(data.entries());
 
-    console.log({ ...value, images: selectedImages });
     axiosInstance
       .post(
         'api/property/add',
-        { ...value, images: selectedImages },
+        { ...fillData, images: selectedImages },
         {
           headers: {
             'Content-Type': 'multipart/form-data',
@@ -128,6 +167,30 @@ const PropertiesAdForm = () => {
         }
       });
   };
+
+  const addField = async (field) => {
+    const payload = {
+      label: newExpertise,
+      value: newExpertise,
+      fieldname: field,
+    };
+    axiosInstance
+      .post(`api/property/formdata`, payload, {
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .then((response) => {
+        toast.success(response?.data?.message);
+        getFieldDetails(field);
+        setNewExpertise('');
+        setModalOpenType(false);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  };
   const handleDeleteImage = (index) => {
     const newImages = [...image];
     const newSelectedImages = [...selectedImages];
@@ -148,21 +211,42 @@ const PropertiesAdForm = () => {
         </div>
         <div className="flex justify-center p-8 gap-16">
           <div>
-            <form
-              action=""
-              className="flex flex-col gap-8"
-              onSubmit={formSubmitHandler}
-            >
+            <div className="flex flex-col gap-8">
               <h3 className="mb-2 font-semibold text-xl">Add Some Details</h3>
               <div>
+                <p className="mb-2 font-semibold text-gray-700">Ad title*</p>
+                <div className="flex gap-2">
+                  <input
+                    type="text"
+                    name="title"
+                    onChange={handleEditForm}
+                    required
+                    className="w-[90vw] sm:w-[50vw] border-[1px] border-gray-400 py-2 rounded-md"
+                  />
+                </div>
+              </div>
+              <div>
                 <p className="mb-2 font-semibold text-gray-700">Category*</p>
-                <select name="category">
-                  {Category?.map((item, index) => (
-                    <option key={index} value={item.value}>
-                      {item.label}
-                    </option>
-                  ))}
-                </select>
+                <div className="flex items-center gap-4">
+                  <ReactSelect
+                    name="type"
+                    className="w-60"
+                    onChange={(e) => handleChange(e, 'type')}
+                    options={[
+                      ...catgories,
+                      { value: 'add-new', label: 'Add new type' },
+                    ]}
+                    placeholder="Search or select type..."
+                  />
+                  {isModalOpenType && (
+                    <AddNewField
+                      onChange={(e) => setNewExpertise(e.target.value)}
+                      onClick={() => addField('type')}
+                      setOpen={() => setModalOpenType(false)}
+                      placeholder={'Add new type'}
+                    />
+                  )}
+                </div>
               </div>
               <div>
                 <p className="mb-2 font-semibold text-gray-700">Type*</p>
@@ -173,6 +257,7 @@ const PropertiesAdForm = () => {
                         type="radio"
                         id={item?.value}
                         name="type"
+                        onChange={handleEditForm}
                         value={item?.value}
                         className="hidden"
                       />
@@ -198,6 +283,7 @@ const PropertiesAdForm = () => {
                         type="radio"
                         id={item.id}
                         name="bedrooms"
+                        onChange={handleEditForm}
                         value={item.label}
                         className="hidden"
                       />
@@ -223,6 +309,7 @@ const PropertiesAdForm = () => {
                         type="radio"
                         id={item.id}
                         name="bathrooms"
+                        onChange={handleEditForm}
                         value={item.label}
                         className="hidden"
                       />
@@ -247,6 +334,7 @@ const PropertiesAdForm = () => {
                       <input
                         type="radio"
                         id={item.value}
+                        onChange={handleEditForm}
                         name="furnishing"
                         value={item.value}
                         className="hidden"
@@ -378,6 +466,7 @@ const PropertiesAdForm = () => {
                       <input
                         type="radio"
                         id={item.value}
+                        onChange={handleEditForm}
                         name="construction_status"
                         value={item.value}
                         className="hidden"
@@ -403,6 +492,7 @@ const PropertiesAdForm = () => {
                       <input
                         type="radio"
                         id={item.id}
+                        onChange={handleEditForm}
                         name="car_parking"
                         value={item.label}
                         className="hidden"
@@ -426,6 +516,7 @@ const PropertiesAdForm = () => {
                         type="radio"
                         id={item.value}
                         name="listed_by"
+                        onChange={handleEditForm}
                         value={item.value}
                         className="hidden"
                       />
@@ -439,17 +530,7 @@ const PropertiesAdForm = () => {
                   ))}
                 </div>
               </div>
-              <div>
-                <p className="mb-2 font-semibold text-gray-700">Ad title*</p>
-                <div className="flex gap-2">
-                  <input
-                    type="text"
-                    name="title"
-                    required
-                    className="w-[90vw] sm:w-[50vw] border-[1px] border-gray-400 py-2 rounded-md"
-                  />
-                </div>
-              </div>
+
               <div>
                 <p className="mb-2 font-semibold text-gray-700">
                   Super Builtup Area*
@@ -458,6 +539,7 @@ const PropertiesAdForm = () => {
                   <input
                     type="text"
                     required
+                    onChange={handleEditForm}
                     name="super_builtup_area"
                     className="w-[90vw] sm:w-[50vw] border-[1px] border-gray-400 py-2 rounded-md"
                   />
@@ -469,6 +551,7 @@ const PropertiesAdForm = () => {
                   <input
                     type="number"
                     required
+                    onChange={handleEditForm}
                     name="carpet_area"
                     className="w-[90vw] sm:w-[50vw] border-[1px] border-gray-400 py-2 rounded-md"
                   />
@@ -482,6 +565,7 @@ const PropertiesAdForm = () => {
                   <input
                     type="number"
                     name="maintenance"
+                    onChange={handleEditForm}
                     required
                     className="w-[50vw] border-[1px] border-gray-400 py-2 rounded-md"
                   />
@@ -495,6 +579,7 @@ const PropertiesAdForm = () => {
                   <input
                     type="number"
                     required
+                    onChange={handleEditForm}
                     name="total_floors"
                     className="w-[90vw] sm:w-[50vw] border-[1px] border-gray-400 py-2 rounded-md"
                   />
@@ -506,6 +591,7 @@ const PropertiesAdForm = () => {
                   <input
                     type="number"
                     name="floor_no"
+                    onChange={handleEditForm}
                     required
                     className="w-[90vw] sm:w-[50vw] border-[1px] border-gray-400 py-2 rounded-md"
                   />
@@ -517,6 +603,7 @@ const PropertiesAdForm = () => {
                   <input
                     type="number"
                     name="total_rooms"
+                    onChange={handleEditForm}
                     required
                     className="w-[90vw] sm:w-[50vw] border-[1px] border-gray-400 py-2 rounded-md"
                   />
@@ -528,6 +615,7 @@ const PropertiesAdForm = () => {
                   <textarea
                     type="text"
                     name="description"
+                    onChange={handleEditForm}
                     rows={3}
                     required
                     className="w-[90vw] sm:w-[50vw] border-[1px] border-gray-400 py-2 rounded-md resize-none"
@@ -543,6 +631,7 @@ const PropertiesAdForm = () => {
                   <input
                     type="text"
                     name="house_no"
+                    onChange={handleEditForm}
                     required
                     className="w-[90vw] sm:w-[50vw] border-[1px] border-gray-400 py-2 rounded-md"
                   />
@@ -554,6 +643,7 @@ const PropertiesAdForm = () => {
                   <input
                     type="text"
                     name="street"
+                    onChange={handleEditForm}
                     required
                     className="w-[90vw] sm:w-[50vw] border-[1px] border-gray-400 py-2 rounded-md"
                   />
@@ -575,6 +665,7 @@ const PropertiesAdForm = () => {
                   <input
                     type="text"
                     name="landmark"
+                    onChange={handleEditForm}
                     required
                     className="w-[90vw] sm:w-[50vw] border-[1px] border-gray-400 py-2 rounded-md"
                   />
@@ -592,8 +683,11 @@ const PropertiesAdForm = () => {
                   <select
                     name="state"
                     id="state"
+                    value={fillData?.state}
                     required
-                    onChange={(e) => handleStateChange(e)}
+                    onChange={(e) => {
+                      handleStateChange(e), handleEditForm(e);
+                    }}
                   >
                     {Object.keys(StateCitiesData)?.map((state, index) => (
                       <option key={index} value={state}>
@@ -604,7 +698,12 @@ const PropertiesAdForm = () => {
                 </div>
                 <div>
                   <p className="mb-2 font-semibold text-gray-700">City*</p>
-                  <select name="city" id="city">
+                  <select
+                    name="city"
+                    id="city"
+                    value={fillData?.city}
+                    onChange={handleEditForm}
+                  >
                     <option value="" defaultChecked>
                       Select City
                     </option>
@@ -622,6 +721,7 @@ const PropertiesAdForm = () => {
                   <input
                     type="text"
                     name="pincode"
+                    onChange={handleEditForm}
                     required
                     className="w-[90vw] sm:w-[50vw] border-[1px] border-gray-400 py-2 rounded-md"
                   />
@@ -634,6 +734,7 @@ const PropertiesAdForm = () => {
                   <input
                     type="text"
                     name="price"
+                    onChange={handleEditForm}
                     className="w-[90vw] sm:w-[50vw] border-[1px] border-gray-400 py-2 rounded-md"
                   />
                 </div>
@@ -685,13 +786,14 @@ const PropertiesAdForm = () => {
               <div className="flex justify-end">
                 <Button
                   category={'primarybtn'}
+                  clickHandler={formSubmitHandler}
                   type={'submit'}
                   disabled={submitting}
                 >
                   {submitting ? 'Submitting' : 'Submit'}
                 </Button>
               </div>
-            </form>
+            </div>
           </div>
         </div>
       </section>

@@ -134,6 +134,14 @@ const HospitalityAdForm = () => {
       });
   };
 
+  useEffect(() => {
+    setFillData({
+      ...fillData,
+      state: initialSelectedState,
+      city: StateCitiesData[initialSelectedState][0],
+    });
+  }, []);
+
   const handleStateChange = (event) => {
     const selectedState = event.target.value;
     setSelectedState(selectedState);

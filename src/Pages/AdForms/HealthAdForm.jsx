@@ -39,6 +39,8 @@ const HealthAdForm = () => {
   const initialSelectedState = Object.keys(StateCitiesData)[0];
   const [selectedState, setSelectedState] = useState(initialSelectedState);
   const [expertiseData, setExpertiseData] = useState([]);
+  const [hospitalType, setHospitalType] = useState([]);
+  const [hospitalFormData, setHospitalFormData] = useState([]);
   const [newExpertise, setNewExpertise] = useState();
   const [isModalOpen, setModalOpen] = useState(false);
   const navigate = useNavigate();
@@ -168,7 +170,20 @@ const HealthAdForm = () => {
     setDoctorsFormData({ ...doctorsFormData, [name]: value });
   };
 
+  const hospitalFormChange = (e) => {
+    const { name, value } = e.target;
+    setHospitalFormData({ ...hospitalFormData, [name]: value });
+  };
+
   const doctorFormSubmitHandler = () => {
+    if (doctorsFormData.state == null) {
+      toast.error('Please select state.');
+      return;
+    }
+    if (doctorsFormData.city == null) {
+      toast.error('Please select city.');
+      return;
+    }
     setSubmitting(true);
     const payload = {
       expertise: doctorsFormData.expertise,
@@ -212,6 +227,19 @@ const HealthAdForm = () => {
     setSelectedState(selectedState);
   };
 
+  useEffect(() => {
+    setHospitalFormData({
+      ...hospitalFormData,
+      state: initialSelectedState,
+      city: StateCitiesData[initialSelectedState][0],
+    });
+    setDoctorsFormData({
+      ...doctorsFormData,
+      state: initialSelectedState,
+      city: StateCitiesData[initialSelectedState][0],
+    });
+  }, []);
+
   const getExpertise = async () => {
     axiosInstance
       .get(`api/doctor/expertise`)
@@ -226,17 +254,30 @@ const HealthAdForm = () => {
     getExpertise();
   }, []);
 
+  const getFieldDetails = async (field) => {
+    axiosInstance
+      .get(`api/hospital/formdata/fieldname/${field}`)
+      .then((response) => {
+        const data = response?.data?.data?.[field];
+        if (field === 'type') {
+          setHospitalType(data);
+        }
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  };
+  useEffect(() => {
+    getFieldDetails('type');
+  }, []);
+
   const hospitalFormSubmitHandler = (e) => {
     setSubmitting(true);
-    e.preventDefault();
-    const data = new FormData(e.target);
-    const value = Object.fromEntries(data.entries());
 
-    console.log({ ...value, images: selectedHospitalImages });
     axiosInstance
       .post(
         'api/hospital/add',
-        { ...value, images: selectedHospitalImages },
+        { ...hospitalFormData, images: selectedHospitalImages },
         {
           headers: {
             'Content-Type': 'multipart/form-data',
@@ -277,11 +318,21 @@ const HealthAdForm = () => {
     setSelectedHospitalImages(newSelectedImages);
   };
 
-  const handleChange = (selectedOption) => {
+  const handleChange = (selectedOption, type) => {
     if (selectedOption.value === 'add-new') {
       setModalOpen(true);
     }
-    setDoctorsFormData({ ...doctorsFormData, expertise: selectedOption.value });
+    if (type === 'hospital') {
+      setHospitalFormData({
+        ...hospitalFormData,
+        type: selectedOption.value,
+      });
+    } else {
+      setDoctorsFormData({
+        ...doctorsFormData,
+        expertise: selectedOption.value,
+      });
+    }
   };
 
   const handleAddExpertise = (e) => {
@@ -305,6 +356,28 @@ const HealthAdForm = () => {
         console.log('post', response);
         toast.success(response?.data?.message);
         getExpertise();
+        setModalOpen(false);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  };
+  const addHospitalType = async () => {
+    const payload = {
+      label: newExpertise,
+      value: newExpertise,
+      fieldname: 'type',
+    };
+    axiosInstance
+      .post(`api/hospital/formdata`, payload, {
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .then((response) => {
+        toast.success(response?.data?.message);
+        getFieldDetails('type');
         setModalOpen(false);
       })
       .catch((error) => {
@@ -403,7 +476,7 @@ const HealthAdForm = () => {
                     <Select
                       name="expertise"
                       styles={customStyles}
-                      onChange={handleChange}
+                      onChange={(e) => handleChange(e, 'doctor')}
                       options={[
                         ...expertiseData,
                         { value: 'add-new', label: 'Add new expertise' },
@@ -522,6 +595,7 @@ const HealthAdForm = () => {
                     <select
                       name="state"
                       id="state"
+                      value={doctorsFormData?.state}
                       onChange={(e) => {
                         handleStateChange(e), handleDoctorFormChange(e);
                       }}
@@ -538,6 +612,7 @@ const HealthAdForm = () => {
                     <select
                       name="city"
                       id="city"
+                      value={doctorsFormData?.city}
                       onChange={handleDoctorFormChange}
                     >
                       <option value="" defaultChecked>
@@ -620,37 +695,46 @@ const HealthAdForm = () => {
             )}
             {/* hospital ad form */}
             {selectedForm == 'hospitals' && (
-              <form
-                action=""
-                className="flex flex-col gap-8"
-                onSubmit={hospitalFormSubmitHandler}
-              >
+              <div className="flex flex-col gap-8">
                 <h3 className="mb-2 font-semibold text-xl">Add Some Details</h3>
+                <div>
+                  <p className="mb-2 font-semibold text-gray-700">
+                    Title/Name*
+                  </p>
+                  <div className="flex gap-2">
+                    <input
+                      name="title"
+                      type="text"
+                      value={hospitalFormData?.title}
+                      onChange={hospitalFormChange}
+                      className="w-[85vw] md:w-[50vw] pl-2 border-[1px] border-gray-400 py-2 rounded-md"
+                    />
+                  </div>
+                </div>
                 <div className="w-[62rem]">
                   <p className="mb-2 font-semibold text-gray-700">
                     Select Type*
                   </p>
                   <div className="flex flex-wrap gap-2 text-gray-700">
-                    {HospitalData?.map((item, index) => (
-                      <div
-                        key={index}
-                        className="border-[1px] border-gray-400 rounded-sm"
-                      >
-                        <input
-                          type="radio"
-                          id={item.value}
-                          name="type"
-                          value={item.value}
-                          className="hidden"
-                        />
-                        <label
-                          for={item.value}
-                          className="px-4 py-[2px] cursor-pointer"
-                        >
-                          {item.label}
-                        </label>
-                      </div>
-                    ))}
+                    <Select
+                      name="type"
+                      styles={customStyles}
+                      onChange={(e) => handleChange(e, 'hospital')}
+                      options={[
+                        ...hospitalType,
+                        { value: 'add-new', label: 'Add new expertise' },
+                      ]}
+                      placeholder="Search or select expertise..."
+                    />
+
+                    {isModalOpen && (
+                      <AddNewField
+                        onClick={addHospitalType}
+                        onChange={handleAddExpertise}
+                        placeholder={'Add new expertise'}
+                        setOpen={false}
+                      />
+                    )}
                   </div>
                 </div>
 
@@ -667,24 +751,14 @@ const HealthAdForm = () => {
 
                 <div>
                   <p className="mb-2 font-semibold text-gray-700">
-                    Title/Name*
-                  </p>
-                  <div className="flex gap-2">
-                    <input
-                      name="title"
-                      type="text"
-                      className="w-[85vw] md:w-[50vw] pl-2 border-[1px] border-gray-400 py-2 rounded-md"
-                    />
-                  </div>
-                </div>
-                <div>
-                  <p className="mb-2 font-semibold text-gray-700">
                     Write some description
                   </p>
                   <div className="flex gap-2">
                     <textarea
                       name="description"
                       type="text"
+                      value={hospitalFormData?.description}
+                      onChange={hospitalFormChange}
                       rows={3}
                       className="w-[85vw] md:w-[50vw] pl-2 border-[1px] border-gray-400 py-2 rounded-md resize-none"
                     />
@@ -697,6 +771,8 @@ const HealthAdForm = () => {
                   <div className="flex gap-2">
                     <input
                       name="price_registration"
+                      value={hospitalFormData?.price_registration}
+                      onChange={hospitalFormChange}
                       type="text"
                       className="w-[85vw] md:w-[50vw] pl-2 border-[1px] border-gray-400 py-2 rounded-md"
                     />
@@ -711,6 +787,8 @@ const HealthAdForm = () => {
                   <div className="flex gap-2">
                     <input
                       name="price_per_visit"
+                      value={hospitalFormData?.price_per_visit}
+                      onChange={hospitalFormChange}
                       type="text"
                       className="w-[85vw] md:w-[50vw] pl-2 border-[1px] border-gray-400 py-2 rounded-md"
                     />
@@ -722,6 +800,8 @@ const HealthAdForm = () => {
                     <input
                       type="text"
                       name="street"
+                      value={hospitalFormData?.street}
+                      onChange={hospitalFormChange}
                       className="w-[85vw] md:w-[50vw] border-[1px] border-gray-400 py-2 rounded-md"
                     />
                   </div>
@@ -732,6 +812,7 @@ const HealthAdForm = () => {
                     <input
                       type="text"
                       name="locality"
+                      onChange={hospitalFormChange}
                       className="w-[85vw] md:w-[50vw] border-[1px] border-gray-400 py-2 rounded-md"
                     />
                   </div>
@@ -742,7 +823,10 @@ const HealthAdForm = () => {
                     <select
                       name="state"
                       id="state"
-                      onChange={(e) => handleStateChange(e)}
+                      value={hospitalFormData?.state}
+                      onChange={(e) => {
+                        handleStateChange(e), hospitalFormChange(e);
+                      }}
                     >
                       {Object.keys(StateCitiesData)?.map((state, index) => (
                         <option key={index} value={state}>
@@ -753,7 +837,14 @@ const HealthAdForm = () => {
                   </div>
                   <div>
                     <p className="mb-2 font-semibold text-gray-700">City*</p>
-                    <select name="city" id="city">
+                    <select
+                      name="city"
+                      id="city"
+                      value={hospitalFormData?.city}
+                      onChange={(e) => {
+                        hospitalFormChange(e), hospitalFormChange;
+                      }}
+                    >
                       <option value="" defaultChecked>
                         Select City
                       </option>
@@ -771,6 +862,7 @@ const HealthAdForm = () => {
                     <input
                       type="number"
                       name="pincode"
+                      onChange={hospitalFormChange}
                       className="w-[85vw] md:w-[50vw] border-[1px] border-gray-400 py-2 rounded-md"
                     />
                   </div>
@@ -822,13 +914,14 @@ const HealthAdForm = () => {
                 <div className="flex justify-end">
                   <Button
                     category={'primarybtn'}
+                    clickHandler={hospitalFormSubmitHandler}
                     type={'submit'}
                     disabled={submitting}
                   >
                     {submitting ? 'Submitting' : 'Submit'}
                   </Button>
                 </div>
-              </form>
+              </div>
             )}
           </div>
         </div>

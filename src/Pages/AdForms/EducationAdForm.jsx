@@ -169,6 +169,14 @@ const EducationAdForm = () => {
   //     }
   // }
 
+  useEffect(() => {
+    setFillData((prevData) => ({
+      ...prevData,
+      state: initialSelectedState,
+      city: StateCitiesData[initialSelectedState][0],
+    }));
+  }, []);
+
   const handleCheckChange = (event) => {
     const selectedValue = event.target.getAttribute('value');
     if (selectedOptions.includes(selectedValue)) {
@@ -300,6 +308,7 @@ const EducationAdForm = () => {
                       <AddNewField
                         onChange={(e) => setNewExpertise(e.target.value)}
                         onClick={() => addField('type')}
+                        setOpen={() => setModalOpenType(false)}
                         placeholder={'Add new type'}
                       />
                     )}
@@ -326,6 +335,7 @@ const EducationAdForm = () => {
                       onChange={(e) => setNewExpertise(e.target.value)}
                       onClick={() => addField('domain')}
                       placeholder={'Add new domain'}
+                      setOpen={() => setIsModalOpen(false)}
                     />
                   )}
                 </div>
@@ -342,6 +352,7 @@ const EducationAdForm = () => {
                         <select
                           name="state"
                           id="state"
+                          value={fillData?.state}
                           onChange={(e) => {
                             handleStateChange(e), handleEditForm(e, 'state');
                           }}
@@ -360,6 +371,7 @@ const EducationAdForm = () => {
                         <select
                           name="city"
                           id="city"
+                          value={fillData?.city}
                           onChange={(e) => handleEditForm(e, 'city')}
                         >
                           <option value="" defaultChecked>
