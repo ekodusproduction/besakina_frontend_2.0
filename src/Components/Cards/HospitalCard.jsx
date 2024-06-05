@@ -14,7 +14,7 @@ const HospitalCard = ({ data, link }) => {
 
   return (
     <Link to={`${link}/${data?._id}`}>
-      <div className="border-[1px] border-slate-400 rounded-md overflow-hidden bg-white">
+      <div className="border-[1px] border-slate-400 rounded-md overflow-hidden bg-white h-80">
         <div className="h-[150px] sm:h-[200px]  ">
           <img
             src={`${data?.images[0]}`}
@@ -24,7 +24,10 @@ const HospitalCard = ({ data, link }) => {
         </div>
         <div className="w-[100%] p-2 flex flex-col gap-2">
           <div>
-            <h2 className="font-bold xl:text-lg capitalize"> {data?.name}</h2>
+            <h2 className="xl:text-base capitalize font-bold line-clamp-1">
+              {' '}
+              {data?.name}
+            </h2>
             {/* <p className='text-xs xl:text-sm capitalize'>{data?.title?.slice(0,30)}...</p> */}
             {/* <p className="text-sm font-medium capitalize">
               {data?.advType == 'Hospital' || data?.advType == 'Doctor'

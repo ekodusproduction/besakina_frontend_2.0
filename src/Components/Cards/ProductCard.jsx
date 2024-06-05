@@ -8,7 +8,7 @@ import { convertString, formatDate } from '../../utils/fornatter';
 const ProductCard = ({ data, link }) => {
   return (
     <Link to={`${link}/${data?._id}`}>
-      <div className="border-[1px] border-slate-400 rounded-md overflow-hidden bg-white">
+      <div className="border-[1px] border-slate-400 rounded-md overflow-hidden bg-white h-80">
         <div className="h-[150px] sm:h-[200px]  ">
           <img
             src={`${data?.images[0]}`}
@@ -18,8 +18,8 @@ const ProductCard = ({ data, link }) => {
         </div>
         <div className="w-[100%] p-2 flex flex-col gap-2">
           <div>
-            <p className="xl:text-base capitalize font-bold">
-              {data?.title?.slice(0, 30)}...
+            <p className="xl:text-base capitalize font-bold line-clamp-1">
+              {data?.title}
             </p>
             {/* <h2 className="text-sm capitalize font-medium">
               {data?.advType == 'Property'

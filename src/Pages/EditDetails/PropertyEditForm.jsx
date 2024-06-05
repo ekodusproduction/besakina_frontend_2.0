@@ -48,6 +48,11 @@ const PropertyEditForm = () => {
         setPropertyData(data);
         setSelectedState(data?.state);
         setSelectedCity(data?.city);
+        const newOption = {
+          value: data?.category,
+          label: data?.category,
+        };
+        setSelectType(newOption);
       })
       .catch((error) => {
         console.error(error);
@@ -128,12 +133,8 @@ const PropertyEditForm = () => {
 
   const formSubmitHandler = () => {
     setSubmitting(true);
-
-    const body = {
-      propertyData,
-    };
     axiosInstance
-      .put(`api/property/id/${id}`, body, {
+      .put(`api/property/id/${id}`, propertyData, {
         headers: {
           'Content-Type': 'application/json',
           Authorization: `Bearer ${token}`,
@@ -143,7 +144,7 @@ const PropertyEditForm = () => {
         console.log(response);
         toast.success(response?.data?.message);
         setSubmitting(false);
-        navigate('/');
+        navigate(`/propertiesdetails/${id}`);
       })
       .catch((err) => {
         console.log(err);
@@ -231,13 +232,6 @@ const PropertyEditForm = () => {
       [fieldName]: value,
     }));
   };
-  useEffect(() => {
-    const newOption = {
-      value: propertyData?.category,
-      label: propertyData?.category,
-    };
-    setSelectType(newOption);
-  }, []);
 
   return (
     <>

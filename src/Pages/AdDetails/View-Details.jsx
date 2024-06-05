@@ -37,7 +37,7 @@ const ViewDetails = ({ data, route, category }) => {
 
   function convertString(str) {
     // Replace underscores with spaces
-    return str.replace(/_/g, ' ');
+    return String(str).replace(/_/g, ' ');
   }
 
   const postedDate = dayjs(data?.created_at);
@@ -97,15 +97,9 @@ const ViewDetails = ({ data, route, category }) => {
                                             <FaRegHeart size={25} />
                                         </button> */}
                   </div>
-                  {category == 'hospital' || category == 'doctor' ? (
-                    <p className="text-sm font-semibold mb-2 capitalize">
-                      {data?.type ? convertString(data?.type) : ''}
-                    </p>
-                  ) : (
-                    <p className="text-sm font-semibold mb-2 capitalize">
-                      {data?.type ? data?.type : ''}
-                    </p>
-                  )}
+                  <p className="text-sm font-semibold mb-2 capitalize">
+                    {data?.type ? convertString(data?.type) : ''}
+                  </p>
 
                   <div className="mt-4 mb-4 flex  flex-col justify-between">
                     <span className="text-sm sm:text-base flex items-center text-slate-700">

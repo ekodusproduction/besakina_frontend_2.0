@@ -9,6 +9,8 @@ import Swal from 'sweetalert2';
 import { useNavigate, useParams } from 'react-router-dom';
 import { StateCitiesData } from '../../data/Indian_Cities_In_States';
 import toast from 'react-hot-toast';
+import ReactSelect from 'react-select';
+import AddNewField from '../../Components/Global/AddNewField';
 
 const EducationEditForm = () => {
   const [selectedImages, setSelectedImages] = useState([]);
@@ -20,6 +22,12 @@ const EducationEditForm = () => {
   const navigate = useNavigate();
   const { id } = useParams();
   const [educationData, setEducationData] = useState({});
+  const [modalOpen, setModalOpen] = useState('');
+  const [courseDomain, setCourseDomain] = useState('');
+  const [courseTypeData, setCourseTypeData] = useState('');
+  const [newExpertise, setNewExpertise] = useState('');
+  const [selectType, setSelectType] = useState('');
+  const [selectDomain, setSelectDomain] = useState('');
 
   useEffect(() => {
     axiosInstance
@@ -30,6 +38,16 @@ const EducationEditForm = () => {
         setEducationData(data);
         setSelectedState(data?.state);
         setSelectedCity(data?.city);
+        const type = {
+          value: data?.type,
+          label: data?.type,
+        };
+        const domain = {
+          value: data?.domain,
+          label: data?.domain,
+        };
+        setSelectType(type);
+        setSelectDomain(domain);
       })
       .catch((error) => {
         console.error(error);
@@ -57,14 +75,10 @@ const EducationEditForm = () => {
     const selectedState = event.target.value;
     setSelectedState(selectedState);
   };
-  
+
   const imageHandler = (e) => {
     if (selectedImages?.length >= 20) {
-      Swal.fire({
-        title: 'Error',
-        text: 'You can upload photos upto 20',
-        icon: 'error',
-      });
+      toast.error('You can upload photos upto 20');
       return;
     }
     const file = e.target.files[0];
@@ -104,22 +118,8 @@ const EducationEditForm = () => {
 
   const formSubmitHandler = (e) => {
     setSubmitting(true);
-    e.preventDefault();
-    const data = e.target;
-    const value = {};
-
-    for (let i = 0; i < data.length; i++) {
-      const { name, value: val } = data[i];
-      if (name !== '' && name !== 'car_parking') {
-        value[name] = val;
-      }
-    }
-
-    const body = {
-      ...value,
-    };
     axiosInstance
-      .put(`api/education/id/${id}`, body, {
+      .put(`api/education/id/${id}`, educationData, {
         headers: {
           'Content-Type': 'application/json',
           Authorization: `Bearer ${token}`,
@@ -144,6 +144,79 @@ const EducationEditForm = () => {
     newSelectedImages.splice(index, 1);
     setImage(newImages);
     setSelectedImages(newSelectedImages);
+  };
+
+  const getFieldDetails = async (field) => {
+    axiosInstance
+      .get(`api/education/formdata/fieldname/${field}`)
+      .then((response) => {
+        const data = response?.data?.data?.[field];
+        if (field === 'domain') {
+          setCourseDomain(data);
+        } else if (field === 'type') {
+          setCourseTypeData(data);
+        }
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  };
+
+  useEffect(() => {
+    getFieldDetails('type');
+    getFieldDetails('domain');
+  }, []);
+
+  const addField = async (field) => {
+    const payload = {
+      label: newExpertise,
+      value: newExpertise,
+      fieldname: field,
+    };
+    axiosInstance
+      .post(`api/education/formdata`, payload, {
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .then((response) => {
+        toast.success(response?.data?.message);
+        getFieldDetails(field);
+        setNewExpertise('');
+        setModalOpen('');
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  };
+
+  const handleChange = (selectedOption, fieldName) => {
+    if (selectedOption.value === 'add-new' && fieldName === 'type') {
+      setModalOpen('type');
+    } else if (selectedOption.value === 'add-new' && fieldName === 'domain') {
+      setModalOpen('domain');
+    } else {
+      setModalOpen('');
+    }
+    setEducationData((prevData) => ({
+      ...prevData,
+      [fieldName]: selectedOption.value,
+    }));
+
+    if (fieldName === 'type') {
+      const value = {
+        value: selectedOption.value.toLowerCase().trim(),
+        label: selectedOption.label.trim(),
+      };
+      setSelectType(value);
+    } else if (fieldName === 'domain') {
+      const value = {
+        value: selectedOption.value.toLowerCase().trim(),
+        label: selectedOption.label.trim(),
+      };
+      setSelectDomain(value);
+    }
   };
   const imageDeleteHandler = (image) => {
     const body = {
@@ -175,102 +248,32 @@ const EducationEditForm = () => {
         </div>
         <div className="flex justify-center p-8 gap-16">
           <div>
-            <form
-              action=""
-              className="flex flex-col gap-8"
-              onSubmit={formSubmitHandler}
-            >
+            <div className="flex flex-col gap-8">
               <h3 className="mb-2 font-semibold text-xl">Add Some Details</h3>
               <div>
                 <p className="mb-2 font-semibold text-gray-700">
                   Select Course Type*
                 </p>
                 <div className="flex flex-wrap gap-2 text-gray-700">
-                  <div className="border-[1px] border-gray-400 rounded-sm">
-                    <input
-                      type="radio"
-                      id="graduation"
-                      name="type"
-                      checked={educationData?.type == 'graduation'}
-                      onChange={(e) => handleEditForm(e, 'type')}
-                      value="graduation"
-                      className="hidden"
+                  <ReactSelect
+                    name="type"
+                    className="w-60 capitalize"
+                    value={selectType}
+                    onChange={(e) => handleChange(e, 'type')}
+                    options={[
+                      ...courseTypeData,
+                      { value: 'add-new', label: 'Add new type' },
+                    ]}
+                    placeholder="Search or select type"
+                  />
+                  {modalOpen === 'type' && (
+                    <AddNewField
+                      onChange={(e) => setNewExpertise(e.target.value)}
+                      onClick={() => addField('type')}
+                      setOpen={() => setModalOpen('')}
+                      placeholder={'Add new type'}
                     />
-                    <label
-                      for="graduation"
-                      className="px-4 py-[2px] cursor-pointer"
-                    >
-                      Graduation
-                    </label>
-                  </div>
-                  <div className="border-[1px] border-gray-400 rounded-sm">
-                    <input
-                      type="radio"
-                      id="diploma"
-                      name="type"
-                      checked={educationData?.type == 'diploma'}
-                      onChange={(e) => handleEditForm(e, 'type')}
-                      value="diploma"
-                      className="hidden"
-                    />
-                    <label
-                      for="diploma"
-                      className="px-4 py-[2px] cursor-pointer"
-                    >
-                      Diploma
-                    </label>
-                  </div>
-                  <div className="border-[1px] border-gray-400 rounded-sm">
-                    <input
-                      type="radio"
-                      id="certification"
-                      name="type"
-                      checked={educationData?.type == 'certification'}
-                      onChange={(e) => handleEditForm(e, 'type')}
-                      value="certification"
-                      className="hidden"
-                    />
-                    <label
-                      for="certification"
-                      className="px-4 py-[2px] cursor-pointer"
-                    >
-                      Certification
-                    </label>
-                  </div>
-                  <div className="border-[1px] border-gray-400 rounded-sm">
-                    <input
-                      type="radio"
-                      id="tuition/coaching"
-                      name="type"
-                      checked={educationData?.type == 'tuition/coaching'}
-                      onChange={(e) => handleEditForm(e, 'type')}
-                      value="tuition/coaching"
-                      className="hidden"
-                    />
-                    <label
-                      for="tuition/coaching"
-                      className="px-4 py-[2px] cursor-pointer"
-                    >
-                      Tuition/Coaching
-                    </label>
-                  </div>
-                  <div className="border-[1px] border-gray-400 rounded-sm">
-                    <input
-                      type="radio"
-                      id="sports-center"
-                      name="type"
-                      checked={educationData?.type == 'sports-center'}
-                      onChange={(e) => handleEditForm(e, 'type')}
-                      value="sports-center"
-                      className="hidden"
-                    />
-                    <label
-                      for="sports-center"
-                      className="px-4 py-[2px] cursor-pointer"
-                    >
-                      Sports Center
-                    </label>
-                  </div>
+                  )}
                 </div>
               </div>
               <div>
@@ -278,105 +281,25 @@ const EducationEditForm = () => {
                   Select Domain*
                 </p>
                 <div className="flex flex-wrap gap-2 text-gray-700">
-                  <div className="border-[1px] border-gray-400 rounded-sm">
-                    <input
-                      type="radio"
-                      id="science"
-                      name="domain"
-                      checked={educationData?.domain == 'science'}
-                      onChange={(e) => handleEditForm(e, 'domain')}
-                      value="science"
-                      className="hidden"
+                  <ReactSelect
+                    name="domain"
+                    className="w-60 capitalize"
+                    value={selectDomain}
+                    onChange={(e) => handleChange(e, 'domain')}
+                    options={[
+                      ...courseDomain,
+                      { value: 'add-new', label: 'Add new domain' },
+                    ]}
+                    placeholder="Search or select domain"
+                  />
+                  {modalOpen === 'domain' && (
+                    <AddNewField
+                      onChange={(e) => setNewExpertise(e.target.value)}
+                      onClick={() => addField('domain')}
+                      placeholder={'Add new domain'}
+                      setOpen={() => setModalOpen('')}
                     />
-                    <label
-                      for="science"
-                      className="px-4 py-[2px] cursor-pointer"
-                    >
-                      Science
-                    </label>
-                  </div>
-                  <div className="border-[1px] border-gray-400 rounded-sm">
-                    <input
-                      type="radio"
-                      id="arts"
-                      name="domain"
-                      checked={educationData?.domain == 'arts'}
-                      onChange={(e) => handleEditForm(e, 'domain')}
-                      value="arts"
-                      className="hidden"
-                    />
-                    <label for="arts" className="px-4 py-[2px] cursor-pointer">
-                      Arts
-                    </label>
-                  </div>
-                  <div className="border-[1px] border-gray-400 rounded-sm">
-                    <input
-                      type="radio"
-                      id="commerce"
-                      name="domain"
-                      checked={educationData?.domain == 'commerce'}
-                      onChange={(e) => handleEditForm(e, 'domain')}
-                      value="commerce"
-                      className="hidden"
-                    />
-                    <label
-                      for="commerce"
-                      className="px-4 py-[2px] cursor-pointer"
-                    >
-                      Commerce
-                    </label>
-                  </div>
-                  <div className="border-[1px] border-gray-400 rounded-sm">
-                    <input
-                      type="radio"
-                      id="computer_science"
-                      name="domain"
-                      checked={educationData?.domain == 'computer_science'}
-                      onChange={(e) => handleEditForm(e, 'domain')}
-                      value="computer_science"
-                      className="hidden"
-                    />
-                    <label
-                      for="computer_science"
-                      className="px-4 py-[2px] cursor-pointer"
-                    >
-                      Computer Science
-                    </label>
-                  </div>
-                  <div className="border-[1px] border-gray-400 rounded-sm">
-                    <input
-                      type="radio"
-                      id="cooking"
-                      name="domain"
-                      value="cooking"
-                      checked={educationData?.domain == 'cooking'}
-                      onChange={(e) => handleEditForm(e, 'domain')}
-                      className="hidden"
-                    />
-                    <label
-                      for="cooking"
-                      className="px-4 py-[2px] cursor-pointer"
-                    >
-                      Cooking
-                    </label>
-                  </div>
-                  <div className="border-[1px] border-gray-400 rounded-sm">
-                    <input
-                      type="radio"
-                      id="electronics"
-                      name="domain"
-                      checked={educationData?.domain == 'electronics'}
-                      onChange={(e) => handleEditForm(e, 'domain')}
-                      value="electronics"
-                      className="hidden"
-                    />
-                    <label
-                      for="electronics"
-                      className="px-4 py-[2px] cursor-pointer"
-                    >
-                      Electronics
-                    </label>
-                  </div>
+                  )}
                 </div>
               </div>
 
@@ -465,41 +388,44 @@ const EducationEditForm = () => {
                 </div>
               </div>
               <div className="flex items-center gap-5">
-                      <div>
-                        <p className="mb-2 font-semibold text-gray-700">
-                          State*
-                        </p>
-                        <select
-                          name="state"
-                          id="state"
-                          value={selectedState}
-                          onChange={(e) => handleStateChange(e)}
-                        >
-                          {Object.keys(StateCitiesData)?.map((state, index) => (
-                            <option key={index} value={state}>
-                              {state}
-                            </option>
-                          ))}
-                        </select>
-                      </div>
-                      <div>
-                        <p className="mb-2 font-semibold text-gray-700">
-                          City*
-                        </p>
-                        <select name="city" id="city" value={selectedCity} onChange={(e)=>setSelectedCity(e.target.value)}>
-                          <option value="" defaultChecked>
-                            Select City
-                          </option>
-                          {StateCitiesData[selectedState]?.map(
-                            (city, index) => (
-                              <option key={index} value={city} className='cursor-pointer'>
-                                {city}
-                              </option>
-                            )
-                          )}
-                        </select>
-                      </div>
-                    </div>
+                <div>
+                  <p className="mb-2 font-semibold text-gray-700">State*</p>
+                  <select
+                    name="state"
+                    id="state"
+                    value={selectedState}
+                    onChange={(e) => handleStateChange(e)}
+                  >
+                    {Object.keys(StateCitiesData)?.map((state, index) => (
+                      <option key={index} value={state}>
+                        {state}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+                <div>
+                  <p className="mb-2 font-semibold text-gray-700">City*</p>
+                  <select
+                    name="city"
+                    id="city"
+                    value={selectedCity}
+                    onChange={(e) => setSelectedCity(e.target.value)}
+                  >
+                    <option value="" defaultChecked>
+                      Select City
+                    </option>
+                    {StateCitiesData[selectedState]?.map((city, index) => (
+                      <option
+                        key={index}
+                        value={city}
+                        className="cursor-pointer"
+                      >
+                        {city}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+              </div>
               <div>
                 <p className="mb-2 font-semibold text-gray-700">Pincode*</p>
                 <div className="flex gap-2">
@@ -572,13 +498,14 @@ const EducationEditForm = () => {
               <div className="flex justify-end">
                 <Button
                   category={'primarybtn'}
+                  clickHandler={formSubmitHandler}
                   type={'submit'}
                   disabled={submitting}
                 >
                   {submitting ? 'Submitting' : 'Submit'}
                 </Button>
               </div>
-            </form>
+            </div>
           </div>
         </div>
       </section>

@@ -254,10 +254,18 @@ const EducationAdForm = () => {
 
   const handleEditForm = (e, fieldName) => {
     const value = e.target.value;
-    setFillData((prevState) => ({
-      ...prevState,
-      [fieldName]: value,
-    }));
+
+    if (fieldName === 'description') {
+      // setFillData((prevState) => ({
+      //   ...prevState,
+      //   description: value.replace(/[\r\n]+/g, ' '),
+      // }));
+    } else {
+      setFillData((prevState) => ({
+        ...prevState,
+        [fieldName]: value,
+      }));
+    }
   };
 
   return (
@@ -296,13 +304,13 @@ const EducationAdForm = () => {
                   <div className="flex items-center gap-2">
                     <Select
                       name="type"
-                      className="w-60"
+                      className="w-60 capitalize"
                       onChange={(e) => handleChange(e, 'type')}
                       options={[
                         ...courseTypeData,
                         { value: 'add-new', label: 'Add new type' },
                       ]}
-                      placeholder="Search or select type..."
+                      placeholder="Search or select type"
                     />
                     {isModalOpenType && (
                       <AddNewField
@@ -321,14 +329,14 @@ const EducationAdForm = () => {
                 </p>
                 <div className="w-full flex items-center gap-2 text-gray-700">
                   <Select
-                    className="w-60"
+                    className="w-60 capitalize"
                     name="domain"
                     onChange={(e) => handleChange(e, 'domain')}
                     options={[
                       ...courseDomain,
                       { value: 'add-new', label: 'Add new domain' },
                     ]}
-                    placeholder="Search or select domain..."
+                    placeholder="Search or select domain"
                   />
                   {isModalOpen && (
                     <AddNewField
@@ -407,7 +415,7 @@ const EducationAdForm = () => {
                           <textarea
                             name={item.name}
                             required={item.required}
-                            value={fillData[item.name]}
+                            // value={fillData[item.name]}
                             onChange={(e) => handleEditForm(e, item.name)}
                             rows={3}
                             className="w-[90vw] sm:w-[50vw] border-[1px] pl-2 border-gray-400 py-2 rounded-md resize-none"
