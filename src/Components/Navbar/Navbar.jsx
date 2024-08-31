@@ -165,7 +165,7 @@ const Navbar = () => {
             </li> */}
             {/* <li className='py-2 md:py-0'><a href="" >Post Your Requirement</a></li> */}
 
-            {isLoggedIn ? (
+            {/* {isLoggedIn ? (
               <li className="py-2 lg:py-0">
                 <Link to="/postad" onClick={() => navOpenHandler()}>
                   Post an Ad
@@ -174,6 +174,22 @@ const Navbar = () => {
             ) : (
               <li className="py-2 lg:py-0">
                 <Link to="/login">Post an Ad</Link>
+              </li>
+            )} */}
+
+            {isLoggedIn ? (
+              <li className="py-2 lg:py-0 border border-gray-300 rounded-md shadow-md hover:shadow-lg transition-shadow duration-300">
+                <Link
+                  to="/postad"
+                  onClick={() => navOpenHandler()}
+                  className="block px-4 py-2 text-center text-white bg-blue-600 hover:bg-blue-700 rounded-md"
+                >
+                  Post an Advertisement
+                </Link>
+              </li>
+            ) : (
+              <li className="py-2 lg:py-0">
+                <Link to="/login">Post an Advertisement</Link>
               </li>
             )}
             {isLoggedIn && (
@@ -195,7 +211,7 @@ const Navbar = () => {
             )}
 
             {isLoggedIn ? (
-              <>
+              <div className="mt-5">
                 <Dropdown
                   inline
                   label={''}
@@ -206,23 +222,34 @@ const Navbar = () => {
                     </button>
                   )}
                 >
-                  <Dropdown.Item
-                    onClick={() => {
-                      navigate('/profile'), navOpenHandler();
-                    }}
-                  >
-                    Profile
-                  </Dropdown.Item>
-                  <Dropdown.Item
-                    onClick={() => {
-                      navigate('/plans'), navOpenHandler();
-                    }}
-                  >
-                    My Plans
-                  </Dropdown.Item>
-                  <Dropdown.Item onClick={logoutHandler}>Logout</Dropdown.Item>
+                  <div className="w-[200px] h-[100px] flex flex-col justify-center items-center">
+                    <Dropdown.Item
+                      className="w-full text-center"
+                      onClick={() => {
+                        navigate('/profile');
+                        navOpenHandler();
+                      }}
+                    >
+                      Profile
+                    </Dropdown.Item>
+                    <Dropdown.Item
+                      className="w-full text-center"
+                      onClick={() => {
+                        navigate('/plans');
+                        navOpenHandler();
+                      }}
+                    >
+                      My Plans
+                    </Dropdown.Item>
+                    <Dropdown.Item
+                      className="w-full text-center"
+                      onClick={logoutHandler}
+                    >
+                      Logout
+                    </Dropdown.Item>
+                  </div>
                 </Dropdown>
-              </>
+              </div>
             ) : (
               <li className="py-2 md:py-0">
                 <Button
