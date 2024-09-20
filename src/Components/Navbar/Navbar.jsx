@@ -217,8 +217,8 @@ const Navbar = () => {
                   label={''}
                   dismissOnClick={false}
                   renderTrigger={() => (
-                    <button className="hidden lg:block">
-                      <FaUser size={18} color="black" />
+                    <button className="hidden lg:block mt-[-20px]">
+                      <FaUser size={24} color="black" />
                     </button>
                   )}
                 >

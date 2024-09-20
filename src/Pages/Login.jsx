@@ -49,8 +49,7 @@ const Login = () => {
       )
       .then((response) => {
         console.log(response);
-        setOtp(response.data.data.otp);
-        setStep((prev) => prev + 1);
+         setStep((prev) => prev + 1);
       })
       .catch((err) => {
         console.log(err);
@@ -69,7 +68,6 @@ const Login = () => {
   }
  
   const loginHandler = () => {
-    const otpNumber = Number(userData.otp);
     axiosInstance
       .post(
         "api/users/login",
