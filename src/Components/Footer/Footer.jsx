@@ -71,7 +71,7 @@ const Footer = () => {
           <h3 className="font-bold text-lg mb-4">BesaKina</h3>
           <ul className="space-y-2">
             <li>
-              <Link to="#" className="hover:underline">Terms & Conditions</Link>
+              <Link to="/termsandconditions" className="hover:underline">Terms & Conditions</Link>
             </li>
             <li>
               <Link to="#" className="hover:underline">Privacy Policy</Link>

@@ -36,6 +36,7 @@ import { DataProvider } from './contexts/DataContext';
 import { Toaster } from 'react-hot-toast';
 import AboutUs from './utils/Aboutus';
 import TagManager from 'react-gtm-module';
+import TermsAndConditions from './utils/TermsAndConditions';
 
 const App = () => {
 
@@ -64,6 +65,8 @@ const App = () => {
             <Route path="healthcare" element={<Doctors />} />
             <Route path="hospitals" element={<Hospitals />} />
             <Route path="aboutus" element={<AboutUs />} />
+            <Route path="/termsandconditions" element={<TermsAndConditions />} />
+
             <Route
               path="propertiesdetails/:id"
               element={<PropertiesDetails />}
