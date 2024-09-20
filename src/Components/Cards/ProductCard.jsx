@@ -26,16 +26,16 @@ const ProductCard = ({ data, link }) => {
                 ? `Category: Properties`
                 : 'Category: ' + data?.advType}
             </h2> */}
-            <h2 className="text-sm capitalize font-medium">
+            {/* <h2 className="text-sm capitalize font-medium">
               {data?.type ? convertString(data?.type) : data?.type}
-            </h2>
+            </h2> */}
           </div>
           <div>
             <div className="flex items-center gap-[3px]">
               <div>
                 <FaLocationDot />
               </div>
-              <p className="font-semibold text-xs xl:text-sm capitalize">{`${data?.city}, ${data?.state}`}</p>
+              <p className="font-semibold text-xs xl:text-sm capitalize truncate w-full">{`${data?.street}, ${data?.state}`}</p>
             </div>
           </div>
           <div className="flex justify-between items-center">

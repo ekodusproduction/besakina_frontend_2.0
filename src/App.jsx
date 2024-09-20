@@ -1,17 +1,14 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Routes, Route } from 'react-router-dom';
 import FeaturedAdsDetails from './Pages/FeaturedAdsDetails';
 import Home from './Pages/Home';
 import Properties from './Pages/Properties';
 import PostAd from './Pages/PostAd';
-import PostAdDetails from './Pages/PostAdDetails';
 import PropertiesAdForm from './Pages/AdForms/PropertiesAdForm';
 import VehicleAdForm from './Pages/AdForms/VehicleAdForm';
 import HospitalityAdForm from './Pages/AdForms/HospitalityAdForm';
 import HealthAdForm from './Pages/AdForms/HealthAdForm';
 import EducationAdForm from './Pages/AdForms/EducationAdForm';
-import Navbar from './Components/Navbar/Navbar';
-import Footer from './Components/Footer/Footer';
 import Login from './Pages/Login';
 import Layout from './Components/Layout/Layout';
 import Protected from './Pages/Protected/Protected';
@@ -34,15 +31,20 @@ import PropertyEditForm from './Pages/EditDetails/PropertyEditForm';
 import EducationEditForm from './Pages/EditDetails/EducationEditForm';
 import HealthEditForm from './Pages/EditDetails/HealthEditForm';
 import AddProfile from './Components/AddProfile/AddProfile';
-import BusinessAdForm from './Pages/AdForms/BusinessAdForm';
-import BusinessEditForm from './Pages/EditDetails/BusinessEditForm';
-import Wishlist from './Pages/Wishlist';
 import ListingCategories from './Pages/ListingCategories';
 import { DataProvider } from './contexts/DataContext';
 import { Toaster } from 'react-hot-toast';
-import MyListing from './Components/MyListing/MyListing';
+import AboutUs from './utils/Aboutus';
+import TagManager from 'react-gtm-module';
 
 const App = () => {
+
+  useEffect(() => {
+    const tagManagerArgs = {
+      gtmId: 'GTM-N6BJHSVG',
+    };
+    TagManager.initialize(tagManagerArgs);
+  }, []);
   return (
     <>
       <DataProvider>
@@ -61,6 +63,7 @@ const App = () => {
             <Route path="hospitality" element={<Hospitality />} />
             <Route path="healthcare" element={<Doctors />} />
             <Route path="hospitals" element={<Hospitals />} />
+            <Route path="aboutus" element={<AboutUs />} />
             <Route
               path="propertiesdetails/:id"
               element={<PropertiesDetails />}

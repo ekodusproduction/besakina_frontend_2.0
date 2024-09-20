@@ -25,7 +25,7 @@ const FeaturedAds = () => {
       },[])
   return (
     <section className='lg:px-12 px-4 mb-8'>
-    <h2 className='sm:font-bold text-xl font-bold sm:text-2xl sm:mb-4 text-center mt-5 mb-5 '>Featured Ads</h2>
+    <h2 className='sm:font-bold text-xl font-bold sm:text-2xl sm:mb-4 text-left mt-5 mb-5 '>Featured Ads</h2>
     <div className=''>
     <Splide 
     options={{perPage:4, 

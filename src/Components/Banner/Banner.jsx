@@ -15,7 +15,10 @@ const Banner = () => {
     resetProgress: false,
     arrows: false,
   };
+
+  // State to track banners and loading status
   const [banner, setBanner] = useState([]);
+  const [loading, setLoading] = useState(true); // Track loading state
 
   useEffect(() => {
     axiosInstance
@@ -24,34 +27,39 @@ const Banner = () => {
         const data = response.data.data;
         console.log('banner---', data);
         setBanner(data);
+        setLoading(false); // Set loading to false after data is fetched
       })
       .catch((error) => {
         console.error(error);
+        setLoading(false); // Set loading to false even on error
       });
   }, []);
 
   return (
     <>
       <section className="flex flex-col lg:flex-row items-center justify-center px-2 sm:px-4 lg:px-12 gap-2 md:gap-8 max-w-[1500px] mb-8">
-        <div className="w-5/5 lg:w-3/5 flex-2 ">
-          <Splide aria-label="Banner" options={options}>
-            {banner?.map((item, index) => {
-              console.log('item---', item);
-              return (
+        {/* Conditionally render based on loading state */}
+        {loading ? (
+          <div className="text-center">Loading banners...</div>
+        ) : (
+          <div className="w-5/5 lg:w-3/5 flex-2 ">
+            <Splide aria-label="Banner" options={options}>
+              {banner?.map((item, index) => (
                 <SplideSlide key={index}>
                   <div className="relative">
                     <img
-                      src={item.images}
+                      src={item?.images}
                       className="w-[100%] rounded-3xl"
                       alt="banner images"
                     />
                   </div>
                 </SplideSlide>
-              );
-            })}
-          </Splide>
-        </div>
+              ))}
+            </Splide>
+          </div>
+        )}
 
+        {/* Side banners */}
         <div className="lg:w-2/5 w-5/5 flex-1 flex md:flex-row flex-col justify-center lg:flex-col gap-2 md:gap-4">
           <div className="relative">
             <img
