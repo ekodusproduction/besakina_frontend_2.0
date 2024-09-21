@@ -11,7 +11,7 @@ const TermsAndConditions = () => {
         </p>
 
         <p className="mb-4 text-gray-700 leading-relaxed">
-          By accessing this website we assume you accept these terms and conditions. <span className="text-red-500 font-bold">Do not continue to use Besakina.com if you do not agree to take all of the terms and conditions stated on this page.</span>
+          By accessing this website we assume you accept these terms and conditions. <span className="text-black font-normal">Do not continue to use Besakina.com if you do not agree to take all of the terms and conditions stated on this page.</span>
         </p>
 
         <h2 className="text-2xl font-semibold mt-6 mb-3 text-gray-800">1. Terminology</h2>
@@ -44,7 +44,7 @@ const TermsAndConditions = () => {
         <p className="mb-4 text-gray-700 leading-relaxed">
           Parts of this website offer an opportunity for users to post and exchange opinions and information in certain areas. Besakina.com does not filter, edit, publish, or review comments prior to their appearance on the website. Comments do not reflect the views of Besakina.com, its agents, or affiliates.
         </p>
-        <p className="mb-4 text-red-500 font-bold">You warrant and represent that:</p>
+        <p className="mb-4 text-black font-bold">You warrant and represent that:</p>
         <ul className="list-disc ml-5 space-y-1 text-gray-700">
           <li>You are entitled to post the Comments on our website and have all necessary licenses and consents to do so.</li>
           <li>The Comments do not invade any intellectual property right, including without limitation copyright, patent, or trademark of any third party.</li>

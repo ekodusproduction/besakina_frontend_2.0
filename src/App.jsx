@@ -37,6 +37,7 @@ import { Toaster } from 'react-hot-toast';
 import AboutUs from './utils/Aboutus';
 import TagManager from 'react-gtm-module';
 import TermsAndConditions from './utils/TermsAndConditions';
+import AdvertiseWithUs from './utils/AdvertiseWithUs';
 
 const App = () => {
 
@@ -66,6 +67,7 @@ const App = () => {
             <Route path="hospitals" element={<Hospitals />} />
             <Route path="aboutus" element={<AboutUs />} />
             <Route path="/termsandconditions" element={<TermsAndConditions />} />
+            <Route path="/advertisewithus" element={<AdvertiseWithUs />} />
 
             <Route
               path="propertiesdetails/:id"

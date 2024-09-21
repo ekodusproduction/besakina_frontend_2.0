@@ -33,14 +33,14 @@ const Footer = () => {
           <h3 className="font-bold text-lg mb-4">About Us</h3>
           <ul className="space-y-2">
             <li>
-              <Link to="/aboutus" className="hover:underline">About Us</Link>
+              <a href="/aboutus" className="hover:underline">About Us</a>
             </li>
             <li>
               <Link to="/listing-categories" className="hover:underline">Listing Categories</Link>
             </li>
-            <li>
+            {/* <li>
               <Link to="#" className="hover:underline">FAQ</Link>
-            </li>
+            </li> */}
             <li>
               <Link to="#" className="hover:underline">How it works</Link>
             </li>
@@ -52,17 +52,17 @@ const Footer = () => {
           <h3 className="font-bold text-lg mb-4">Quick Links</h3>
           <ul className="space-y-2">
             <li>
-              <Link to="#" className="hover:underline">Advertise with us</Link>
+              <a href="/advertisewithus" className="hover:underline">Advertise with us</a>
             </li>
             <li>
               <Link to="/plans" className="hover:underline">Pricing</Link>
             </li>
             <li>
-              <Link to="#" className="hover:underline">Customer Care</Link>
+              <Link to="#" className="hover:underline">Enquiry Form</Link>
             </li>
-            <li>
+            {/* <li>
               <Link to="#" className="hover:underline">Contact Us</Link>
-            </li>
+            </li> */}
           </ul>
         </div>
 
@@ -71,7 +71,7 @@ const Footer = () => {
           <h3 className="font-bold text-lg mb-4">BesaKina</h3>
           <ul className="space-y-2">
             <li>
-              <Link to="/termsandconditions" className="hover:underline">Terms & Conditions</Link>
+              <a href="/termsandconditions" className="hover:underline">Terms & Conditions</a>
             </li>
             <li>
               <Link to="#" className="hover:underline">Privacy Policy</Link>
@@ -82,7 +82,7 @@ const Footer = () => {
         {/* Helpline and Social Section */}
         <div>
           <p className="font-bold">Helpline Number:</p>
-          <p className="text-xl font-bold mt-2 mb-8">+91 78963 82896</p>
+          <p className="text-xl font-bold mt-2 mb-8">+91 69139 17916</p>
           <p className="font-medium">Follow Us</p>
           <div className="flex gap-5 pt-4">
             <a href="#" className="hover:text-gray-300">
