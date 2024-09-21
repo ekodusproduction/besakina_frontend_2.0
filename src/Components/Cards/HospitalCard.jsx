@@ -7,6 +7,7 @@ import dayjs from 'dayjs';
 import { formatDate } from '../../utils/fornatter';
 
 const HospitalCard = ({ data, link }) => {
+  console.log('data---', data);
   function convertString(str) {
     // Replace underscores with spaces
     return str.replace(/_/g, ' ');
@@ -26,7 +27,7 @@ const HospitalCard = ({ data, link }) => {
           <div>
             <h2 className="xl:text-base capitalize font-bold line-clamp-1">
               {' '}
-              {data?.name}
+              {data?.title}
             </h2>
             {/* <p className='text-xs xl:text-sm capitalize'>{data?.title?.slice(0,30)}...</p> */}
             {/* <p className="text-sm font-medium capitalize">
@@ -43,7 +44,11 @@ const HospitalCard = ({ data, link }) => {
               <div>
                 <FaLocationDot />
               </div>
-              <p className="font-semibold text-xs xl:text-sm">{`${data?.city}, ${data?.state}`}</p>
+              <p className="font-semibold text-xs xl:text-sm">
+                {`${data?.street}, ${data?.state}`.length > 25
+                  ? `${data?.street}, ${data?.state}`.slice(0, 25) + '...'
+                  : `${data?.street}, ${data?.state}`}
+              </p>
             </div>
           </div>
           <div className="flex justify-between items-center">

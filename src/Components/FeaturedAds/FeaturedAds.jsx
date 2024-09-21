@@ -49,22 +49,22 @@ const FeaturedAds = () => {
        {featuredData.map(item => (
             <SplideSlide>
                 {item.advType == 'Property' && 
-                    <ProductCard data={item} key={item.id} link={'/propertiesdetails'}/>
+                    <ProductCard data={item} key={item._id} link={'/propertiesdetails'}/>
                 }
                 {item.advType == 'Vehicle' && 
-                    <ProductCard data={item} key={item.id} link={'/vehicledetails'}/>
+                    <ProductCard data={item} key={item._id} link={'/vehicledetails'}/>
                 }
                 {item.advType == 'Education' && 
-                    <ProductCard data={item} key={item.id} link={'/educationdetails'}/>
+                    <ProductCard data={item} key={item._id} link={'/educationdetails'}/>
                 }
                 {item.advType == "Hospitality" && 
-                    <ProductCard data={item} key={item.id} link={'/hospitalitydetails'}/>
+                    <ProductCard data={item} key={item._id} link={'/hospitalitydetails'}/>
                 }
                 {item?.advType == "Doctor" &&
-                    <ProductCard data={item} key={item.id} link={"/doctordetails"} />
+                    <ProductCard data={item} key={item._id} link={"/doctordetails"} />
                 }
                 {item?.advType == "Hospital" &&
-                    <HospitalCard data={item} key={item.id} link={"/hospitaldetails"} />
+                    <HospitalCard data={item} key={item._id} link={"/hospitaldetails"} />
                 }
                
             </SplideSlide>
