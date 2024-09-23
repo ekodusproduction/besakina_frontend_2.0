@@ -1,30 +1,42 @@
-import React, { useState, useEffect } from "react";
-import ProductCard from "../Cards/ProductCard";
-import Button from "../Button/Button";
-import axiosInstance from "../../api/axiosInstance";
-import { baseURL } from "../../api/axiosInstance";
-import HospitalCard from "../Cards/HospitalCard";
+import React, { useState, useEffect } from 'react';
+import ProductCard from '../Cards/ProductCard';
+import Button from '../Button/Button';
+import axiosInstance from '../../api/axiosInstance';
+import HospitalCard from '../Cards/HospitalCard';
 
 const LatestAds = () => {
   const [latestData, setLatestData] = useState([]);
-  const [visibleCards, setVisibleCards] = useState(12);
+  const [page, setPage] = useState(1);
+  const [loading, setLoading] = useState(false);
+  const [hasMore, setHasMore] = useState(true);
 
   useEffect(() => {
+    fetchLatestAds();
+  }, [page]);
+
+  const fetchLatestAds = () => {
+    setLoading(true);
     axiosInstance
-      .get(`api/home/latest`)
+      .get(`api/home/latest?limit=12&page=${page}`)
       .then((response) => {
-        console.log(response);
         const data = response.data.data.advertisements;
-        console.log(data);
-        setLatestData(data);
+        if (data.length > 0) {
+          setLatestData((prevData) => [...prevData, ...data]);
+        } else {
+          setHasMore(false);
+        }
+        setLoading(false);
       })
       .catch((error) => {
         console.error(error);
+        setLoading(false);
       });
-  }, []);
+  };
 
   const handleLoadMore = () => {
-    setVisibleCards((prevVisibleCards) => prevVisibleCards + 8);
+    if (hasMore) {
+      setPage((prevPage) => prevPage + 1);
+    }
   };
 
   return (
@@ -33,64 +45,56 @@ const LatestAds = () => {
         Latest Ads
       </h2>
       <div className="grid xl:grid-cols-4 lg:grid-cols-3 grid-cols-2 gap-2 md:gap-4">
-        {latestData?.slice(0, visibleCards).map((item,index) => (
+        {latestData.map((item, index) => (
           <div key={index}>
-            {item.advType == "Property" && (
+            {item.advType === 'Property' && (
               <ProductCard
                 data={item}
                 key={item.id}
-                link={"/propertiesdetails"}
+                link={'/propertiesdetails'}
               />
             )}
-            {item.advType == "Vehicle" && (
-              <ProductCard data={item} key={item.id} link={"/vehicledetails"} />
+            {item.advType === 'Vehicle' && (
+              <ProductCard data={item} key={item.id} link={'/vehicledetails'} />
             )}
-            {item.advType == "Education" && (
+            {item.advType === 'Education' && (
               <ProductCard
                 data={item}
                 key={item.id}
-                link={"/educationdetails"}
+                link={'/educationdetails'}
               />
             )}
-            {item.advType == "Hospitality" && (
+            {item.advType === 'Hospitality' && (
               <ProductCard
                 data={item}
                 key={item.id}
-                link={"/hospitalitydetails"}
+                link={'/hospitalitydetails'}
               />
             )}
-            {item?.advType =="Doctor" && (
-                <ProductCard
-                  data={item}
-                  key={item.id}
-                  link={"/doctordetails"}
-                />
-              )}
-              {item?.advType == "Hospital" &&
-                    <HospitalCard data={item} key={item.id} link={"/hospitaldetails"} />
-                }
+            {item?.advType === 'Doctor' && (
+              <ProductCard data={item} key={item.id} link={'/doctordetails'} />
+            )}
+            {item?.advType === 'Hospital' && (
+              <HospitalCard
+                data={item}
+                key={item.id}
+                link={'/hospitaldetails'}
+              />
+            )}
           </div>
         ))}
-        {/* // <ProductCard/>
-            // <ProductCard/>
-            // <ProductCard/>
-            // <ProductCard/>
-            // <ProductCard/>
-            // <ProductCard/>
-            // <ProductCard/>
-            // <ProductCard/>
-            // <ProductCard/>
-            // <ProductCard/>
-            // <ProductCard/>
-            // <ProductCard/> */}
       </div>
-      {visibleCards < latestData.length && (
-        <div className="flex justify-center mt-6">
-          <Button clickHandler={handleLoadMore} category={"primarybtn"}>
+
+      {loading && <div className="text-center mt-6">Loading...</div>}
+
+      <div className="flex justify-center mt-6">
+        {!loading && hasMore && (
+          <Button clickHandler={handleLoadMore} category={'primarybtn'}>
             Load More
           </Button>
-        </div>
-      )}
+        )}
+        {!hasMore && <p className="text-gray-500">No more ads to load.</p>}
+      </div>
     </section>
   );
 };

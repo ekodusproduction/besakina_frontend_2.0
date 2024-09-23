@@ -11,7 +11,7 @@ const FeaturedAds = () => {
    
 
     useEffect(()=> {
-        axiosInstance.get(`api/home/latest`)
+        axiosInstance.get(`api/home/latest?limit=10&page=3`)
         .then(response => {
             console.log(response)
             const data = response.data.data.advertisements;
