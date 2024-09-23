@@ -66,7 +66,7 @@ const AboutUs = () => {
         {/* <p className="text-lg font-semibold">
           Email: support@onlinemarketplace.com
         </p> */}
-        <p className="text-lg font-semibold">Phone: +91 78963 82896</p>
+        <p className="text-lg font-semibold">Phone: +91 69139 17916</p>
         <p className="text-lg font-semibold">
           Address : Kahilipara Main Rd, Mula Gabharu Path, Kahilipara, Guwahati,
           Assam 781006

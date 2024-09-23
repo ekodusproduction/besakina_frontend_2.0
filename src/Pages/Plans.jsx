@@ -46,7 +46,7 @@ const Plans = () => {
                       {item.type == 'Featured Advertisement' ? '' : '₹ '}
                       {item?.price && item.type == 'Featured Advertisement'
                         ? 'Contact us for pricing'
-                        : item.price}
+                        : `${item.price}/month`}
                     </h4>
                     {/* ${item?.type === "Silver" ? "bg-[#C0C0C0]" : (item?.type==="Gold" ? "bg-[#FFD700]":(item?.type==="Platinum" && "bg-[#F41B3B]")) } } */}
 
@@ -90,17 +90,25 @@ const Plans = () => {
                         Contact buyers on our website: {item?.contact_limit}
                       </p>
                     </div>
-                    <div className="flex gap-2 items-center">
+                    {/* <div className="flex gap-2 items-center">
                       <div>
                         <IoIosCheckmarkCircle color="#43f746" />
                       </div>
                       <p className="text-sm text-gray-700">
                         Search Priority: {item?.search_priority}
                       </p>
-                    </div>
+                    </div> */}
                   </div>
                   <div>
-                    <Button classItems={'w-full'} category={'primarybtn'}>
+                    <Button
+                      classItems={`w-full ${
+                        item.type === 'Featured Advertisement'
+                          ? 'bg-gray-500 cursor-not-allowed'
+                          : 'bg-orange-500 cursor-pointer'
+                      }`}
+                      category={'primarybtn'}
+                      disabled={item.type === 'Featured Advertisement'}
+                    >
                       Purchase
                     </Button>
                   </div>

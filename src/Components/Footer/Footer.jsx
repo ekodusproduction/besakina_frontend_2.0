@@ -10,11 +10,16 @@ const Footer = () => {
     <footer className="bg-[#1A5C96] text-white">
       {/* Main Footer Section */}
       <section className="px-6 md:px-12 py-12 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-12 max-w-7xl mx-auto">
-        
         {/* Logo Section */}
         <div>
-          <img src="/logo.png" alt="BesaKina" className="w-[150px] filter grayscale mb-4" />
-          <p className="text-sm mb-6">Direct Mail and Online Market Place.</p>
+          <img
+            src="/logo.png"
+            alt="BesaKina"
+            className="w-[150px] filter grayscale mb-4"
+          />
+          <p className="text-sm mb-6">
+            Direct Mailing and Online Market Place.
+          </p>
           <div className="flex gap-4">
             <a href="#" className="hover:text-gray-300">
               <FaFacebook size={20} />
@@ -22,7 +27,12 @@ const Footer = () => {
             <a href="#" className="hover:text-gray-300">
               <FaInstagram size={20} />
             </a>
-            <a href="https://www.linkedin.com/company/ekodus-inc" target="_blank" rel="noopener noreferrer" className="hover:text-gray-300">
+            <a
+              href="https://www.linkedin.com/company/ekodus-inc"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hover:text-gray-300"
+            >
               <TfiLinkedin size={20} />
             </a>
           </div>
@@ -33,16 +43,22 @@ const Footer = () => {
           <h3 className="font-bold text-lg mb-4">About Us</h3>
           <ul className="space-y-2">
             <li>
-              <a href="/aboutus" className="hover:underline">About Us</a>
+              <a href="/aboutus" className="hover:underline">
+                About Us
+              </a>
             </li>
             <li>
-              <Link to="/listing-categories" className="hover:underline">Listing Categories</Link>
+              <Link to="/listing-categories" className="hover:underline">
+                Listing Categories
+              </Link>
             </li>
             {/* <li>
               <Link to="#" className="hover:underline">FAQ</Link>
             </li> */}
             <li>
-              <Link to="#" className="hover:underline">How it works</Link>
+              <Link to="#" className="hover:underline">
+                How it works
+              </Link>
             </li>
           </ul>
         </div>
@@ -52,13 +68,19 @@ const Footer = () => {
           <h3 className="font-bold text-lg mb-4">Quick Links</h3>
           <ul className="space-y-2">
             <li>
-              <a href="/advertisewithus" className="hover:underline">Advertise with us</a>
+              <a href="/advertisewithus" className="hover:underline">
+                Advertise with us
+              </a>
             </li>
             <li>
-              <Link to="/plans" className="hover:underline">Pricing</Link>
+              <Link to="/plans" className="hover:underline">
+                Pricing
+              </Link>
             </li>
             <li>
-              <Link to="#" className="hover:underline">Enquiry Form</Link>
+              <Link to="#" className="hover:underline">
+                Enquiry Form
+              </Link>
             </li>
             {/* <li>
               <Link to="#" className="hover:underline">Contact Us</Link>
@@ -71,10 +93,14 @@ const Footer = () => {
           <h3 className="font-bold text-lg mb-4">BesaKina</h3>
           <ul className="space-y-2">
             <li>
-              <a href="/termsandconditions" className="hover:underline">Terms & Conditions</a>
+              <a href="/termsandconditions" className="hover:underline">
+                Terms & Conditions
+              </a>
             </li>
             <li>
-              <Link to="#" className="hover:underline">Privacy Policy</Link>
+              <a href="#" className="hover:underline">
+                Privacy Policy
+              </a>
             </li>
           </ul>
         </div>
@@ -91,7 +117,12 @@ const Footer = () => {
             <a href="#" className="hover:text-gray-300">
               <FaInstagram size={20} />
             </a>
-            <a href="https://www.linkedin.com/company/ekodus-inc" target="_blank" rel="noopener noreferrer" className="hover:text-gray-300">
+            <a
+              href="https://www.linkedin.com/company/ekodus-inc"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hover:text-gray-300"
+            >
               <TfiLinkedin size={20} />
             </a>
           </div>
@@ -100,7 +131,9 @@ const Footer = () => {
 
       {/* Footer Bottom */}
       <div className="bg-[#154879] text-center py-4">
-        <p className="text-sm">&copy; {currentYear} BesaKina. All Rights Reserved.</p>
+        <p className="text-sm">
+          &copy; {currentYear} BesaKina. All Rights Reserved.
+        </p>
       </div>
     </footer>
   );
