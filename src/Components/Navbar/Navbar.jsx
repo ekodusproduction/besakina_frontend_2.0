@@ -39,6 +39,7 @@ const Navbar = () => {
     axios
       .get(`${baseURL}home/search`, { params: { search: search } })
       .then((response) => {
+        console.log('response---',response)
         setSearchData(response?.data?.data?.advertisements);
         setLoading(false);
       })

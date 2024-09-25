@@ -1,82 +1,102 @@
-import React,{useState,useEffect} from 'react'
-import ProductCard from '../Cards/ProductCard'
+import React, { useState, useEffect } from 'react';
+import ProductCard from '../Cards/ProductCard';
 import { Splide, SplideSlide } from '@splidejs/react-splide';
 import '@splidejs/react-splide/css/skyblue';
-import axiosInstance from '../../api/axiosInstance'
+import axiosInstance from '../../api/axiosInstance';
 import { baseURL } from '../../api/axiosInstance';
 import HospitalCard from '../Cards/HospitalCard';
 
 const FeaturedAds = () => {
-    const [featuredData, setFeaturedData] = useState([])
-   
+  const [featuredData, setFeaturedData] = useState([]);
 
-    useEffect(()=> {
-        axiosInstance.get(`api/home/latest?limit=10&page=3`)
-        .then(response => {
-            console.log(response)
-            const data = response.data.data.advertisements;
-            console.log(data)
-            setFeaturedData(data);
-        
-        })
-        .catch(error => {
-          console.error(error);
-        });
-      },[])
+  useEffect(() => {
+    axiosInstance
+      .get(`api/home/latest?limit=10&page=1`)
+      .then((response) => {
+        console.log(response);
+        const data = response.data.data.advertisements;
+        console.log(data);
+        setFeaturedData(data);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  }, []);
   return (
-    <section className='lg:px-12 px-4 mb-8'>
-    <h2 className='sm:font-bold text-xl font-bold sm:text-2xl sm:mb-4 text-left mt-5 mb-5 '>Featured Ads</h2>
-    <div className=''>
-    <Splide 
-    options={{perPage:4, 
-            gap:'1.5rem',
+    <section className="lg:px-12 px-4 mb-8">
+      <h2 className="sm:font-bold text-xl font-bold sm:text-2xl sm:mb-4 text-left mt-5 mb-5 ">
+        Featured Ads
+      </h2>
+      <div className="">
+        <Splide
+          options={{
+            perPage: 4,
+            gap: '1.5rem',
             breakpoints: {
-                1100: {
-                    perPage: 3,
-                },
-                800: {
-                    perPage: 2,
-                },
-                576:{
-                    gap: '0.5rem'
-                },
-                
-
+              1100: {
+                perPage: 3,
+              },
+              800: {
+                perPage: 2,
+              },
+              576: {
+                gap: '0.5rem',
+              },
             },
-            pagination: false
-        }} 
-    aria-label="Featured Ads">
-       {featuredData.map(item => (
+            pagination: false,
+          }}
+          aria-label="Featured Ads"
+        >
+          {featuredData.map((item) => (
             <SplideSlide>
-                {item.advType == 'Property' && 
-                    <ProductCard data={item} key={item._id} link={'/propertiesdetails'}/>
-                }
-                {item.advType == 'Vehicle' && 
-                    <ProductCard data={item} key={item._id} link={'/vehicledetails'}/>
-                }
-                {item.advType == 'Education' && 
-                    <ProductCard data={item} key={item._id} link={'/educationdetails'}/>
-                }
-                {item.advType == "Hospitality" && 
-                    <ProductCard data={item} key={item._id} link={'/hospitalitydetails'}/>
-                }
-                {item?.advType == "Doctor" &&
-                    <ProductCard data={item} key={item._id} link={"/doctordetails"} />
-                }
-                {item?.advType == "Hospital" &&
-                    <HospitalCard data={item} key={item._id} link={"/hospitaldetails"} />
-                }
-               
+              {item.advType == 'Property' && (
+                <ProductCard
+                  data={item}
+                  key={item._id}
+                  link={'/propertiesdetails'}
+                />
+              )}
+              {item.advType == 'Vehicle' && (
+                <ProductCard
+                  data={item}
+                  key={item._id}
+                  link={'/vehicledetails'}
+                />
+              )}
+              {item.advType == 'Education' && (
+                <ProductCard
+                  data={item}
+                  key={item._id}
+                  link={'/educationdetails'}
+                />
+              )}
+              {item.advType == 'Hospitality' && (
+                <ProductCard
+                  data={item}
+                  key={item._id}
+                  link={'/hospitalitydetails'}
+                />
+              )}
+              {item?.advType == 'Doctor' && (
+                <ProductCard
+                  data={item}
+                  key={item._id}
+                  link={'/doctordetails'}
+                />
+              )}
+              {item?.advType == 'Hospital' && (
+                <HospitalCard
+                  data={item}
+                  key={item._id}
+                  link={'/hospitaldetails'}
+                />
+              )}
             </SplideSlide>
-        ))}
-       
-            
-        
-    </Splide>
-        
-    </div>
-</section>
-  )
-}
+          ))}
+        </Splide>
+      </div>
+    </section>
+  );
+};
 
-export default FeaturedAds
+export default FeaturedAds;
