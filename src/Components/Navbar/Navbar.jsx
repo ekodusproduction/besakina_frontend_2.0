@@ -39,7 +39,7 @@ const Navbar = () => {
     axios
       .get(`${baseURL}home/search`, { params: { search: search } })
       .then((response) => {
-        console.log('response---',response)
+        console.log('response---', response);
         setSearchData(response?.data?.data?.advertisements);
         setLoading(false);
       })
@@ -189,8 +189,13 @@ const Navbar = () => {
                 </Link>
               </li>
             ) : (
-              <li className="py-2 lg:py-0">
-                <Link to="/login">Post an Advertisement</Link>
+              <li className="py-2 lg:py-0 border border-gray-300 rounded-md shadow-md hover:shadow-lg transition-shadow duration-300">
+                <Link
+                  to="/login"
+                  className="block px-4 py-2 text-center text-white bg-blue-600 hover:bg-blue-700 rounded-md"
+                >
+                  Post an Advertisement
+                </Link>
               </li>
             )}
             {isLoggedIn && (

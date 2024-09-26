@@ -15,48 +15,47 @@ const HospitalCard = ({ data, link }) => {
 
   return (
     <Link to={`${link}/${data?._id}`}>
-      <div className="border-[1px] border-slate-400 rounded-md overflow-hidden bg-white max-h-80">
-        <div className="h-[150px] sm:h-[200px]  ">
+      <div className="border-[1px] border-slate-300 rounded-lg overflow-hidden bg-white shadow-lg hover:shadow-xl transition-all duration-500 ease-out transform hover:scale-105 max-h-80">
+        {/* Image section */}
+        <div className="h-[150px] sm:h-[200px] bg-gray-100">
           <img
             src={`${data?.images[0]}`}
             alt="image"
-            className="sm:h-[200px] h-full w-full object-cover"
+            className="h-full w-full object-cover rounded-t-lg transition-transform duration-500 ease-out hover:scale-105"
           />
         </div>
-        <div className="w-[100%] p-2 flex flex-col gap-2">
+
+        {/* Content section */}
+        <div className="p-1 flex flex-col gap-3">
+          {/* Title and Type */}
           <div>
-            <h2 className="xl:text-base capitalize font-bold line-clamp-1">
-              {' '}
+            <p className="xl:text-base capitalize font-bold text-gray-800 line-clamp-1 transition-all duration-500 ease-out">
               {data?.title}
-            </h2>
-            {/* <p className='text-xs xl:text-sm capitalize'>{data?.title?.slice(0,30)}...</p> */}
-            {/* <p className="text-sm font-medium capitalize">
-              {data?.advType == 'Hospital' || data?.advType == 'Doctor'
-                ? 'Category: Healthcare'
-                : 'Category: ' + data?.advType}
-            </p> */}
-            <p className="text-sm font-medium capitalize">
+            </p>
+            <h2 className="text-sm capitalize font-medium text-gray-600 transition-all duration-500 ease-out">
               {data?.type ? convertString(data?.type) : data?.type}
+            </h2>
+          </div>
+
+          {/* Location */}
+          <div className="flex items-center gap-[3px] text-gray-600 transition-all duration-500 ease-out">
+            <FaLocationDot className="text-gray-800" />
+            <p className="font-semibold text-xs xl:text-sm transition-all duration-500 ease-out">
+              {`${data?.street}, ${data?.state}`.length > 25
+                ? `${data?.street}, ${data?.state}`.slice(0, 25) + '...'
+                : `${data?.street}, ${data?.state}`}
             </p>
           </div>
-          <div>
-            <div className="flex items-center gap-[3px]">
-              <div>
-                <FaLocationDot />
-              </div>
-              <p className="font-semibold text-xs xl:text-sm">
-                {`${data?.street}, ${data?.state}`.length > 25
-                  ? `${data?.street}, ${data?.state}`.slice(0, 25) + '...'
-                  : `${data?.street}, ${data?.state}`}
-              </p>
-            </div>
-          </div>
-          <div className="flex justify-between items-center">
+
+          {/* Footer with verification and date */}
+          <div className="flex justify-between items-center transition-all duration-500 ease-out">
             <div className="flex items-center gap-[3px] text-[#179CF0]">
-              <MdVerified />
+              <MdVerified className="text-green-500" />
               <p className="text-sm font-bold">Verified</p>
             </div>
-            <p className="text-xs font-bold">{formatDate(data?.created_at)}</p>
+            <p className="text-xs font-bold text-gray-500">
+              {formatDate(data?.created_at)}
+            </p>
           </div>
         </div>
       </div>

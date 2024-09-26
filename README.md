@@ -13,4 +13,5 @@ ssh root@194.238.18.234
 Developer@123
 cd /var/www/besakinafr
 git pull
+npm run build
 sudo systemctl restart nginx

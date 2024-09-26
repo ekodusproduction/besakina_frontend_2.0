@@ -38,6 +38,8 @@ import AboutUs from './utils/Aboutus';
 import TagManager from 'react-gtm-module';
 import TermsAndConditions from './utils/TermsAndConditions';
 import AdvertiseWithUs from './utils/AdvertiseWithUs';
+import ListBusiness from './Components/List-Business/ListBusiness';
+import BusinessDetails from './Pages/AdDetails/BusinessDetails';
 
 const App = () => {
 
@@ -68,10 +70,15 @@ const App = () => {
             <Route path="aboutus" element={<AboutUs />} />
             <Route path="/termsandconditions" element={<TermsAndConditions />} />
             <Route path="/advertisewithus" element={<AdvertiseWithUs />} />
+            <Route path="/ListBusiness" element={<ListBusiness />} />
 
             <Route
               path="propertiesdetails/:id"
               element={<PropertiesDetails />}
+            />
+            <Route
+              path="BusinessDetails/:id"
+              element={<BusinessDetails />}
             />
             {/* <Route path='businesssdetails/:id' element={<BusinessEditForm/>}/> */}
             <Route path="vehicledetails/:id" element={<VehicleDetails />} />

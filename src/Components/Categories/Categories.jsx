@@ -33,12 +33,13 @@ const Categories = () => {
     >
       <button
         onClick={toggleMenu}
-        className="flex items-center justify-between bg-[#1A5C96] text-white rounded-md px-4 py-[12px] w-[200px] sm:w-[250px]"
+        className="flex items-center justify-between bg-[#1A5C96] text-white rounded-md px-4 py-[12px] w-[50px] sm:w-[50px]"
       >
-        <span className="flex items-center gap-2 text-sm sm:text-base whitespace-nowrap">
+        {/* <span className="flex items-center gap-2 text-sm sm:text-base whitespace-nowrap">
           <RxHamburgerMenu size={20} /> All Categories
         </span>
-        <MdNavigateNext size={25} />
+        <MdNavigateNext size={25} /> */}
+        <RxHamburgerMenu size={20} />
       </button>
       <nav
         className={`${
@@ -84,6 +85,14 @@ const Categories = () => {
               className="border-[1px] border-slate-400 px-2 py-[2px] rounded-md"
             >
               Healthcare
+            </Link>
+          </li>
+          <li>
+            <Link
+              to="/ListBusiness"
+              className="border-[1px] border-slate-400 px-2 py-[2px] rounded-md"
+            >
+              List-Business
             </Link>
           </li>
           {/* <li><Link to="/hospitals" className='border-[1px] border-slate-400 px-2 py-[2px] rounded-md'>Hospitals</Link></li> */}
