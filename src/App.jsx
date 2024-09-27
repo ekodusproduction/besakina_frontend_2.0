@@ -40,6 +40,7 @@ import TermsAndConditions from './utils/TermsAndConditions';
 import AdvertiseWithUs from './utils/AdvertiseWithUs';
 import ListBusiness from './Components/List-Business/ListBusiness';
 import BusinessDetails from './Pages/AdDetails/BusinessDetails';
+import PrivacyPolicy from './utils/PrivacyPolicy';
 
 const App = () => {
 
@@ -71,6 +72,7 @@ const App = () => {
             <Route path="/termsandconditions" element={<TermsAndConditions />} />
             <Route path="/advertisewithus" element={<AdvertiseWithUs />} />
             <Route path="/ListBusiness" element={<ListBusiness />} />
+            <Route path="/PrivacyPolicy" element={<PrivacyPolicy />} />
 
             <Route
               path="propertiesdetails/:id"
