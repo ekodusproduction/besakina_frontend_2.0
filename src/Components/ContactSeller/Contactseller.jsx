@@ -90,10 +90,7 @@ const Contactseller = ({ data,route }) => {
           <MdVerified />
           <p className="text-sm font-bold">Verified</p>
         </div>
-      )}
-      <p className="py-2 text-sm sm:text-sm text-slate-700">
-        {data?.user?.about}
-      </p>
+      )} 
       <Button
         clickHandler={() => handleContactSeller(data?.user?._id)}
         category={'primarybtn'}
