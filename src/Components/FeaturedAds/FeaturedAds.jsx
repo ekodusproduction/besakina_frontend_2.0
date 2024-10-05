@@ -3,7 +3,6 @@ import ProductCard from '../Cards/ProductCard';
 import { Splide, SplideSlide } from '@splidejs/react-splide';
 import '@splidejs/react-splide/css/skyblue';
 import axiosInstance from '../../api/axiosInstance';
-import { baseURL } from '../../api/axiosInstance';
 import HospitalCard from '../Cards/HospitalCard';
 
 const FeaturedAds = () => {
@@ -13,21 +12,20 @@ const FeaturedAds = () => {
     axiosInstance
       .get(`api/home/latest?limit=10&page=1`)
       .then((response) => {
-        console.log(response);
         const data = response.data.data.advertisements;
-        console.log(data);
         setFeaturedData(data);
       })
       .catch((error) => {
         console.error(error);
       });
   }, []);
+
   return (
     <section className="lg:px-12 px-4 mb-8">
-      <h2 className="sm:font-bold text-xl font-bold sm:text-2xl sm:mb-4 text-left mt-5 mb-5 ">
+      <h2 className="sm:font-bold text-xl font-bold sm:text-2xl sm:mb-4 text-left mt-5 mb-5 text-gray-800">
         Featured Ads
       </h2>
-      <div className="">
+      <div className="bg-white rounded-lg shadow-lg p-4">
         <Splide
           options={{
             perPage: 4,
@@ -48,47 +46,47 @@ const FeaturedAds = () => {
           aria-label="Featured Ads"
         >
           {featuredData.map((item) => (
-            <SplideSlide>
-              {item.advType == 'Property' && (
+            <SplideSlide key={item._id}>
+              {item.advType === 'Property' && (
                 <ProductCard
                   data={item}
-                  key={item._id}
                   link={'/propertiesdetails'}
+                  className="transition-transform duration-200 hover:scale-105 rounded-lg shadow-xl border border-gray-200"
                 />
               )}
-              {item.advType == 'Vehicle' && (
+              {item.advType === 'Vehicle' && (
                 <ProductCard
                   data={item}
-                  key={item._id}
                   link={'/vehicledetails'}
+                  className="transition-transform duration-200 hover:scale-105 rounded-lg shadow-xl border border-gray-200"
                 />
               )}
-              {item.advType == 'Education' && (
+              {item.advType === 'Education' && (
                 <ProductCard
                   data={item}
-                  key={item._id}
                   link={'/educationdetails'}
+                  className="transition-transform duration-200 hover:scale-105 rounded-lg shadow-xl border border-gray-200"
                 />
               )}
-              {item.advType == 'Hospitality' && (
+              {item.advType === 'Hospitality' && (
                 <ProductCard
                   data={item}
-                  key={item._id}
                   link={'/hospitalitydetails'}
+                  className="transition-transform duration-200 hover:scale-105 rounded-lg shadow-xl border border-gray-200"
                 />
               )}
-              {item?.advType == 'Doctor' && (
+              {item.advType === 'Doctor' && (
                 <ProductCard
                   data={item}
-                  key={item._id}
                   link={'/doctordetails'}
+                  className="transition-transform duration-200 hover:scale-105 rounded-lg shadow-xl border border-gray-200"
                 />
               )}
-              {item?.advType == 'Hospital' && (
+              {item.advType === 'Hospital' && (
                 <HospitalCard
                   data={item}
-                  key={item._id}
                   link={'/hospitaldetails'}
+                  className="transition-transform duration-200 hover:scale-105 rounded-lg shadow-xl border border-gray-200"
                 />
               )}
             </SplideSlide>

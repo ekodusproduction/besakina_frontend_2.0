@@ -23,7 +23,7 @@ const ProductCard = ({ data, link }) => {
           {/* Title and Type */}
           <div>
             <p className="xl:text-base capitalize font-bold text-gray-800 line-clamp-1 transition-all duration-500 ease-out">
-              {data?.title}
+              {data?.name}
             </p>
             <h2 className="text-sm capitalize font-medium text-gray-600 transition-all duration-500 ease-out">
               {data?.type ? convertString(data?.type) : data?.type}

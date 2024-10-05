@@ -13,7 +13,7 @@ import SaveButton from '../Components/SaveButton/SaveButton';
 
 const Home = () => {
   return (
-    <div className="max-w-[1500px] m-auto">
+    <div className="max-w-[1500px] m-auto bg-[#eef0f0]">
       <Categories />
       <Banner />
       <HappyUsers />
