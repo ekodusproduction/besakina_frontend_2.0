@@ -89,8 +89,8 @@ const ViewDetails = ({ data, route, category }) => {
               <div className="xl:w-2/5 border-[1px] border-slate-400 sm:px-6 py-6 px-2 h-[100%] rounded-md ">
                 <div className="pb-4 border-b-[1px] border-slate-300 ">
                   <div className="flex justify-between ">
-                    <h3 className="font-bold sm:text-3xl text-2xl mb-2 capitalize">
-                      {data?.title}
+                    <h3 className="font-bold sm:text-1xl text-2xl mb-2 capitalize">
+                      {data?.name}
                     </h3>
 
                     {/* <button className='mt-[-20px] bg-red'>
