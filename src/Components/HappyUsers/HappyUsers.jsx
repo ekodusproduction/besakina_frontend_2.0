@@ -8,7 +8,7 @@ const HappyUsers = () => {
             <p className='text-sm text-slate-700'>Happy Users</p>
         </div>
         <div className='sm:px-12 px-4 text-center  border-x-[1px] border-slate-400'>
-            <h3 className='sm:text-4xl text-xl  font-bold text-slate-600'>200+</h3>
+            <h3 className='sm:text-4xl text-xl  font-bold text-slate-600'>500+</h3>
             <p className='text-sm text-slate-700'>Verified Posts</p>
         </div>
         <div className='sm:px-12 px-4 text-center'>
