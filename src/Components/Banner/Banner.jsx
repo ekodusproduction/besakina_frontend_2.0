@@ -16,9 +16,8 @@ const Banner = () => {
     arrows: false,
   };
 
-  // State to track banners and loading status
   const [banner, setBanner] = useState([]);
-  const [loading, setLoading] = useState(true); // Track loading state
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     axiosInstance
@@ -27,11 +26,11 @@ const Banner = () => {
         const data = response.data.data;
         console.log('banner---', data);
         setBanner(data);
-        setLoading(false); // Set loading to false after data is fetched
+        setLoading(false);
       })
       .catch((error) => {
         console.error(error);
-        setLoading(false); // Set loading to false even on error
+        setLoading(false);
       });
   }, []);
 

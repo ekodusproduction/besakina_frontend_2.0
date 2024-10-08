@@ -5,6 +5,9 @@ import axiosInstance from '../../api/axiosInstance';
 import HospitalCard from '../Cards/HospitalCard';
 import BusinessCard from '../Cards/BusinessCard';
 import Categories from '../Categories/Categories';
+import { Splide, SplideSlide } from '@splidejs/react-splide';
+import '@splidejs/react-splide/css/skyblue';
+import { Link } from 'react-router-dom';
 
 const ListBusiness = () => {
   const [latestData, setLatestData] = useState([]);
@@ -12,9 +15,11 @@ const ListBusiness = () => {
   const [page, setPage] = useState(1);
   const [loading, setLoading] = useState(false);
   const [hasMore, setHasMore] = useState(true);
+  const [banner, setBanner] = useState([]);
 
   useEffect(() => {
     fetchLatestAds();
+    fetchbusinessBanner();
   }, [page]);
 
   const fetchLatestAds = () => {
@@ -36,6 +41,25 @@ const ListBusiness = () => {
       });
   };
 
+  const fetchbusinessBanner = () => {
+    setLoading(true);
+    axiosInstance
+      .get(`api/banner?type=Business`)
+      .then((response) => {
+        const data = response.data.data;
+        if (data.length > 0) {
+          setBanner((prevData) => [...prevData, ...data]);
+        } else {
+          setHasMore(false);
+        }
+        setLoading(false);
+      })
+      .catch((error) => {
+        console.error(error);
+        setHasMore(false);
+        setLoading(false);
+      });
+  };
   const handleLoadMore = () => {
     if (hasMore) {
       setPage((prevPage) => prevPage + 1);
@@ -45,7 +69,28 @@ const ListBusiness = () => {
   return (
     <div>
       <Categories />
-      <section className="lg:px-12 px-4 mb-8">
+
+      <div className="p-5">
+        <Splide aria-label="Banner">
+          {banner.map((it, index) => (
+            <SplideSlide key={index}>
+              <img
+                src={it.images}
+                className="w-full rounded-xl"
+                alt={`Image ${index + 1}`} // Make the alt text dynamic
+              />
+            </SplideSlide>
+          ))}
+        </Splide>
+      </div>
+      <div className="flex gap-2 sm:mb-6 ml-10">
+        <Link to="/" className="font-semibold">
+          Home
+        </Link>
+        <p> {'>'} </p>
+        <Link className="font-semibold">Business-List</Link>
+      </div>
+      <section className="lg:px-12 px-4 mb-8 mt-5">
         {/* <h2 className="sm:font-bold text-xl font-semibold sm:text-2xl mb-2 sm:mb-4">
         Business Listed Ads
       </h2> */}

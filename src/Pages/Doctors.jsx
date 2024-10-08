@@ -122,6 +122,11 @@ const Doctors = () => {
     min_price: "",
     max_price: "",
   });
+  const [page, setPage] = useState(1);
+  const [hasMore, setHasMore] = useState(true);
+  const [loading, setLoading] = useState(false);
+  const [banner, setBanner] = useState([]);
+  
   useEffect(() => {
     axiosInstance
       .get("api/doctor/list")
@@ -184,6 +189,31 @@ const Doctors = () => {
     setShowFilter(tab);
   };
 
+  useEffect(() => {
+     fetchhospitalBanner();
+
+  }, [page]);
+
+  const fetchhospitalBanner = () => {
+    setLoading(true);
+    axiosInstance
+      .get(`api/banner?type=HealthCare`)
+      .then((response) => {
+        const data = response.data.data;
+        if (data.length > 0) {
+          setBanner((prevData) => [...prevData, ...data]);
+        } else {
+          setHasMore(false);
+        }
+        setLoading(false);
+      })
+      .catch((error) => {
+        console.error(error);
+        setHasMore(false);
+        setLoading(false);
+      });
+  };
+
   return (
     <>
       <Categories />
@@ -198,21 +228,16 @@ const Doctors = () => {
           </Link>
         </div>
         <div>
-          <Splide aria-label="Banner">
-            <SplideSlide>
-              <img
-                src="/assets/Post/healthcare (2).jpg"
-                className="w-[100%] rounded-xl"
-                alt="Image 1"
-              />
-            </SplideSlide>
-            {/* <SplideSlide>
-              <img
-                src="/assets/Banner/properties_banner.png"
-                className="w-[100%]"
-                alt="Image 1"
-              />
-            </SplideSlide> */}
+        <Splide aria-label="Banner" >
+            {banner.map((it, index) => (
+              <SplideSlide key={index}>
+                <img
+                  src={it.images}
+                  className="w-full rounded-xl"
+                  alt={`Image ${index + 1}`} // Make the alt text dynamic
+                />
+              </SplideSlide>
+            ))}
           </Splide>
         </div>
         <div className="py-4 flex flex-col gap-4">

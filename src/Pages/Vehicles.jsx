@@ -24,11 +24,13 @@ const Vehicles = () => {
   const [page, setPage] = useState(1);
   const [hasMore, setHasMore] = useState(true);
   const [loading, setLoading] = useState(false);
-
+  const [banner, setBanner] = useState([]);
+ 
  
 
   useEffect(() => {
     fetchvehicleAds();
+    fetchvehicleBanner();
   }, [page]);
 
   const fetchvehicleAds = () => {
@@ -39,6 +41,26 @@ const Vehicles = () => {
         const data = response.data.data.vehicles;
         if (data.length > 0) {
           setVehiclesList((prevData) => [...prevData, ...data]);
+        } else {
+          setHasMore(false);
+        }
+        setLoading(false);
+      })
+      .catch((error) => {
+        console.error(error);
+        setHasMore(false);
+        setLoading(false);
+      });
+  };
+
+  const fetchvehicleBanner = () => {
+    setLoading(true);
+    axiosInstance
+      .get(`api/banner?type=Vehicle`)
+      .then((response) => {
+        const data = response.data.data;
+        if (data.length > 0) {
+          setBanner((prevData) => [...prevData, ...data]);
         } else {
           setHasMore(false);
         }
@@ -95,21 +117,16 @@ const Vehicles = () => {
           </Link>
         </div>
         <div>
-          <Splide aria-label="Banner">
-            <SplideSlide>
-              <img
-                src="/assets/Post/vehical (3).jpg"
-                className="w-[100%] rounded-xl"
-                alt="Image 1"
-              />
-            </SplideSlide>
-            {/* <SplideSlide>
-              <img
-                src="/assets/Banner/properties_banner.png"
-                className="w-[100%]"
-                alt="Image 1"
-              />
-            </SplideSlide> */}
+        <Splide aria-label="Banner" >
+            {banner.map((it, index) => (
+              <SplideSlide key={index}>
+                <img
+                  src={it.images}
+                  className="w-full rounded-xl"
+                  alt={`Image ${index + 1}`} // Make the alt text dynamic
+                />
+              </SplideSlide>
+            ))}
           </Splide>
         </div>
         <div className="py-4 flex flex-col gap-4">

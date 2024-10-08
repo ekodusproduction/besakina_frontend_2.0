@@ -109,7 +109,7 @@ const Navbar = () => {
                 onChange={(e) => OnchangeSearch(e)}
                 value={search}
                 className="placeholder:text-xs sm:placeholder:text-sm w-[200px] xsm:w-[300px] sm:w-[400px]  md:w-[30vw]  pl-2 bg-transparent focus:outline-none border-none"
-                placeholder="Search for product, business or service"
+                placeholder="Search for Advertise, Business or Service"
               />
               <Button category={'primarybtn'}>
                 <BsSearch size={18} color="white" />

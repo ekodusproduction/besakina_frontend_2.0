@@ -15,7 +15,8 @@ import { propertyType } from '../data/constains';
 const Properties = () => {
   const [priceRange, setPriceRange] = useState({ min_price: 0, max_price: '' });
   const [propertiesList, setPropertiesList] = useState([]);
-  const [selectedPropertyType, setSelectedPropertyType] = useState('');
+  const [banner, setBanner] = useState([]);
+   const [selectedPropertyType, setSelectedPropertyType] = useState('');
   const [notFound, setNotFound] = useState(false);
   const [showFilter, setShowFilter] = useState(false);
   const [page, setPage] = useState(1);
@@ -24,6 +25,7 @@ const Properties = () => {
 
   useEffect(() => {
     fetchpropertiesAds();
+    fetchpropertiesBanner();
   }, [page]);
 
   const fetchpropertiesAds = () => {
@@ -34,6 +36,25 @@ const Properties = () => {
         const data = response.data.data.property;
         if (data.length > 0) {
           setPropertiesList((prevData) => [...prevData, ...data]);
+        } else {
+          setHasMore(false);
+        }
+        setLoading(false);
+      })
+      .catch((error) => {
+        console.error(error);
+        setHasMore(false);
+        setLoading(false);
+      });
+  };
+  const fetchpropertiesBanner = () => {
+    setLoading(true);
+    axiosInstance
+      .get(`api/banner?type=Property`)
+      .then((response) => {
+        const data = response.data.data;
+        if (data.length > 0) {
+          setBanner((prevData) => [...prevData, ...data]);
         } else {
           setHasMore(false);
         }
@@ -94,16 +115,15 @@ const Properties = () => {
         </div>
         <div>
           <Splide aria-label="Banner" options={options}>
-            <SplideSlide>
-              <img
-                src="/assets/Post/real-estate-banner (2).jpg"
-                className="w-[100%] rounded-xl"
-                alt="Image 1"
-              />
-            </SplideSlide>
-            {/* <SplideSlide>
-                        <img src="/assets/Banner/properties_banner.png" className='w-[100%]' alt="Image 1"/>
-                    </SplideSlide> */}
+            {banner.map((it, index) => (
+              <SplideSlide key={index}>
+                <img
+                  src={it.images}
+                  className="w-full rounded-xl"
+                  alt={`Image ${index + 1}`} // Make the alt text dynamic
+                />
+              </SplideSlide>
+            ))}
           </Splide>
         </div>
         <div className="py-4 flex flex-col gap-4">

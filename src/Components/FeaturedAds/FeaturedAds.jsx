@@ -25,7 +25,7 @@ const FeaturedAds = () => {
       <h2 className="sm:font-bold text-xl font-bold sm:text-2xl sm:mb-4 text-left mt-5 mb-5 text-gray-800">
         Featured Ads
       </h2>
-      <div className="bg-white rounded-lg shadow-lg p-4">
+      <div className="p-4">
         <Splide
           options={{
             perPage: 4,
