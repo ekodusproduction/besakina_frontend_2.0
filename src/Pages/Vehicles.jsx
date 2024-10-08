@@ -21,18 +21,41 @@ const Vehicles = () => {
   const [vehiclesList, setVehiclesList] = useState([]);
   const [notFound, setNotFound] = useState(false);
   const [showFilter, setShowFilter] = useState(false);
+  const [page, setPage] = useState(1);
+  const [hasMore, setHasMore] = useState(true);
+  const [loading, setLoading] = useState(false);
+
+ 
 
   useEffect(() => {
+    fetchvehicleAds();
+  }, [page]);
+
+  const fetchvehicleAds = () => {
+    setLoading(true);
     axiosInstance
-      .get('api/vehicle/list')
+      .get(`api/vehicle/list?limit=12&page=${page}`)
       .then((response) => {
-        console.log(response);
-        setVehiclesList(response.data.data.vehicles);
+        const data = response.data.data.vehicles;
+        if (data.length > 0) {
+          setVehiclesList((prevData) => [...prevData, ...data]);
+        } else {
+          setHasMore(false);
+        }
+        setLoading(false);
       })
       .catch((error) => {
         console.error(error);
+        setHasMore(false);
+        setLoading(false);
       });
-  }, []);
+  };
+
+  const handleLoadMore = () => {
+    if (hasMore) {
+      setPage((prevPage) => prevPage + 1);
+    }
+  };
 
   const filterHandler = () => {
     let url = `api/vehicle/filter?minPrice=${priceRange.min_price}`;
@@ -210,6 +233,22 @@ const Vehicles = () => {
             {vehiclesList?.map((item) => (
               <ProductCard data={item} key={item.id} link={'/vehicledetails'} />
             ))}
+          </div>
+
+          <div className="flex justify-center mt-6">
+            {!loading && hasMore && (
+              <button
+                onClick={handleLoadMore}
+                className="px-32 py-4 font-bold bg-blue-500 text-white rounded-md bg-gradient-to-r from-violet-900 to-blue-500 transition-colors duration-300"
+              >
+                Load More
+              </button>
+            )}
+            {!hasMore && (
+              <button className="px-32 py-4 font-bold bg-blue-500 text-white rounded-md bg-gradient-to-r from-violet-900 to-blue-500 transition-colors duration-300">
+                No more ads to load.
+              </button>
+            )}
           </div>
         </div>
       </div>

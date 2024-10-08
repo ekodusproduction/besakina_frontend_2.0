@@ -73,6 +73,8 @@ const Navbar = () => {
       return navigate(`/hospitalitydetails/${item._id}`);
     } else if (item.advType === 'Hospital') {
       return navigate(`/hospitaldetails/${item._id}`);
+    }else{
+      return navigate(`/BusinessDetails/${item._id}`);
     }
   };
 
@@ -132,10 +134,13 @@ const Navbar = () => {
                         className="w-12 h-12 object-cover rounded-md"
                       />
                       <div className="flex flex-col">
-                        <p className="capitalize">{item?.title}</p>
+                        <p className="capitalize">
+                          {item?.title ? item?.title : item?.name}
+                        </p>
                         <p className="capitalize text-sm">
                           {' '}
-                          Category: {item?.advType}
+                          Category:{' '}
+                          {item?.advType ? item.advType : item?.category}
                         </p>
                       </div>
                     </li>

@@ -4,6 +4,7 @@ import Button from '../Button/Button';
 import axiosInstance from '../../api/axiosInstance';
 import HospitalCard from '../Cards/HospitalCard';
 import BusinessCard from '../Cards/BusinessCard';
+import Categories from '../Categories/Categories';
 
 const ListBusiness = () => {
   const [latestData, setLatestData] = useState([]);
@@ -19,7 +20,7 @@ const ListBusiness = () => {
   const fetchLatestAds = () => {
     setLoading(true);
     axiosInstance
-      .get(`api/business/list`)
+      .get(`api/business/list?limit=12&page=${page}`)
       .then((response) => {
         const data = response.data.data.business;
         if (data.length > 0) {
@@ -42,29 +43,42 @@ const ListBusiness = () => {
   };
 
   return (
-    <section className="lg:px-12 px-4 mb-8">
-      {/* <h2 className="sm:font-bold text-xl font-semibold sm:text-2xl mb-2 sm:mb-4">
+    <div>
+      <Categories />
+      <section className="lg:px-12 px-4 mb-8">
+        {/* <h2 className="sm:font-bold text-xl font-semibold sm:text-2xl mb-2 sm:mb-4">
         Business Listed Ads
       </h2> */}
-      <div className="grid xl:grid-cols-4 lg:grid-cols-3 grid-cols-2 gap-2 md:gap-4">
-        {latestData.map((item, index) => (
-          <div key={index}>
-            <BusinessCard data={item} key={item.id} link={'/BusinessDetails'} /> 
-          </div>
-        ))}
-      </div>
 
-      {loading && <div className="text-center mt-6">Loading...</div>}
+        <div className="grid xl:grid-cols-4 lg:grid-cols-3 grid-cols-2 gap-2 md:gap-4">
+          {latestData.map((item, index) => (
+            <div key={index}>
+              <BusinessCard
+                data={item}
+                key={item.id}
+                link={'/BusinessDetails'}
+              />
+            </div>
+          ))}
+        </div>
 
-      <div className="flex justify-center mt-6">
-        {!loading && hasMore && (
-          <Button clickHandler={handleLoadMore} category={'primarybtn'}>
-            Load More
-          </Button>
-        )}
-        {!hasMore && <p className="text-gray-500">No more ads to load.</p>}
-      </div>
-    </section>
+        <div className="flex justify-center mt-6">
+          {!loading && hasMore && (
+            <button
+              onClick={handleLoadMore}
+              className="px-32 py-4 font-bold bg-blue-500 text-white rounded-md bg-gradient-to-r from-violet-900 to-blue-500 transition-colors duration-300"
+            >
+              Load More
+            </button>
+          )}
+          {!hasMore && (
+            <button className="px-32 py-4 font-bold bg-blue-500 text-white rounded-md bg-gradient-to-r from-violet-900 to-blue-500 transition-colors duration-300">
+              No more ads to load.
+            </button>
+          )}
+        </div>
+      </section>
+    </div>
   );
 };
 

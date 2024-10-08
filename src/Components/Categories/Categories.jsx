@@ -2,6 +2,13 @@ import React, { useEffect, useState } from 'react';
 import { RxHamburgerMenu } from 'react-icons/rx';
 import { MdNavigateNext } from 'react-icons/md';
 import { Link } from 'react-router-dom';
+import { BsBuildingsFill } from 'react-icons/bs';
+import { FaHome } from "react-icons/fa";
+import { ImBooks } from 'react-icons/im';
+import { FaCar } from 'react-icons/fa';
+import { FaHospital } from 'react-icons/fa';
+import { RiHealthBookFill } from 'react-icons/ri';
+import { MdOutlineAddBusiness } from 'react-icons/md';
 
 const Categories = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -33,14 +40,11 @@ const Categories = () => {
     >
       <button
         onClick={toggleMenu}
-        className="flex items-center justify-between bg-[#1A5C96] text-white rounded-md px-4 py-[12px] w-[50px] sm:w-[50px]"
+        className="items-center justify-between bg-gradient-to-r from-violet-900 to-blue-500 text-white rounded-md px-4 py-[12px] w-[50px] block sm:hidden"
       >
-        {/* <span className="flex items-center gap-2 text-sm sm:text-base whitespace-nowrap">
-          <RxHamburgerMenu size={20} /> All Categories
-        </span>
-        <MdNavigateNext size={25} /> */}
-        <RxHamburgerMenu size={20} />
+        <RxHamburgerMenu size={20} color="white" />
       </button>
+
       <nav
         className={`${
           isMenuOpen ? 'block animate-slideDown' : 'hidden'
@@ -49,49 +53,64 @@ const Categories = () => {
         <ul className={`${isMenuOpen ? 'flex-col gap-4 pt-5' : 'gap-4'} flex`}>
           <li>
             <Link
-              to="/properties"
-              className="border-[1px] border-slate-400 px-2 py-[2px] rounded-md"
+              to="/"
+              className="flex items-center justify-center gap-2 bg-gradient-to-r from-violet-900 to-blue-500  font-semibold text-white border-slate-400 p-3 rounded-md"
             >
+             <FaHome />
+              Home
+            </Link>
+          </li>
+          <li>
+            <Link
+              to="/properties"
+              className="flex items-center justify-center gap-2 bg-gradient-to-r from-violet-900 to-blue-500  font-semibold text-white border-slate-400 p-3 rounded-md"
+            >
+              <BsBuildingsFill />
               Properties
             </Link>
           </li>
           <li>
             <Link
               to="/education"
-              className="border-[1px] border-slate-400 px-2 py-[2px] rounded-md"
+              className="flex items-center justify-center gap-2 bg-gradient-to-r from-violet-900 to-blue-500  font-semibold text-white  border-slate-400 p-3 rounded-md"
             >
+              <ImBooks />
               Education
             </Link>
           </li>
           <li>
             <Link
               to="/vehicles"
-              className="border-[1px] border-slate-400 px-2 py-[2px] rounded-md"
+              className="flex items-center justify-center gap-2 bg-gradient-to-r from-violet-900 to-blue-500  font-semibold text-white  border-slate-400 p-3 rounded-md"
             >
+              <FaCar />
               Vehicles
             </Link>
           </li>
           <li>
             <Link
               to="/hospitality"
-              className="border-[1px] border-slate-400 px-2 py-[2px] rounded-md"
+              className="flex items-center justify-center gap-2 bg-gradient-to-r from-violet-900 to-blue-500  font-semibold text-white  border-slate-400 p-3 rounded-md"
             >
+              <FaHospital />
               Hospitality
             </Link>
           </li>
           <li>
             <Link
               to="/healthcare"
-              className="border-[1px] border-slate-400 px-2 py-[2px] rounded-md"
+              className="flex items-center justify-center gap-2 bg-gradient-to-r from-violet-900 to-blue-500  font-semibold text-white  border-slate-400 p-3 rounded-md"
             >
+              <RiHealthBookFill />
               Healthcare
             </Link>
           </li>
           <li>
             <Link
               to="/ListBusiness"
-              className="border-[1px] border-slate-400 px-2 py-[2px] rounded-md"
+              className="flex items-center justify-center gap-2 bg-gradient-to-r from-violet-900 to-blue-500  font-semibold text-white  border-slate-400 p-3 rounded-md"
             >
+              <MdOutlineAddBusiness />
               List-Business
             </Link>
           </li>

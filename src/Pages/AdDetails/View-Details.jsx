@@ -84,13 +84,17 @@ const ViewDetails = ({ data, route, category }) => {
             </div>
             <section className="flex xl:flex-row flex-col gap-4 ">
               <div className="xl:w-3/5">
-                <ImageGallery items={data?.images} lazyLoad={true} thumbnailPosition='left' />
+                <ImageGallery
+                  items={data?.images}
+                  lazyLoad={true}
+                  thumbnailPosition="left"
+                />
               </div>
               <div className="xl:w-2/5 border-[1px] border-slate-400 sm:px-6 py-6 px-2 h-[100%] rounded-md ">
                 <div className="pb-4 border-b-[1px] border-slate-300 ">
                   <div className="flex justify-between ">
                     <h3 className="font-bold sm:text-1xl text-2xl mb-2 capitalize">
-                      {data?.name}
+                      {data?.name ? data?.name : data?.title}
                     </h3>
 
                     {/* <button className='mt-[-20px] bg-red'>

@@ -4,9 +4,10 @@ import { MdVerified } from 'react-icons/md';
 import { Link } from 'react-router-dom';
 import dayjs from 'dayjs';
 import { convertString, formatDate } from '../../utils/fornatter';
+import { FaEye } from 'react-icons/fa';
 
 const ProductCard = ({ data, link }) => {
-  console.log('data---',data)
+  console.log('data---', data);
   return (
     <Link to={`${link}/${data?._id}`}>
       <div className="border-[1px] border-slate-300 rounded-lg overflow-hidden bg-white shadow-lg hover:shadow-xl transition-all duration-500 ease-out transform hover:scale-105 max-h-80">
@@ -24,14 +25,17 @@ const ProductCard = ({ data, link }) => {
           {/* Title and Type */}
           <div>
             <p className="xl:text-base capitalize font-bold text-gray-800 line-clamp-1 transition-all duration-500 ease-out">
-              {data?.name  ? data?.name : data?.title}
+              {data?.name ? data?.name : data?.title}
             </p>
 
             <div className="flex flex-row justify-between">
               <h2 className="text-sm capitalize font-medium text-gray-600 transition-all duration-500 ease-out">
                 {data?.type ? convertString(data?.type) : data?.type}
               </h2>
-              <p>{data.views} views</p>
+              <p className='flex flex-row '>
+                <FaEye className='mt-1 mr-1' />
+                {data.views}
+              </p>
             </div>
           </div>
 

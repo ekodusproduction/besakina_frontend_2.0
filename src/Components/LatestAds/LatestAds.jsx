@@ -85,15 +85,20 @@ const LatestAds = () => {
         ))}
       </div>
 
-      {loading && <div className="text-center mt-6">Loading...</div>}
-
       <div className="flex justify-center mt-6">
         {!loading && hasMore && (
-          <Button clickHandler={handleLoadMore} category={'primarybtn'}>
+          <button
+            onClick={handleLoadMore}
+            className="px-32 py-4 font-bold bg-blue-500 text-white rounded-md bg-gradient-to-r from-violet-900 to-blue-500 transition-colors duration-300"
+          >
             Load More
-          </Button>
+          </button>
         )}
-        {!hasMore && <p className="text-gray-500">No more ads to load.</p>}
+        {!hasMore && (
+          <button className="px-32 py-4 font-bold bg-blue-500 text-white rounded-md bg-gradient-to-r from-violet-900 to-blue-500 transition-colors duration-300">
+            No more ads to load.
+          </button>
+        )}
       </div>
     </section>
   );
