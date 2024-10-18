@@ -3,7 +3,7 @@ import { FaLocationDot } from 'react-icons/fa6';
 import { MdVerified } from 'react-icons/md';
 import { Link } from 'react-router-dom';
 import { baseURL } from '../../api/axiosInstance';
-import dayjs from 'dayjs';
+import { FaEye } from 'react-icons/fa';
 import { formatDate } from '../../utils/fornatter';
 
 const HospitalCard = ({ data, link }) => {
@@ -32,9 +32,15 @@ const HospitalCard = ({ data, link }) => {
             <p className="xl:text-base capitalize font-bold text-gray-800 line-clamp-1 transition-all duration-500 ease-out">
               {data?.title}
             </p>
-            <h2 className="text-sm capitalize font-medium text-gray-600 transition-all duration-500 ease-out">
-              {data?.type ? convertString(data?.type) : data?.type}
-            </h2>
+            <div className="flex flex-row justify-between">
+              <h2 className="text-sm capitalize font-medium text-gray-600 transition-all duration-500 ease-out">
+                {data?.type ? convertString(data?.type) : data?.type}
+              </h2>
+              <p className='flex flex-row '>
+                <FaEye className='mt-1 mr-1' />
+                {data.views}
+              </p>
+            </div>
           </div>
 
           {/* Location */}

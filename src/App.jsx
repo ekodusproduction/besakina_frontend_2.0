@@ -41,9 +41,9 @@ import AdvertiseWithUs from './utils/AdvertiseWithUs';
 import ListBusiness from './Components/List-Business/ListBusiness';
 import BusinessDetails from './Pages/AdDetails/BusinessDetails';
 import PrivacyPolicy from './utils/PrivacyPolicy';
-
+import Removeuserurl from './Deleteuser/Removeuserurl';
+  
 const App = () => {
-
   useEffect(() => {
     const tagManagerArgs = {
       gtmId: 'GTM-N6BJHSVG',
@@ -61,6 +61,8 @@ const App = () => {
               path="featuredads/:category/:id"
               element={<FeaturedAdsDetails />}
             />
+            <Route path="RemoveProfile" element={<Removeuserurl />} />
+
             <Route path="profile" element={<Profile />} />
             <Route path="properties" element={<Properties />} />
             <Route path="education" element={<Education />} />
@@ -69,7 +71,10 @@ const App = () => {
             <Route path="healthcare" element={<Doctors />} />
             <Route path="hospitals" element={<Hospitals />} />
             <Route path="aboutus" element={<AboutUs />} />
-            <Route path="/termsandconditions" element={<TermsAndConditions />} />
+            <Route
+              path="/termsandconditions"
+              element={<TermsAndConditions />}
+            />
             <Route path="/advertisewithus" element={<AdvertiseWithUs />} />
             <Route path="/ListBusiness" element={<ListBusiness />} />
             <Route path="/PrivacyPolicy" element={<PrivacyPolicy />} />
@@ -78,10 +83,7 @@ const App = () => {
               path="propertiesdetails/:id"
               element={<PropertiesDetails />}
             />
-            <Route
-              path="BusinessDetails/:id"
-              element={<BusinessDetails />}
-            />
+            <Route path="BusinessDetails/:id" element={<BusinessDetails />} />
             {/* <Route path='businesssdetails/:id' element={<BusinessEditForm/>}/> */}
             <Route path="vehicledetails/:id" element={<VehicleDetails />} />
             <Route path="educationdetails/:id" element={<EducationDetails />} />
